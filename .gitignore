@@ -1,0 +1,12 @@
+.DS_Store
+/.git
+/.svn
+/.idea
+/runtime
+/thinkphp
+/vendor
+/safefile
+/nbproject
+/config/cert
+/composer.lock
+/composer.phar

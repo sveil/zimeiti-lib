@@ -1,0 +1,98 @@
+<?php
+
+// +----------------------------------------------------------------------
+// | Library for Sveil
+// +----------------------------------------------------------------------
+// | Copyright (c) 2019-2020 KuangJia Inc.
+// +----------------------------------------------------------------------
+// | Website: https://sveil.com
+// +----------------------------------------------------------------------
+// | License ( https://mit-license.org )
+// +----------------------------------------------------------------------
+// | gitee：https://gitee.com/boy12371/think-lib
+// | github：https://github.com/boy12371/think-lib
+// +----------------------------------------------------------------------
+
+namespace sveil\rep\wechat;
+
+use sveil\exception\InvalidResponseException;
+use sveil\exception\LocalCacheException;
+use sveil\rep\WeChat;
+
+/**
+ * WeChat open platform account management
+ *
+ * Class Bind
+ * @author Richard <richard@sveil.com>
+ * @package sveil\rep\wechat
+ */
+class Bind extends WeChat
+{
+
+    /**
+     * Create an open platform account and bind WeOpen
+     *
+     * @return array
+     * @throws InvalidResponseException
+     * @throws LocalCacheException
+     */
+    public function create()
+    {
+
+        $url = 'https://api.weixin.qq.com/cgi-bin/open/create?access_token=ACCESS_TOKEN';
+        $this->registerApi($url, __FUNCTION__, func_get_args());
+
+        return $this->httpPostForJson($url, ['appid' => $this->config->get('appid')]);
+    }
+
+    /**
+     * Bind WeOpen to the open platform account
+     *
+     * @param string $openidAppid 开放平台帐号APPID
+     * @return array
+     * @throws InvalidResponseException
+     * @throws LocalCacheException
+     */
+    public function link($openidAppid)
+    {
+
+        $url = 'https://api.weixin.qq.com/cgi-bin/open/bind?access_token=ACCESS_TOKEN';
+        $this->registerApi($url, __FUNCTION__, func_get_args());
+
+        return $this->httpPostForJson($url, ['appid' => $this->config->get('appid'), 'open_appid' => $openidAppid]);
+    }
+
+    /**
+     * Unbind WeOpen from the open platform account
+     *
+     * @param string $openidAppid 开放平台帐号APPID
+     * @return array
+     * @throws InvalidResponseException
+     * @throws LocalCacheException
+     */
+    public function unlink($openidAppid)
+    {
+
+        $url = 'https://api.weixin.qq.com/cgi-bin/open/unbind?access_token=ACCESS_TOKEN';
+        $this->registerApi($url, __FUNCTION__, func_get_args());
+
+        return $this->httpPostForJson($url, ['appid' => $this->config->get('appid'), 'open_appid' => $openidAppid]);
+    }
+
+    /**
+     * Get the open platform account bound to WeOpen
+     *
+     * @return array
+     * @throws InvalidResponseException
+     * @throws LocalCacheException
+     */
+    public function get()
+    {
+
+        $url = 'https://api.weixin.qq.com/cgi-bin/open/get?access_token=ACCESS_TOKEN';
+        $this->registerApi($url, __FUNCTION__, func_get_args());
+
+        return $this->httpPostForJson($url, ['appid' => $this->config->get('appid')]);
+    }
+
+}
