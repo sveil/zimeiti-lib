@@ -15,10 +15,10 @@
 
 namespace sveil;
 
-use sveil\common\Local;
 use sveil\common\Options;
-use sveil\rep\store\Oss;
-use sveil\rep\store\Qiniu;
+use sveil\rep\storage\Local;
+use sveil\rep\storage\Oss;
+use sveil\rep\storage\Qiniu;
 use think\Exception;
 use think\exception\PDOException;
 use think\facade\Log;

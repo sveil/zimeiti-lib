@@ -13,7 +13,7 @@
 // | github：https://github.com/boy12371/think-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\rep\store;
+namespace sveil\rep\storage;
 
 use sveil\File;
 
@@ -22,7 +22,7 @@ use sveil\File;
  *
  * Class Local
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\store
+ * @package sveil\rep\storage
  */
 class Local extends File
 {

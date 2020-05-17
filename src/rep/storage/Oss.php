@@ -13,7 +13,7 @@
 // | github：https://github.com/boy12371/think-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\rep\store;
+namespace sveil\rep\storage;
 
 use OSS\Core\OssException;
 use OSS\Model\CorsConfig;
@@ -29,7 +29,7 @@ use think\facade\Request;
  *
  * Class Oss
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\store
+ * @package sveil\rep\storage
  */
 class Oss extends File
 {

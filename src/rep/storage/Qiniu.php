@@ -13,7 +13,7 @@
 // | github：https://github.com/boy12371/think-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\library\driver;
+namespace sveil\rep\storage;
 
 use Qiniu\Auth;
 use Qiniu\Storage\BucketManager;
@@ -28,7 +28,7 @@ use think\facade\Request;
  *
  * Class Qiniu
  * @author Richard <richard@sveil.com>
- * @package app\admin\logic\driver
+ * @package sveil\rep\storage
  */
 class Qiniu extends File
 {
