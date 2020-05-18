@@ -33,7 +33,7 @@
       "src/sys.php"
     ],
     "psr-4": {
-      "library\\": "src"
+      "sveil\\": "src"
     }
   }
 }
