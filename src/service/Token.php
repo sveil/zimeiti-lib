@@ -16,6 +16,7 @@
 namespace sveil\service;
 
 use sveil\Service;
+use sveil\service\Node;
 
 /**
  * Form Token Management Service
@@ -50,7 +51,7 @@ class Token extends Service
         }
 
         if (is_null($node)) {
-            $node = NodeService::instance()->getCurrent();
+            $node = Node::instance()->getCurrent();
         }
 
         // Read the cache and check if it is valid
@@ -105,7 +106,7 @@ class Token extends Service
             }
         }
 
-        $data = ['node' => NodeService::instance()->fullnode($node), 'token' => $token, 'time' => $time];
+        $data = ['node' => Node::instance()->fullnode($node), 'token' => $token, 'time' => $time];
         $this->app->session->set($token, $data);
 
         return $data;

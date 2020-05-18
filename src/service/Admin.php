@@ -17,6 +17,7 @@ namespace sveil\service;
 
 use sveil\common\Data;
 use sveil\Service;
+use sveil\service\Node;
 use think\Db;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
@@ -51,7 +52,7 @@ class Admin extends Service
     public function check($node = '')
     {
 
-        $service = NodeService::instance();
+        $service = Node::instance();
 
         if ($this->app->session->get('user.rid') === 0) {
             return true;
@@ -78,7 +79,7 @@ class Admin extends Service
     {
 
         list($nodes, $pnodes) = [[], []];
-        $methods              = array_reverse(NodeService::instance()->getMethods());
+        $methods              = array_reverse(Node::instance()->getMethods());
 
         foreach ($methods as $node => $method) {
             $count = substr_count($node, '/');

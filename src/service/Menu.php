@@ -17,6 +17,7 @@ namespace sveil\service;
 
 use sveil\common\Data;
 use sveil\Service;
+use sveil\service\Node;
 use think\Db;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
@@ -47,7 +48,7 @@ class Menu extends Service
             return $nodes;
         }
 
-        foreach (NodeService::instance()->getMethods() as $node => $method) {
+        foreach (Node::instance()->getMethods() as $node => $method) {
             if ($method['ismenu']) {
                 $nodes[] = ['node' => $node, 'title' => $method['title']];
             }
@@ -71,7 +72,7 @@ class Menu extends Service
 
         $result = Db::name('SystemMenu')->where(['status' => '1'])->order('sort desc,id asc')->select();
 
-        return $this->buildData(Data::arr2tree($result), NodeService::instance()->getMethods());
+        return $this->buildData(Data::arr2tree($result), Node::instance()->getMethods());
     }
 
     /**

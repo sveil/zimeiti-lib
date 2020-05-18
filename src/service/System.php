@@ -16,6 +16,7 @@
 namespace sveil\service;
 
 use sveil\Service;
+use sveil\service\Node;
 use think\Db;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
@@ -123,7 +124,7 @@ class System extends Service
     {
 
         return Db::name('SystemLog')->insert([
-            'node'     => NodeService::instance()->getCurrent(),
+            'node'     => Node::instance()->getCurrent(),
             'action'   => $action, 'content' => $content,
             'geoip'    => $this->app->request->isCli() ? '127.0.0.1' : $this->app->request->ip(),
             'username' => $this->app->request->isCli() ? 'cli' : $this->app->session->get('user.username'),
