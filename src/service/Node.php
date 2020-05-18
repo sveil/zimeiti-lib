@@ -119,7 +119,6 @@ class Node extends Service
                     if (is_array($ignore) && in_array($method->getName(), $ignore)) {
                         continue;
                     }
-
                     $data["{$prefix}/{$method->getName()}"] = $this->parseComment($method->getDocComment(), $method->getName());
                 }
             }
