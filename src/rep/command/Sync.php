@@ -1,7 +1,7 @@
 <?php
 
 // +----------------------------------------------------------------------
-// | Library for Sveil
+// | Library for sveil/zimeiti-cms
 // +----------------------------------------------------------------------
 // | Copyright (c) 2019-2020 KuangJia Inc.
 // +----------------------------------------------------------------------
@@ -9,8 +9,8 @@
 // +----------------------------------------------------------------------
 // | License ( https://mit-license.org )
 // +----------------------------------------------------------------------
-// | gitee：https://gitee.com/boy12371/think-lib
-// | github：https://github.com/boy12371/think-lib
+// | gitee：https://gitee.com/sveil/zimeiti-lib
+// | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
 namespace sveil\rep\command;
