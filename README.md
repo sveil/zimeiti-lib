@@ -1,4 +1,4 @@
-# [ThinkPHP Basic Development Library of Sveil Contest Management System](https://sveil.com)
+# [ThinkPHP Basic Development Library of Zimeiti Contest Management System](https://sveil.com)
 
 Zimeiti CMS was created by, and is maintained by [Sveil.com](https://sveil.com), and is a PHP CMS powered by [Thinkphp 5.1](https://github.com/top-think/thinkphp). Feel free to check out the [releases](https://github.com/sveil/zimeiti-cms/releases), [license](LICENSE), [screenshots](SCREENSHOTS.md), and [contribution guidelines](CONTRIBUTING.md).
 
