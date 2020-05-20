@@ -1,6 +1,6 @@
 {
   "name": "sveil/zimeiti-lib",
-  "description": "ThinkPHP Basic Development Library of Sveil Contest Management System",
+  "description": "Development library of Zimeiti Contest Management System for Sveil",
   "keywords": [
     "sveil",
     "zimeiti",
