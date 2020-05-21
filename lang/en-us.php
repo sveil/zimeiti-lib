@@ -1,13 +1,10 @@
 <?php
-
 // +----------------------------------------------------------------------
-// | Business for sveil/zimeiti-cms
+// | Library for sveil/zimeiti-cms
 // +----------------------------------------------------------------------
-// | Copyright (c) 2019-2020 KuangJia Inc.
+// | Copyright (c) 2019-2020 http://sveil.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Website: https://sveil.com
-// +----------------------------------------------------------------------
-// | License ( https://mit-license.org )
+// | License ( http://www.gnu.org/licenses )
 // +----------------------------------------------------------------------
 // | gitee：https://gitee.com/sveil/zimeiti-cms
 // | github：https://github.com/sveil/zimeiti-cms

@@ -1,16 +1,13 @@
 <?php
-
 // +----------------------------------------------------------------------
 // | Library for sveil/zimeiti-cms
 // +----------------------------------------------------------------------
-// | Copyright (c) 2019-2020 KuangJia Inc.
+// | Copyright (c) 2019-2020 http://sveil.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Website: https://sveil.com
+// | License ( http://www.gnu.org/licenses )
 // +----------------------------------------------------------------------
-// | License ( https://mit-license.org )
-// +----------------------------------------------------------------------
-// | gitee：https://gitee.com/sveil/zimeiti-lib
-// | github：https://github.com/sveil/zimeiti-lib
+// | gitee：https://gitee.com/sveil/zimeiti-cms
+// | github：https://github.com/sveil/zimeiti-cms
 // +----------------------------------------------------------------------
 
 namespace sveil\rep\wechat;
