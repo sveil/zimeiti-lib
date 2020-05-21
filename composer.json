@@ -4,12 +4,11 @@
   "keywords": [
     "sveil",
     "zimeiti",
-    "thinkphp",
     "library"
   ],
   "homepage": "http://sveil.com",
   "type": "library",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "authors": [
     {
       "name": "Richard",
@@ -24,16 +23,26 @@
     "ext-iconv": "*",
     "ext-openssl": "*",
     "qiniu/php-sdk": "^7.2",
-    "topthink/framework": "5.1.*",
     "aliyuncs/oss-sdk-php": "^2.3"
   },
   "autoload": {
     "files": [
-      "src/common.php",
-      "src/sys.php"
+      "lang/en-us.php",
+      "lang/zh-cn.php",
+      "common.php",
+      "sys.php"
     ],
     "psr-4": {
       "sveil\\": "src"
     }
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://mirrors.aliyun.com/composer"
+    }
+  },
+  "config": {
+    "process-timeout": 1200
   }
 }
