@@ -27,13 +27,11 @@
   },
   "autoload": {
     "files": [
-      "lang/en-us.php",
-      "lang/zh-cn.php",
-      "common.php",
-      "sys.php"
+      "src/common.php",
+      "src/sys.php"
     ],
     "psr-4": {
-      "sveil\\": "src"
+      "sveil\\": "src/sveil/"
     }
   },
   "repositories": {
