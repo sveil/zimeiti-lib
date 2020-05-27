@@ -12,9 +12,9 @@
 
 namespace sveil;
 
-use think\App;
-use think\Container;
-use think\Request;
+use sveil\App;
+use sveil\Container;
+use sveil\Request;
 
 /**
  * Abstract Class Service
@@ -31,7 +31,7 @@ abstract class Service
     protected $app;
     /**
      * Current request object
-     * @var \think\Request
+     * @var \sveil\Request
      */
     protected $request;
 

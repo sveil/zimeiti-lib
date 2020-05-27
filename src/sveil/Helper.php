@@ -12,10 +12,10 @@
 
 namespace sveil;
 
-use think\App;
-use think\Container;
-use think\Db;
-use think\db\Query;
+use sveil\App;
+use sveil\Container;
+use sveil\Db;
+use sveil\db\Query;
 
 /**
  * Abstract Class Helper

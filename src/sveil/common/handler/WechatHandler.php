@@ -12,12 +12,12 @@
 
 namespace app\common\handler;
 
+use sveil\Db;
+use sveil\Exception;
 use sveil\exception\InvalidResponseException;
 use sveil\exception\LocalCacheException;
+use sveil\exception\PDOException;
 use sveil\service\Wechat;
-use think\Db;
-use think\Exception;
-use think\exception\PDOException;
 
 /**
  * Class WechatHandler

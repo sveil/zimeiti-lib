@@ -13,12 +13,12 @@
 namespace sveil;
 
 use sveil\common\Options;
+use sveil\Exception;
+use sveil\exception\PDOException;
+use sveil\facade\Log;
 use sveil\rep\storage\Local;
 use sveil\rep\storage\Oss;
 use sveil\rep\storage\Qiniu;
-use think\Exception;
-use think\exception\PDOException;
-use think\facade\Log;
 
 /**
  * Class File

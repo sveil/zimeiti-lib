@@ -13,7 +13,7 @@
 namespace sveil\helper;
 
 use sveil\Helper;
-use think\Validate;
+use sveil\Validate;
 
 /**
  * Class Inputer

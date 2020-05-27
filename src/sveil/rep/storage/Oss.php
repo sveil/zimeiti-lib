@@ -16,10 +16,10 @@ use OSS\Core\OssException;
 use OSS\Model\CorsConfig;
 use OSS\Model\CorsRule;
 use OSS\OssClient;
+use sveil\Exception;
+use sveil\facade\Log;
+use sveil\facade\Request;
 use sveil\File;
-use think\Exception;
-use think\facade\Log;
-use think\facade\Request;
 
 /**
  * Class Oss

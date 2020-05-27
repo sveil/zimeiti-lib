@@ -12,16 +12,16 @@
 
 namespace sveil\rep\command\queue;
 
+use sveil\console\Command;
+use sveil\console\Input;
+use sveil\console\Output;
+use sveil\Db;
+use sveil\db\exception\DataNotFoundException;
+use sveil\db\exception\ModelNotFoundException;
+use sveil\Exception;
+use sveil\exception\DbException;
+use sveil\exception\PDOException;
 use sveil\service\Process;
-use think\console\Command;
-use think\console\Input;
-use think\console\Output;
-use think\Db;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\ModelNotFoundException;
-use think\Exception;
-use think\exception\DbException;
-use think\exception\PDOException;
 
 /**
  * Class ListenQueue
@@ -61,7 +61,7 @@ class ListenQueue extends Command
         Db::name('SystemQueue')->count();
 
         if (($process = Process::instance())->iswin() && function_exists('cli_set_process_title')) {
-            cli_set_process_title("ThinkAdmin {$process->version()} Queue Listen");
+            cli_set_process_title("SveilCms {$process->version()} Queue Listen");
         }
 
         $output->writeln('============ LISTENING ============');
@@ -71,7 +71,7 @@ class ListenQueue extends Command
 
             foreach (Db::name('SystemQueue')->where($map)->order('time asc')->select() as $vo) {
                 try {
-                    $command = $process->think("xtask:_work {$vo['id']} -");
+                    $command = $process->sveil("xtask:_work {$vo['id']} -");
 
                     if (count($process->query($command)) > 0) {
                         $this->output->writeln("Already in progress -> [{$vo['id']}] {$vo['title']}");

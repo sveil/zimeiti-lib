@@ -12,10 +12,10 @@
 
 namespace sveil\helper;
 
+use sveil\db\Query;
+use sveil\Exception;
+use sveil\exception\PDOException;
 use sveil\Helper;
-use think\db\Query;
-use think\Exception;
-use think\exception\PDOException;
 
 /**
  * Class Deleter
@@ -81,9 +81,9 @@ class Deleter extends Helper
 
         // Reply to front-end results
         if ($result !== false) {
-            $this->controller->success(lang('think_library_delete_success'), '');
+            $this->controller->success(lang('lib_delete_success'), '');
         } else {
-            $this->controller->error(lang('think_library_delete_error'));
+            $this->controller->error(lang('lib_delete_error'));
         }
     }
 }

@@ -12,15 +12,15 @@
 
 namespace sveil\rep\command\queue;
 
+use sveil\console\Input;
+use sveil\console\Output;
+use sveil\Db;
+use sveil\Exception;
 use sveil\exception\InvalidResponseException;
 use sveil\exception\LocalCacheException;
+use sveil\exception\PDOException;
 use sveil\service\Fans;
 use sveil\service\Wechat;
-use think\console\Input;
-use think\console\Output;
-use think\Db;
-use think\Exception;
-use think\exception\PDOException;
 
 /**
  * Class FansQueue

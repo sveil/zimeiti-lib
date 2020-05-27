@@ -12,10 +12,10 @@
 
 namespace sveil\service;
 
+use sveil\Db;
+use sveil\Exception;
+use sveil\exception\PDOException;
 use sveil\Service;
-use think\Db;
-use think\Exception;
-use think\exception\PDOException;
 
 /**
  * Class Wechat
@@ -75,7 +75,7 @@ use think\exception\PDOException;
  * @method \weopen\login login() static WeOpen login
  * @method \weopen\service service() static WeOpen service
  *
- * ----- ThinkService -----
+ * ----- SveilService -----
  * @method mixed wechat() static WeOpen tools
  * @method mixed config() static WeOpen config
  */

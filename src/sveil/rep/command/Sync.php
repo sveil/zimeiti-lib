@@ -12,9 +12,9 @@
 
 namespace sveil\rep\command;
 
-use think\console\Command;
-use think\console\Input;
-use think\console\Output;
+use sveil\console\Command;
+use sveil\console\Input;
+use sveil\console\Output;
 
 /**
  * Class Sync
@@ -46,13 +46,13 @@ class Sync extends Command
      */
     public function __construct($name = null)
     {
-        $this->version = config('app.thinkadmin_ver');
+        $this->version = config('app.sveilcms_ver');
 
         if (empty($this->version)) {
-            $this->version = 'v4';
+            $this->version = 'v1';
         }
 
-        $this->uri = "https://{$this->version}.thinkadmin.top";
+        $this->uri = "https://{$this->version}.cms.sveil.com";
         parent::__construct($name);
     }
 
@@ -94,7 +94,7 @@ class Sync extends Command
     public function build()
     {
         return $this->tree([
-            'think', 'config/log.php', 'config/cookie.php', 'config/template.php',
+            'sveil', 'config/log.php', 'config/cookie.php', 'config/template.php',
             'application/admin', 'application/wechat', 'application/service',
             'public/static/plugs', 'public/static/theme', 'public/static/admin.js', 'public/static/login.js',
         ]);

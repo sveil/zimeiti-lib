@@ -12,7 +12,7 @@
 
 namespace sveil\common;
 
-use think\facade\Request;
+use sveil\facade\Request;
 
 /**
  * Class Node

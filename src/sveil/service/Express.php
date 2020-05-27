@@ -12,11 +12,11 @@
 
 namespace sveil\service;
 
+use sveil\Db;
+use sveil\db\exception\DataNotFoundException;
+use sveil\db\exception\ModelNotFoundException;
+use sveil\exception\DbException;
 use sveil\Service;
-use think\Db;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\ModelNotFoundException;
-use think\exception\DbException;
 
 /**
  * Class Express

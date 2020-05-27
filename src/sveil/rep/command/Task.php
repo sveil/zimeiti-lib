@@ -12,7 +12,7 @@
 
 namespace sveil\rep\command;
 
-use think\console\Command;
+use sveil\console\Command;
 
 /**
  * Class Task
@@ -52,12 +52,12 @@ class Task extends Command
 
         parent::__construct($name);
         $this->root    = str_replace('\\', '/', env('ROOT_PATH'));
-        $this->bin     = "php {$this->root}think";
+        $this->bin     = "php {$this->root}sveil";
         $this->cmd     = "{$this->bin} xtask:listen";
-        $this->version = config('app.thinkadmin_ver');
+        $this->version = config('app.sveilcms_ver');
 
         if (empty($this->version)) {
-            $this->version = 'v4';
+            $this->version = 'v1';
         }
     }
 

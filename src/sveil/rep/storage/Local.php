@@ -12,8 +12,8 @@
 
 namespace sveil\rep\storage;
 
+use sveil\facade\Log;
 use sveil\File;
-use think\facade\Log;
 
 /**
  * Class Local

@@ -12,10 +12,10 @@
 
 namespace sveil\common;
 
-use think\Db;
-use think\db\Query;
-use think\Exception;
-use think\exception\PDOException;
+use sveil\Db;
+use sveil\db\Query;
+use sveil\Exception;
+use sveil\exception\PDOException;
 
 /**
  * Class Data

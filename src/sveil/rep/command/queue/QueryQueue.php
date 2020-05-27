@@ -12,10 +12,10 @@
 
 namespace sveil\rep\command\queue;
 
+use sveil\console\Command;
+use sveil\console\Input;
+use sveil\console\Output;
 use sveil\service\Process;
-use think\console\Command;
-use think\console\Input;
-use think\console\Output;
 
 /**
  * Class QueryQueue
@@ -41,7 +41,7 @@ class QueryQueue extends Command
     protected function execute(Input $input, Output $output)
     {
         $process = Process::instance();
-        $result  = $process->query($process->think("xtask:"));
+        $result  = $process->query($process->sveil("xtask:"));
 
         if (count($result) > 0) {
             foreach ($result as $item) {

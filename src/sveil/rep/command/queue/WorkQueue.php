@@ -12,15 +12,15 @@
 
 namespace sveil\rep\command\queue;
 
+use sveil\Console;
+use sveil\console\Command;
+use sveil\console\Input;
+use sveil\console\input\Argument;
+use sveil\console\Output;
+use sveil\Db;
+use sveil\Exception;
+use sveil\exception\PDOException;
 use sveil\service\Process;
-use think\Console;
-use think\console\Command;
-use think\console\Input;
-use think\console\input\Argument;
-use think\console\Output;
-use think\Db;
-use think\Exception;
-use think\exception\PDOException;
 
 /**
  * Class WorkQueue
@@ -77,7 +77,7 @@ class WorkQueue extends Command
 
                     // Set Process Title
                     if (($process = Process::instance())->iswin() && function_exists('cli_set_process_title')) {
-                        cli_set_process_title("ThinkAdmin {$process->version()} Queue - {$queue['title']}");
+                        cli_set_process_title("SveilCms {$process->version()} Queue - {$queue['title']}");
                     }
 
                     // Content of task

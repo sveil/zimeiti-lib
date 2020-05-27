@@ -12,9 +12,9 @@
 
 namespace sveil\rep\command\sync;
 
+use sveil\console\Input;
+use sveil\console\Output;
 use sveil\rep\command\Sync;
-use think\console\Input;
-use think\console\Output;
 
 /**
  * Class Plugs

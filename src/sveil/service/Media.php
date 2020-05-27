@@ -14,15 +14,15 @@ namespace sveil\service;
 
 use sveil\common\File;
 use sveil\common\MyCurlFile;
+use sveil\Db;
+use sveil\db\exception\DataNotFoundException;
+use sveil\db\exception\ModelNotFoundException;
+use sveil\Exception;
+use sveil\exception\DbException;
 use sveil\exception\InvalidResponseException;
 use sveil\exception\LocalCacheException;
+use sveil\exception\PDOException;
 use sveil\Service;
-use think\Db;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\ModelNotFoundException;
-use think\Exception;
-use think\exception\DbException;
-use think\exception\PDOException;
 
 /**
  * Class Media

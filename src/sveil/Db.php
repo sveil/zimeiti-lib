@@ -12,7 +12,7 @@
 
 namespace sveil;
 
-use think\DbException;
+use sveil\DbException;
 
 /**
  * Class Db

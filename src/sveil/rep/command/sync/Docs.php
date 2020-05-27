@@ -12,9 +12,9 @@
 
 namespace sveil\rep\command\sync;
 
+use sveil\console\Input;
+use sveil\console\Output;
 use sveil\rep\command\Sync;
-use think\console\Input;
-use think\console\Output;
 
 /**
  * Class Docs
@@ -29,7 +29,7 @@ class Docs extends Sync
      */
     protected function configure()
     {
-        $this->modules = ['apps/docs/', 'think'];
+        $this->modules = ['apps/docs/', 'sveil'];
         $this->setName('xsync:docs')->setDescription('[同步]覆盖本地Docs模块代码');
     }
 

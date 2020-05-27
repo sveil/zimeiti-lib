@@ -12,10 +12,10 @@
 
 namespace sveil\rep\command\queue;
 
+use sveil\console\Command;
+use sveil\console\Input;
+use sveil\console\Output;
 use sveil\service\Process;
-use think\console\Command;
-use think\console\Input;
-use think\console\Output;
 
 /**
  * Class StateQueue
@@ -41,7 +41,7 @@ class StateQueue extends Command
     protected function execute(Input $input, Output $output)
     {
         $process = Process::instance();
-        $command = $process->think('xtask:listen');
+        $command = $process->sveil('xtask:listen');
 
         if (count($result = $process->query($command)) > 0) {
             $output->info("Listening for main process {$result[0]['pid']} running");

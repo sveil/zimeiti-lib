@@ -12,10 +12,10 @@
 
 namespace sveil\rep\command\queue;
 
+use sveil\console\Command;
+use sveil\console\Input;
+use sveil\console\Output;
 use sveil\service\Process;
-use think\console\Command;
-use think\console\Input;
-use think\console\Output;
 
 /**
  * Class StopQueue
@@ -41,7 +41,7 @@ class StopQueue extends Command
     protected function execute(Input $input, Output $output)
     {
         $process = Process::instance();
-        $command = $process->think('xtask:');
+        $command = $process->sveil('xtask:');
 
         if (count($result = $process->query($command)) < 1) {
             $output->writeln("There is no task process to finish");

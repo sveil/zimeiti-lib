@@ -12,7 +12,7 @@
 
 namespace sveil\common;
 
-use think\exception\HttpResponseException;
+use sveil\exception\HttpResponseException;
 
 /**
  * Class Csrf

@@ -12,6 +12,15 @@
 
 namespace sveil;
 
+use sveil\App;
+use sveil\Container;
+use sveil\db\exception\DataNotFoundException;
+use sveil\db\exception\ModelNotFoundException;
+use sveil\db\Query;
+use sveil\Exception;
+use sveil\exception\DbException;
+use sveil\exception\HttpResponseException;
+use sveil\exception\PDOException;
 use sveil\helper\Deleter;
 use sveil\helper\Former;
 use sveil\helper\Inputer;
@@ -20,16 +29,7 @@ use sveil\helper\Querier;
 use sveil\helper\Saver;
 use sveil\helper\Tokener;
 use sveil\helper\Validater;
-use think\App;
-use think\Container;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\ModelNotFoundException;
-use think\db\Query;
-use think\Exception;
-use think\exception\DbException;
-use think\exception\HttpResponseException;
-use think\exception\PDOException;
-use think\Response;
+use sveil\Response;
 
 /**
  * Abstract Class Controller
@@ -46,7 +46,7 @@ abstract class Controller extends \stdClass
     public $app;
     /**
      * Current request object
-     * @var \think\Request
+     * @var \sveil\Request
      */
     public $request;
     /**
@@ -125,7 +125,7 @@ abstract class Controller extends \stdClass
     protected function initialize()
     {
         if (empty($this->csrf_message)) {
-            $this->csrf_message = lang('think_library_csrf_error');
+            $this->csrf_message = lang('lib_csrf_error');
         }
     }
 

@@ -12,13 +12,13 @@
 
 namespace sveil\helper;
 
+use sveil\db\exception\DataNotFoundException;
+use sveil\db\exception\ModelNotFoundException;
+use sveil\db\Query;
+use sveil\Exception;
+use sveil\exception\DbException;
+use sveil\exception\PDOException;
 use sveil\Helper;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\ModelNotFoundException;
-use think\db\Query;
-use think\Exception;
-use think\exception\DbException;
-use think\exception\PDOException;
 
 /**
  * Class Querier

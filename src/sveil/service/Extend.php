@@ -14,9 +14,9 @@ namespace sveil\service;
 
 use sveil\Service;
 use sveil\common\Http;
-use think\Db;
-use think\Exception;
-use think\exception\PDOException;
+use sveil\Db;
+use sveil\Exception;
+use sveil\exception\PDOException;
 
 /**
  * Class Extend

@@ -12,9 +12,9 @@
 
 namespace sveil\helper;
 
+use sveil\exception\HttpResponseException;
 use sveil\Helper;
 use sveil\service\Token;
-use think\exception\HttpResponseException;
 
 /**
  * Class Tokener

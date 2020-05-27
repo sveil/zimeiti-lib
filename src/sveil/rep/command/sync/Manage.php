@@ -12,9 +12,9 @@
 
 namespace sveil\rep\command\sync;
 
+use sveil\console\Input;
+use sveil\console\Output;
 use sveil\rep\command\Sync;
-use think\console\Input;
-use think\console\Output;
 
 /**
  * Class Manage
@@ -29,7 +29,7 @@ class Manage extends Sync
      */
     protected function configure()
     {
-        $this->modules = ['apps/manage/', 'think'];
+        $this->modules = ['apps/manage/', 'sveil'];
         $this->setName('xsync:manage')->setDescription('[同步]覆盖本地Manage模块代码');
     }
 

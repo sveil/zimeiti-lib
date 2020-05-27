@@ -13,15 +13,15 @@
 namespace sveil\rep\command;
 
 use sveil\common\We;
-use think\console\Command;
-use think\console\Input;
-use think\console\Output;
-use think\Db;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\ModelNotFoundException;
-use think\Exception;
-use think\exception\DbException;
-use think\exception\PDOException;
+use sveil\console\Command;
+use sveil\console\Input;
+use sveil\console\Output;
+use sveil\Db;
+use sveil\db\exception\DataNotFoundException;
+use sveil\db\exception\ModelNotFoundException;
+use sveil\Exception;
+use sveil\exception\DbException;
+use sveil\exception\PDOException;
 
 /**
  * Class AutoRun

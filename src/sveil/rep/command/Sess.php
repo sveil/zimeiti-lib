@@ -12,9 +12,9 @@
 
 namespace sveil\rep\command;
 
-use think\console\Command;
-use think\console\Input;
-use think\console\Output;
+use sveil\console\Command;
+use sveil\console\Input;
+use sveil\console\Output;
 
 /**
  * Class Sess

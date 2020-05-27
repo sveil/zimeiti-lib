@@ -13,9 +13,9 @@
 namespace sveil\service;
 
 use sveil\common\Http;
+use sveil\Exception;
+use sveil\exception\PDOException;
 use sveil\Service;
-use think\Exception;
-use think\exception\PDOException;
 
 /**
  * Class Michat

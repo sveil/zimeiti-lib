@@ -13,8 +13,8 @@
 namespace sveil\service;
 
 use sveil\common\Data;
+use sveil\Exception;
 use sveil\Service;
-use think\Exception;
 
 /**
  * Class JsonRpcClient
@@ -78,18 +78,18 @@ class JsonRpcClient extends Service
             fclose($fp);
             $response = json_decode($response, true);
         } else {
-            throw new \think\Exception("无法连接到 {$this->proxy}");
+            throw new Exception("无法连接到 {$this->proxy}");
         }
 
         // Final checks and return
         if ($response['id'] != $this->requestid) {
-            throw new \think\Exception("错误的响应标记 (请求标记: {$this->requestid}, 响应标记: {$response['id']}）");
+            throw new Exception("错误的响应标记 (请求标记: {$this->requestid}, 响应标记: {$response['id']}）");
         }
 
         if (is_null($response['error'])) {
             return $response['result'];
         } else {
-            throw new \think\Exception("请求错误：[{$response['error']['code']}] {$response['error']['message']}");
+            throw new Exception("请求错误：[{$response['error']['code']}] {$response['error']['message']}");
         }
     }
 }

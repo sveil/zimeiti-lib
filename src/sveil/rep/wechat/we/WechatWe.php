@@ -14,11 +14,11 @@ namespace sveil\rep\wechat\we;
 
 use sveil\common\File;
 use sveil\common\We;
+use sveil\Exception;
 use sveil\exception\InvalidResponseException;
 use sveil\exception\LocalCacheException;
+use sveil\exception\PDOException;
 use sveil\service\JsonRpcClient;
-use think\Exception;
-use think\exception\PDOException;
 
 /**
  * Class WechatService
@@ -38,7 +38,7 @@ use think\exception\PDOException;
  * @method \wemini\tester WeMiniTester() static Applet member management
  * @method \wemini\account WeMiniAccount() static Applet account management
  *
- * ----- ThinkService -----
+ * ----- SveilService -----
  * @method mixed wechat() static Use WeChat tool
  */
 class WechatWe extends We

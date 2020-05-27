@@ -12,14 +12,14 @@
 
 namespace sveil\helper;
 
+use sveil\Db;
+use sveil\db\exception\DataNotFoundException;
+use sveil\db\exception\ModelNotFoundException;
+use sveil\db\Query;
+use sveil\Exception;
+use sveil\exception\DbException;
+use sveil\exception\PDOException;
 use sveil\Helper;
-use think\Db;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\ModelNotFoundException;
-use think\db\Query;
-use think\Exception;
-use think\exception\DbException;
-use think\exception\PDOException;
 
 /**
  * Class Pager
@@ -104,7 +104,7 @@ class Pager extends Helper
             }
 
             $selects  = "<select onchange='location.href=this.options[this.selectedIndex].value' data-auto-none>" . join('', $rows) . "</select>";
-            $pagetext = lang('think_library_page_html', [$page->total(), $selects, $page->lastPage(), $page->currentPage()]);
+            $pagetext = lang('lib_page_html', [$page->total(), $selects, $page->lastPage(), $page->currentPage()]);
             $pagehtml = "<div class='pagination-container nowrap'><span>{$pagetext}</span>{$page->render()}</div>";
             $this->controller->assign('pagehtml', preg_replace('|href="(.*?)"|', 'data-open="$1" onclick="return false" href="$1"', $pagehtml));
             $result = ['page' => ['limit' => intval($limit), 'total' => intval($page->total()), 'pages' => intval($page->lastPage()), 'current' => intval($page->currentPage())], 'list' => $page->items()];
@@ -132,21 +132,21 @@ class Pager extends Helper
                     if (preg_match('/^_\d{1,}$/', $key) && preg_match('/^\d{1,}$/', $value)) {
                         list($where, $update) = [['id' => trim($key, '_')], ['sort' => $value]];
                         if (false === Db::table($this->query->getTable())->where($where)->update($update)) {
-                            return $this->controller->error(lang('think_library_sort_error'));
+                            return $this->controller->error(lang('lib_sort_error'));
                         }
                     }
                 }
 
-                return $this->controller->success(lang('think_library_sort_success'), '');
+                return $this->controller->success(lang('lib_sort_success'), '');
             case 'sort':
                 $where = $this->controller->request->post();
                 $sort  = intval($this->controller->request->post('sort'));
                 unset($where['action'], $where['sort']);
 
                 if (Db::table($this->query->getTable())->where($where)->update(['sort' => $sort]) !== false) {
-                    return $this->controller->success(lang('think_library_sort_success'), '');
+                    return $this->controller->success(lang('lib_sort_success'), '');
                 } else {
-                    return $this->controller->error(lang('think_library_sort_error'));
+                    return $this->controller->error(lang('lib_sort_error'));
                 }
         }
     }

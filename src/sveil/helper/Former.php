@@ -12,13 +12,13 @@
 
 namespace sveil\helper;
 
+use sveil\db\exception\DataNotFoundException;
+use sveil\db\exception\ModelNotFoundException;
+use sveil\db\Query;
+use sveil\Exception;
+use sveil\exception\DbException;
+use sveil\exception\PDOException;
 use sveil\Helper;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\ModelNotFoundException;
-use think\db\Query;
-use think\Exception;
-use think\exception\DbException;
-use think\exception\PDOException;
 
 /**
  * Class Former
@@ -100,9 +100,9 @@ class Former extends Helper
 
                 if (false !== $this->controller->callback('_form_result', $result, $data)) {
                     if ($result !== false) {
-                        $this->controller->success(lang('think_library_form_success'), '');
+                        $this->controller->success(lang('lib_form_success'), '');
                     } else {
-                        $this->controller->error(lang('think_library_form_error'));
+                        $this->controller->error(lang('lib_form_error'));
                     }
                 }
 
