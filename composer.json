@@ -31,7 +31,7 @@
       "src/sys.php"
     ],
     "psr-4": {
-      "sveil\\": "src/sveil/"
+      "sveil\\lib\\": "src/lib/"
     }
   },
   "repositories": {
