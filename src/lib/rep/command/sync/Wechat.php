@@ -13,8 +13,8 @@
 namespace sveil\lib\rep\command\sync;
 
 use sveil\lib\rep\command\Sync;
-use sveil\think\console\Input;
-use sveil\think\console\Output;
+use think\console\Input;
+use think\console\Output;
 
 /**
  * WeChat module

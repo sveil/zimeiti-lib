@@ -12,7 +12,7 @@
 
 namespace sveil\lib\common;
 
-use sveil\think\facade\Request;
+use think\facade\Request;
 
 /**
  * Controller Node Manager

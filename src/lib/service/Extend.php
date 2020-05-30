@@ -14,9 +14,9 @@ namespace sveil\lib\service;
 
 use sveil\lib\Service;
 use sveil\lib\common\Http;
-use sveil\think\Db;
-use sveil\think\Exception;
-use sveil\think\exception\PDOException;
+use think\Db;
+use think\Exception;
+use think\exception\PDOException;
 
 /**
  * SMS service extension service

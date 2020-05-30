@@ -12,9 +12,9 @@
 
 namespace sveil\lib\rep\command;
 
-use sveil\think\console\Command;
-use sveil\think\console\Input;
-use sveil\think\console\Output;
+use think\console\Command;
+use think\console\Input;
+use think\console\Output;
 
 /**
  * File comparison and synchronization support

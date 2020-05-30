@@ -16,9 +16,9 @@ use Qiniu\Auth;
 use Qiniu\Storage\BucketManager;
 use Qiniu\Storage\UploadManager;
 use sveil\lib\File;
-use sveil\think\Exception;
-use sveil\think\facade\Log;
-use sveil\think\facade\Request;
+use think\Exception;
+use think\facade\Log;
+use think\facade\Request;
 
 /**
  * Seven Niu Cloud File Storage

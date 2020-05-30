@@ -12,7 +12,7 @@
 
 namespace sveil\lib\common;
 
-use sveil\think\exception\HttpResponseException;
+use think\exception\HttpResponseException;
 
 /**
  * Form CSRF form token

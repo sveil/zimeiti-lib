@@ -13,14 +13,14 @@
 namespace sveil\lib\rep\command\queue;
 
 use sveil\lib\service\Process;
-use sveil\think\Console;
-use sveil\think\console\Command;
-use sveil\think\console\Input;
-use sveil\think\console\input\Argument;
-use sveil\think\console\Output;
-use sveil\think\Db;
-use sveil\think\Exception;
-use sveil\think\exception\PDOException;
+use think\Console;
+use think\console\Command;
+use think\console\Input;
+use think\console\input\Argument;
+use think\console\Output;
+use think\Db;
+use think\Exception;
+use think\exception\PDOException;
 
 /**
  * Start an independent execution process

@@ -16,9 +16,9 @@ use sveil\lib\common\Options;
 use sveil\lib\rep\storage\Local;
 use sveil\lib\rep\storage\Oss;
 use sveil\lib\rep\storage\Qiniu;
-use sveil\think\Exception;
-use sveil\think\exception\PDOException;
-use sveil\think\facade\Log;
+use think\Exception;
+use think\exception\PDOException;
+use think\facade\Log;
 
 /**
  * File management base class

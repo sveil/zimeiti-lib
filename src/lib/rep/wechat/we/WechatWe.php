@@ -17,8 +17,8 @@ use sveil\lib\common\We;
 use sveil\lib\exception\InvalidResponseException;
 use sveil\lib\exception\LocalCacheException;
 use sveil\lib\service\JsonRpcClient;
-use sveil\think\Exception;
-use sveil\think\exception\PDOException;
+use think\Exception;
+use think\exception\PDOException;
 
 /**
  * WeChat processing management

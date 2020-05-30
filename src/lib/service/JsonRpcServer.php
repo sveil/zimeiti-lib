@@ -13,7 +13,7 @@
 namespace sveil\lib\service;
 
 use sveil\lib\Service;
-use sveil\think\exception\HttpResponseException;
+use think\exception\HttpResponseException;
 
 /**
  * JsonRpc Server service

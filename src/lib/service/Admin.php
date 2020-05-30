@@ -15,10 +15,10 @@ namespace sveil\lib\service;
 use sveil\lib\common\Data;
 use sveil\lib\Service;
 use sveil\lib\service\Node;
-use sveil\think\Db;
-use sveil\think\db\exception\DataNotFoundException;
-use sveil\think\db\exception\ModelNotFoundException;
-use sveil\think\exception\DbException;
+use think\Db;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\ModelNotFoundException;
+use think\exception\DbException;
 
 /**
  * System authority management service

@@ -12,9 +12,9 @@
 
 namespace sveil\lib;
 
-use sveil\think\App;
-use sveil\think\Container;
-use sveil\think\Request;
+use think\App;
+use think\Container;
+use think\Request;
 
 /**
  * Service base class

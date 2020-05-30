@@ -16,16 +16,16 @@ use sveil\lib\common\Emoji;
 use sveil\lib\common\Http;
 use sveil\lib\common\Strings;
 use sveil\lib\service\Token;
-use sveil\think\Console;
-use sveil\think\Db;
-use sveil\think\db\Query;
-use sveil\think\Exception;
-use sveil\think\exception\PDOException;
-use sveil\think\facade\Cache;
-use sveil\think\facade\Env;
-use sveil\think\facade\Lang;
-use sveil\think\facade\Middleware;
-use sveil\think\Request;
+use think\Console;
+use think\Db;
+use think\db\Query;
+use think\Exception;
+use think\exception\PDOException;
+use think\facade\Cache;
+use think\facade\Env;
+use think\facade\Lang;
+use think\facade\Middleware;
+use think\Request;
 
 Env::set(['doc_path' => Env::get('root_path') . 'docs' . DIRECTORY_SEPARATOR]);
 
@@ -279,23 +279,23 @@ if (PHP_SAPI !== 'cli') {
 }
 
 // Common instructions for the registration system
-if (class_exists('sveil\think\Console')) {
+if (class_exists('think\Console')) {
     Console::addDefaultCommands([
         // Register to clean up invalid sessions
-        'sveil\command\Sess',
+        'sveil\lib\command\Sess',
         // Register System Task Instructions
-        'sveil\queue\WorkQueue',
-        'sveil\queue\StopQueue',
-        'sveil\queue\StateQueue',
-        'sveil\queue\StartQueue',
-        'sveil\queue\QueryQueue',
-        'sveil\queue\ListenQueue',
+        'sveil\lib\queue\WorkQueue',
+        'sveil\lib\queue\StopQueue',
+        'sveil\lib\queue\StateQueue',
+        'sveil\lib\queue\StartQueue',
+        'sveil\lib\queue\QueryQueue',
+        'sveil\lib\queue\ListenQueue',
         // Register System Update Instructions
-        'sveil\command\sync\Admin',
-        'sveil\command\sync\Plugs',
-        'sveil\command\sync\Config',
-        'sveil\command\sync\Wechat',
-        'sveil\command\sync\Service',
+        'sveil\lib\command\sync\Admin',
+        'sveil\lib\command\sync\Plugs',
+        'sveil\lib\command\sync\Config',
+        'sveil\lib\command\sync\Wechat',
+        'sveil\lib\command\sync\Service',
     ]);
 }
 

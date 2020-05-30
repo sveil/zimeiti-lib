@@ -12,9 +12,9 @@
 
 namespace sveil\lib\common\json;
 
-use sveil\think\App;
-use sveil\think\Container;
-use sveil\think\exception\HttpResponseException;
+use think\App;
+use think\Container;
+use think\exception\HttpResponseException;
 
 /**
  * JsonRpc Server

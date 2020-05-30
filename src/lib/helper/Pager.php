@@ -13,13 +13,13 @@
 namespace sveil\lib\helper;
 
 use sveil\lib\Helper;
-use sveil\think\Db;
-use sveil\think\db\exception\DataNotFoundException;
-use sveil\think\db\exception\ModelNotFoundException;
-use sveil\think\db\Query;
-use sveil\think\Exception;
-use sveil\think\exception\DbException;
-use sveil\think\exception\PDOException;
+use think\Db;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\ModelNotFoundException;
+use think\db\Query;
+use think\Exception;
+use think\exception\DbException;
+use think\exception\PDOException;
 
 /**
  * Page management assistant
