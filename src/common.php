@@ -16,16 +16,16 @@ use sveil\lib\common\Emoji;
 use sveil\lib\common\Http;
 use sveil\lib\common\Strings;
 use sveil\lib\service\Token;
-use think\Console;
-use think\Db;
-use think\db\Query;
-use think\Exception;
-use think\exception\PDOException;
-use think\facade\Cache;
-use think\facade\Env;
-use think\facade\Lang;
-use think\facade\Middleware;
-use think\Request;
+use sveil\think\Console;
+use sveil\think\Db;
+use sveil\think\db\Query;
+use sveil\think\Exception;
+use sveil\think\exception\PDOException;
+use sveil\think\facade\Cache;
+use sveil\think\facade\Env;
+use sveil\think\facade\Lang;
+use sveil\think\facade\Middleware;
+use sveil\think\Request;
 
 Env::set(['doc_path' => Env::get('root_path') . 'docs' . DIRECTORY_SEPARATOR]);
 
@@ -279,7 +279,7 @@ if (PHP_SAPI !== 'cli') {
 }
 
 // Common instructions for the registration system
-if (class_exists('think\Console')) {
+if (class_exists('sveil\think\Console')) {
     Console::addDefaultCommands([
         // Register to clean up invalid sessions
         'sveil\lib\command\Sess',
@@ -305,10 +305,10 @@ Lang::load($root . '/lang/zh-cn.php', 'zh-cn');
 Lang::load($root . '/lang/en-us.php', 'en-us');
 
 // Dynamically load module configuration
-if (function_exists('think\__include_file')) {
+if (function_exists('sveil\think\__include_file')) {
     $apps = rtrim(str_replace('\\', '/', Env::get('app_path')), '/');
     foreach (glob("{$apps}/*/sys.php") as $file) {
-        \think\__include_file($file);
+        \sveil\think\__include_file($file);
     }
 }
 

@@ -12,10 +12,10 @@
 
 namespace sveil\lib;
 
-use think\App;
-use think\Container;
-use think\Db;
-use think\db\Query;
+use sveil\think\App;
+use sveil\think\Container;
+use sveil\think\Db;
+use sveil\think\db\Query;
 
 /**
  * Assistant base class

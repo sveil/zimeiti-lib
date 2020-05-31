@@ -12,7 +12,7 @@
 
 namespace sveil\lib;
 
-use think\DbException;
+use sveil\think\DbException;
 
 /**
  * Database base class

@@ -14,7 +14,7 @@ namespace sveil\lib\service;
 
 use sveil\lib\common\Data;
 use sveil\lib\Service;
-use think\Exception;
+use sveil\think\Exception;
 
 /**
  * Class JsonRpcClient

@@ -13,9 +13,9 @@
 namespace sveil\lib\rep\command\queue;
 
 use sveil\lib\service\Process;
-use think\console\Command;
-use think\console\Input;
-use think\console\Output;
+use sveil\think\console\Command;
+use sveil\think\console\Input;
+use sveil\think\console\Output;
 
 /**
  * Query the PID of the process being executed

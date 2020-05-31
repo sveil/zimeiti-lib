@@ -12,10 +12,10 @@
 
 namespace sveil\lib\common;
 
-use think\Db;
-use think\db\Query;
-use think\Exception;
-use think\exception\PDOException;
+use sveil\think\Db;
+use sveil\think\db\Query;
+use sveil\think\Exception;
+use sveil\think\exception\PDOException;
 
 /**
  * Data processing tools

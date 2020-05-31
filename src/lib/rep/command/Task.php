@@ -12,7 +12,7 @@
 
 namespace sveil\lib\rep\command;
 
-use think\console\Command;
+use sveil\think\console\Command;
 
 /**
  * Message queue daemon management

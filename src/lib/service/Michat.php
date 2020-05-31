@@ -14,8 +14,8 @@ namespace sveil\lib\service;
 
 use sveil\lib\common\Http;
 use sveil\lib\Service;
-use think\Exception;
-use think\exception\PDOException;
+use sveil\think\Exception;
+use sveil\think\exception\PDOException;
 
 /**
  * Xiaomi Message Service
