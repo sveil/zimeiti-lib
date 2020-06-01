@@ -13,15 +13,15 @@
 namespace sveil\lib\rep\command;
 
 use sveil\lib\common\We;
-use sveil\think\console\Command;
-use sveil\think\console\Input;
-use sveil\think\console\Output;
-use sveil\think\Db;
-use sveil\think\db\exception\DataNotFoundException;
-use sveil\think\db\exception\ModelNotFoundException;
-use sveil\think\Exception;
-use sveil\think\exception\DbException;
-use sveil\think\exception\PDOException;
+use sveil\console\Command;
+use sveil\console\Input;
+use sveil\console\Output;
+use sveil\Db;
+use sveil\db\exception\DataNotFoundException;
+use sveil\db\exception\ModelNotFoundException;
+use sveil\Exception;
+use sveil\exception\DbException;
+use sveil\exception\PDOException;
 
 /**
  * Shopping mall data processing instructions

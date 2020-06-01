@@ -16,11 +16,11 @@ use sveil\lib\File;
 use sveil\lib\service\Admin;
 use sveil\lib\service\Node;
 use sveil\lib\service\System;
-use sveil\think\db\exception\DataNotFoundException;
-use sveil\think\db\exception\ModelNotFoundException;
-use sveil\think\Exception;
-use sveil\think\exception\DbException;
-use sveil\think\exception\PDOException;
+use sveil\db\exception\DataNotFoundException;
+use sveil\db\exception\ModelNotFoundException;
+use sveil\Exception;
+use sveil\exception\DbException;
+use sveil\exception\PDOException;
 
 if (!function_exists('isRead')) {
     /**

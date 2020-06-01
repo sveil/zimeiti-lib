@@ -15,9 +15,9 @@ namespace sveil\lib\common\handler;
 use sveil\lib\exception\InvalidResponseException;
 use sveil\lib\exception\LocalCacheException;
 use sveil\lib\service\Wechat;
-use sveil\think\Db;
-use sveil\think\Exception;
-use sveil\think\exception\PDOException;
+use sveil\Db;
+use sveil\Exception;
+use sveil\exception\PDOException;
 
 /**
  * WeChat web page authorization interface

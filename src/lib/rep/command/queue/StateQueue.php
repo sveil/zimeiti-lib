@@ -13,9 +13,9 @@
 namespace sveil\lib\rep\command\queue;
 
 use sveil\lib\service\Process;
-use sveil\think\console\Command;
-use sveil\think\console\Input;
-use sveil\think\console\Output;
+use sveil\console\Command;
+use sveil\console\Input;
+use sveil\console\Output;
 
 /**
  * View the status of the main process monitored by the task

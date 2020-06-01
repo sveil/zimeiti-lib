@@ -20,16 +20,16 @@ use sveil\lib\helper\Querier;
 use sveil\lib\helper\Saver;
 use sveil\lib\helper\Tokener;
 use sveil\lib\helper\Validater;
-use sveil\think\App;
-use sveil\think\Container;
-use sveil\think\db\exception\DataNotFoundException;
-use sveil\think\db\exception\ModelNotFoundException;
-use sveil\think\db\Query;
-use sveil\think\Exception;
-use sveil\think\exception\DbException;
-use sveil\think\exception\HttpResponseException;
-use sveil\think\exception\PDOException;
-use sveil\think\Response;
+use sveil\App;
+use sveil\Container;
+use sveil\db\exception\DataNotFoundException;
+use sveil\db\exception\ModelNotFoundException;
+use sveil\db\Query;
+use sveil\Exception;
+use sveil\exception\DbException;
+use sveil\exception\HttpResponseException;
+use sveil\exception\PDOException;
+use sveil\Response;
 
 /**
  * Standard controller base class
@@ -49,7 +49,7 @@ abstract class Controller extends \stdClass
 
     /**
      * Current request object
-     * @var \sveil\think\Request
+     * @var \sveil\Request
      */
     public $request;
 

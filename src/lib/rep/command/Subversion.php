@@ -12,13 +12,13 @@
 
 namespace sveil\lib\rep\command;
 
-use sveil\think\console\Command;
-use sveil\think\console\Input;
-use sveil\think\console\Output;
-use sveil\think\Db;
-use sveil\think\db\exception\DataNotFoundException;
-use sveil\think\db\exception\ModelNotFoundException;
-use sveil\think\exception\DbException;
+use sveil\console\Command;
+use sveil\console\Input;
+use sveil\console\Output;
+use sveil\Db;
+use sveil\db\exception\DataNotFoundException;
+use sveil\db\exception\ModelNotFoundException;
+use sveil\exception\DbException;
 
 /**
  * SVN version instructions

@@ -12,7 +12,7 @@
 
 namespace sveil\lib\common\json;
 
-use sveil\think\Exception;
+use sveil\Exception;
 
 /**
  * JsonRpc Client

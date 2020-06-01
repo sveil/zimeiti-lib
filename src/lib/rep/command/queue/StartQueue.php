@@ -13,10 +13,10 @@
 namespace sveil\lib\rep\command\queue;
 
 use sveil\lib\service\Process;
-use sveil\think\console\Command;
-use sveil\think\console\Input;
-use sveil\think\console\Output;
-use sveil\think\Db;
+use sveil\console\Command;
+use sveil\console\Input;
+use sveil\console\Output;
+use sveil\Db;
 
 /**
  * Check and create monitoring main process

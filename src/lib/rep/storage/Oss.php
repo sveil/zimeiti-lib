@@ -17,9 +17,9 @@ use OSS\Model\CorsConfig;
 use OSS\Model\CorsRule;
 use OSS\OssClient;
 use sveil\lib\File;
-use sveil\think\Exception;
-use sveil\think\facade\Log;
-use sveil\think\facade\Request;
+use sveil\Exception;
+use sveil\facade\Log;
+use sveil\facade\Request;
 
 /**
  * Alibaba Cloud file storage

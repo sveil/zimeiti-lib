@@ -13,9 +13,9 @@
 namespace sveil\lib\service;
 
 use sveil\lib\Service;
-use sveil\think\Db;
-use sveil\think\Exception;
-use sveil\think\exception\PDOException;
+use sveil\Db;
+use sveil\Exception;
+use sveil\exception\PDOException;
 
 /**
  * Class Wechat

@@ -16,12 +16,12 @@ use sveil\lib\exception\InvalidResponseException;
 use sveil\lib\exception\LocalCacheException;
 use sveil\lib\service\Fans as FansService;
 use sveil\lib\service\Wechat;
-use sveil\think\console\Command;
-use sveil\think\console\Input;
-use sveil\think\console\Output;
-use sveil\think\Db;
-use sveil\think\Exception;
-use sveil\think\exception\PDOException;
+use sveil\console\Command;
+use sveil\console\Input;
+use sveil\console\Output;
+use sveil\Db;
+use sveil\Exception;
+use sveil\exception\PDOException;
 
 /**
  * WeChat fans management

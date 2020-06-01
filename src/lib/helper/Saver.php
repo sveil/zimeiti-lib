@@ -13,9 +13,9 @@
 namespace sveil\lib\helper;
 
 use sveil\lib\Helper;
-use sveil\think\db\Query;
-use sveil\think\Exception;
-use sveil\think\exception\PDOException;
+use sveil\db\Query;
+use sveil\Exception;
+use sveil\exception\PDOException;
 
 /**
  * Save data assistant

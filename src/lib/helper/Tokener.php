@@ -14,7 +14,7 @@ namespace sveil\lib\helper;
 
 use sveil\lib\Helper;
 use sveil\lib\service\Token;
-use sveil\think\exception\HttpResponseException;
+use sveil\exception\HttpResponseException;
 
 /**
  * Token assistant

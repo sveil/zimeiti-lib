@@ -13,7 +13,7 @@
 namespace sveil\lib\helper;
 
 use sveil\lib\Helper;
-use sveil\think\Validate;
+use sveil\Validate;
 
 /**
  * Input data assistant
