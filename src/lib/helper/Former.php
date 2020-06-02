@@ -103,9 +103,9 @@ class Former extends Helper
                 $result = data_save($this->query, $data, $this->field, $this->where);
                 if (false !== $this->controller->callback('_form_result', $result, $data)) {
                     if ($result !== false) {
-                        $this->controller->success(lang('think_library_form_success'), '');
+                        $this->controller->success(lang('lib_form_success'), '');
                     } else {
-                        $this->controller->error(lang('think_library_form_error'));
+                        $this->controller->error(lang('lib_form_error'));
                     }
                 }
                 return $result;

@@ -87,9 +87,9 @@ class Deleter extends Helper
 
         // Reply to front-end results
         if ($result !== false) {
-            $this->controller->success(lang('think_library_delete_success'), '');
+            $this->controller->success(lang('lib_delete_success'), '');
         } else {
-            $this->controller->error(lang('think_library_delete_error'));
+            $this->controller->error(lang('lib_delete_error'));
         }
 
     }

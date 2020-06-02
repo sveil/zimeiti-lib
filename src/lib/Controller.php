@@ -134,7 +134,7 @@ abstract class Controller extends \stdClass
     {
 
         if (empty($this->csrf_message)) {
-            $this->csrf_message = lang('think_library_csrf_error');
+            $this->csrf_message = lang('lib_csrf_error');
         }
 
     }

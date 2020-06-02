@@ -95,9 +95,9 @@ class Saver extends Helper
 
         // Reply to front-end results
         if ($result !== false) {
-            $this->controller->success(lang('think_library_save_success'), '');
+            $this->controller->success(lang('lib_save_success'), '');
         } else {
-            $this->controller->error(lang('think_library_save_error'));
+            $this->controller->error(lang('lib_save_error'));
         }
 
     }
