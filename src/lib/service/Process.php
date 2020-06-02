@@ -27,11 +27,11 @@ class Process extends Service
      * @param string $args Specify parameters
      * @return string
      */
-    public function think($args = '')
+    public function sveil($args = '')
     {
         $root = $this->app->getRootPath();
 
-        return trim("php {$root}think {$args}");
+        return trim("php {$root}sveil {$args}");
     }
 
     /**
@@ -41,7 +41,7 @@ class Process extends Service
      */
     public function version()
     {
-        return $this->app->config->get('app.thinkadmin_ver', 'v4');
+        return $this->app->config->get('app.zimeiti_ver', 'v1');
     }
 
     /**

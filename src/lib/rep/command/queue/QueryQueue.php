@@ -12,10 +12,10 @@
 
 namespace sveil\lib\rep\command\queue;
 
-use sveil\lib\service\Process;
 use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
+use sveil\lib\service\Process;
 
 /**
  * Query the PID of the process being executed
@@ -44,7 +44,7 @@ class QueryQueue extends Command
     protected function execute(Input $input, Output $output)
     {
         $process = Process::instance();
-        $result  = $process->query($process->think("xtask:"));
+        $result  = $process->query($process->sveil("xtask:"));
         if (count($result) > 0) {
             foreach ($result as $item) {
                 $output->writeln("{$item['pid']}\t{$item['cmd']}");

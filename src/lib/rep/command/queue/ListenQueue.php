@@ -12,7 +12,6 @@
 
 namespace sveil\lib\rep\command\queue;
 
-use sveil\lib\service\Process;
 use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
@@ -22,6 +21,7 @@ use sveil\db\exception\ModelNotFoundException;
 use sveil\Exception;
 use sveil\exception\DbException;
 use sveil\exception\PDOException;
+use sveil\lib\service\Process;
 
 /**
  * Start the main process of the listening task
@@ -74,7 +74,7 @@ class ListenQueue extends Command
             $map = [['status', 'eq', '1'], ['time', '<=', time()]];
             foreach (Db::name('SystemQueue')->where($map)->order('time asc')->select() as $vo) {
                 try {
-                    $command = $process->think("xtask:_work {$vo['id']} -");
+                    $command = $process->sveil("xtask:_work {$vo['id']} -");
                     if (count($process->query($command)) > 0) {
                         $this->output->writeln("Already in progress -> [{$vo['id']}] {$vo['title']}");
                     } else {

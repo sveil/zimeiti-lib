@@ -12,11 +12,11 @@
 
 namespace sveil\lib\rep\command\queue;
 
-use sveil\lib\service\Process;
 use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
 use sveil\Db;
+use sveil\lib\service\Process;
 
 /**
  * Check and create monitoring main process
@@ -46,7 +46,7 @@ class StartQueue extends Command
 
         Db::name('SystemQueue')->count();
         $process = Process::instance();
-        $command = $process->think("xtask:listen");
+        $command = $process->sveil("xtask:listen");
 
         if (count($result = $process->query($command)) > 0) {
             $output->info("Listening main process {$result['0']['pid']} has started");
