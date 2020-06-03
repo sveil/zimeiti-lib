@@ -10,12 +10,6 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-use sveil\lib\common\Crypt;
-use sveil\lib\common\Data;
-use sveil\lib\common\Emoji;
-use sveil\lib\common\Http;
-use sveil\lib\common\Strings;
-use sveil\lib\service\Token;
 use sveil\Console;
 use sveil\Db;
 use sveil\db\Query;
@@ -25,6 +19,12 @@ use sveil\facade\Cache;
 use sveil\facade\Env;
 use sveil\facade\Lang;
 use sveil\facade\Middleware;
+use sveil\lib\common\Crypt;
+use sveil\lib\common\Data;
+use sveil\lib\common\Emoji;
+use sveil\lib\common\Http;
+use sveil\lib\common\Strings;
+use sveil\lib\service\Token;
 use sveil\Request;
 
 Env::set(['doc_path' => Env::get('root_path') . 'docs' . DIRECTORY_SEPARATOR]);
@@ -360,5 +360,20 @@ if (!function_exists('jumpLogin')) {
             'info' => '对不起，已经无法再安装视微系统了。',
             'url'  => url('@' . config('admin_module') . '/login'),
         ]);
+    }
+}
+
+if (!function_exists('urls')) {
+    /**
+     * Url生成
+     * @param string        $url 路由地址
+     * @param string|array  $vars 变量
+     * @param bool|string   $suffix 生成的URL后缀
+     * @param bool|string   $domain 域名
+     * @return string
+     */
+    function urls($url = '', $vars = '', $suffix = true, $domain = false)
+    {
+        return Url::builds($url, $vars, $suffix, $domain);
     }
 }
