@@ -27,33 +27,27 @@ use sveil\lib\common\Strings;
 use sveil\lib\service\Token;
 use sveil\Request;
 
-Env::set(['doc_path' => Env::get('root_path') . 'docs' . DIRECTORY_SEPARATOR]);
-
 if (!function_exists('p')) {
     /**
      * Print output data to file
-     *
      * @param mixed $data Output data
      * @param boolean $force Forced replacement
      * @param string|null $file File name
      */
     function p($data, $force = false, $file = null)
     {
-
         if (is_null($file)) {
             $file = env('runtime_path') . date('Ymd') . '.txt';
         }
 
         $str = (is_string($data) ? $data : ((is_array($data) || is_object($data)) ? print_r($data, true) : var_export($data, true))) . PHP_EOL;
         $force ? file_put_contents($file, $str) : file_put_contents($file, $str, FILE_APPEND);
-
     }
 }
 
 if (!function_exists('format_datetime')) {
     /**
      * Date format standard output
-     *
      * @param string $datetime Enter date
      * @param string $format Output format
      * @return false|string
@@ -69,14 +63,12 @@ if (!function_exists('format_datetime')) {
         } else {
             return date($format, strtotime($datetime));
         }
-
     }
 }
 
 if (!function_exists('sysconf')) {
     /**
      * Equipment or configuration system parameters
-     *
      * @param string $name parameter name
      * @param boolean $value null|value
      * @return string|boolean
@@ -85,7 +77,6 @@ if (!function_exists('sysconf')) {
      */
     function sysconf($name, $value = null)
     {
-
         static $data       = [];
         list($field, $raw) = explode('|', "{$name}|");
         $key               = md5(config('database.hostname') . '#' . config('database.database'));
@@ -113,20 +104,17 @@ if (!function_exists('sysconf')) {
         } else {
             return '';
         }
-
     }
 }
 
 if (!function_exists('systoken')) {
     /**
      * Generate CSRF-TOKEN parameters
-     *
      * @param string $node
      * @return string
      */
     function systoken($node = null)
     {
-
         $csrf = Token::instance()->buildFormToken($node);
 
         return $csrf['token'];
@@ -136,7 +124,6 @@ if (!function_exists('systoken')) {
 if (!function_exists('http_get')) {
     /**
      * Simulate network requests with get
-     *
      * @param string $url HTTP Request URL
      * @param array $query GET Request parameter
      * @param array $options CURL parameter
@@ -151,7 +138,6 @@ if (!function_exists('http_get')) {
 if (!function_exists('http_post')) {
     /**
      * Simulate network requests with post
-     *
      * @param string $url HTTP Request URL
      * @param array $data POST Request Data
      * @param array $options CURL parameter
@@ -166,7 +152,6 @@ if (!function_exists('http_post')) {
 if (!function_exists('data_save')) {
     /**
      * Data incremental storage
-     *
      * @param Query|string $dbQuery Data query object
      * @param array $data Data to be saved or updated
      * @param string $key primary key restrictions by condition
@@ -184,7 +169,6 @@ if (!function_exists('data_save')) {
 if (!function_exists('data_batch_save')) {
     /**
      * Update data in bulk
-     *
      * @param Query|string $dbQuery Data query object
      * @param array $data Data to be updated(Two-dimensional array)
      * @param string $key primary key restrictions by condition
@@ -202,7 +186,6 @@ if (!function_exists('data_batch_save')) {
 if (!function_exists('encode')) {
     /**
      * Encrypt UTF8 string
-     *
      * @param string $content
      * @return string
      */
@@ -215,7 +198,6 @@ if (!function_exists('encode')) {
 if (!function_exists('decode')) {
     /**
      * Decrypt UTF8 string
-     *
      * @param string $content
      * @return string
      */
@@ -315,13 +297,11 @@ if (function_exists('sveil\__include_file')) {
 if (!function_exists('format_status')) {
     /**
      * Status format standard output
-     *
      * @param string $datetime Enter date
      * @return string
      */
     function formatStatus($status)
     {
-
         if ($status === 0) {
             return '禁止';
         }
@@ -337,7 +317,6 @@ if (!function_exists('format_status')) {
 if (!function_exists('arrStr')) {
     /**
      * Array to string
-     *
      * @param array $arr
      * @return string
      */
@@ -350,7 +329,6 @@ if (!function_exists('arrStr')) {
 if (!function_exists('jumpLogin')) {
     /**
      * Jump login window
-     *
      * @return string
      */
     function jumpLogin()
@@ -358,22 +336,7 @@ if (!function_exists('jumpLogin')) {
         return json([
             'code' => 0,
             'info' => '对不起，已经无法再安装视微系统了。',
-            'url'  => url('@' . config('admin_module') . '/login'),
+            'url'  => url('@manage/login'),
         ]);
-    }
-}
-
-if (!function_exists('urls')) {
-    /**
-     * Url生成
-     * @param string        $url 路由地址
-     * @param string|array  $vars 变量
-     * @param bool|string   $suffix 生成的URL后缀
-     * @param bool|string   $domain 域名
-     * @return string
-     */
-    function urls($url = '', $vars = '', $suffix = true, $domain = false)
-    {
-        return Url::builds($url, $vars, $suffix, $domain);
     }
 }
