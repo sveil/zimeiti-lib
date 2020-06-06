@@ -121,4 +121,110 @@ class Install extends Service
             'disable'     => $disabled,
         ];
     }
+
+    /**
+     * db object
+     * @return array
+     * @throws Exception
+     * @throws PDOException
+     */
+    public static function db($post = '')
+    {
+        if ('' === $post) {
+            return [
+                'dbhost'   => '127.0.0.1',
+                'dbport'   => '3306',
+                'dbname'   => 'sveil',
+                'dbuser'   => 'root',
+                'dbprefix' => 'sve_',
+                'wechat'   => 'richard@sveil.com',
+                'username' => 'admin',
+                'email'    => 'support@sveil.com',
+                'mobile'   => '13888888888',
+            ];
+        } else {
+            if ($post['password'] != $post['repassword']) {
+                return ['error' => '两次密码不一致。'];
+            }
+
+            if ($post['username'] === 'administrator' || $post['username'] === 'admin') {
+                return ['error' => '创始人账号不能使用administrator或admin。'];
+            }
+
+            // $dbConfigOld = require env('config_path') . 'database.php';
+            // $dbConfig    = [
+            //     'hostname' => $post['dbhost'],
+            //     'hostport' => $post['dbport'],
+            //     'username' => $post['dbuser'],
+            //     'password' => $post['dbpwd'],
+            //     'charset'  => $dbConfigOld['charset'],
+            // ];
+
+            // try {
+            //     $dbConfig['database'] = 'mysql';
+            //     $db                   = DB::connect($dbConfig);
+            //     $db->query("SELECT * FROM user");
+            // } catch (\Exception $e) {
+            //     $this->error("无法连接数据库，请查看数据库账号密码是否正确？");
+            // }
+
+            // try {
+            //     $dbConfig['database'] = $post['dbname'];
+            //     $db                   = DB::connect($dbConfig);
+            //     $db->query("CREATE TABLE `test`  ( `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, PRIMARY KEY (`id`) );");
+            //     $db->query("DROP TABLE IF EXISTS `test`;");
+            // } catch (\Exception $e) {
+            //     $dbConfig['database'] = 'mysql';
+            //     $db                   = DB::connect($dbConfig);
+            //     $db->query("create database " . $post['dbname']);
+            // }
+
+            // try {
+            //     $appConfigOld               = require env('config_path') . 'app.php';
+            //     $appConfig['module.manage'] = $post['adminmodule'];
+            //     $configNew                  = array_merge($appConfigOld, $appConfig);
+            //     arrFiles(env('config_path') . 'app.php', $configNew);
+            // } catch (\Exception $e) {
+            //     $this->error("写入应用配置文件错误，请查看是否有文件管理权限？");
+            // }
+
+            // try {
+            //     $dbConfig['debug']    = false;
+            //     $dbConfig['database'] = $post['dbname'];
+            //     $dbConfig['prefix']   = $post['dbprefix'];
+            //     $configNew            = array_merge($dbConfigOld, $dbConfig);
+            //     arrFiles(env('config_path') . 'database.php', $configNew);
+            // } catch (\Exception $e) {
+            //     $this->error("写入数据库配置文件错误，请查看是否有文件管理权限？");
+            // }
+
+            // try {
+            //     $sql = readFiles(env('DOC_PATH') . '/install.sql');
+            //     $sql = str_replace('sve_', $post['dbprefix'], $sql);
+            //     // $sql = str_replace('admin', $appConfig['module.manage'], $sql);
+            //     $sql                  = str_replace("\r\n", "\n", $sql);
+            //     $dbConfig['database'] = $post['dbname'];
+            //     $db                   = DB::connect($dbConfig);
+            //     $db->query($sql);
+            // } catch (\Exception $e) {
+            //     $this->error("无法导入数据库，请检查数据库安装是否正确？");
+            // }
+
+            // $dbConfig['database'] = $post['dbname'];
+            // $dbh                  = DB::connect($dbConfig, [\PDO::ATTR_PERSISTENT => true]);
+            // try {
+            //     $dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            //     $dbh->beginTransaction();
+            //     $dbh->exec("insert into " . $post['dbprefix'] . "users (username, password, mail, mobile) values ('" . $post['username'] . "', '" . md5($post['password']) . "', '" . $post['email'] . "', '" . $post['mobile'] . "')");
+            //     $dbh->exec("insert into " . $post['dbprefix'] . "users_info (qq) values ('" . $post['mobile'] . "')");
+            //     $dbh->commit();
+            // } catch (\Exception $e) {
+            //     $dbh->rollBack();
+            //     $this->error($e->getMessage());
+            // }
+
+            // touch(env('DOC_PATH') . 'install.lock');
+            // $this->success('安装成功!请确认您的安装信息。', url('@install') . '#' . url('install/index/info'));
+        }
+    }
 }

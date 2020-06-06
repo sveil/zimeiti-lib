@@ -12,8 +12,6 @@
 
 namespace sveil\lib\service;
 
-use sveil\lib\Service;
-use sveil\lib\service\Node;
 use sveil\Db;
 use sveil\db\exception\DataNotFoundException;
 use sveil\db\exception\ModelNotFoundException;
@@ -21,6 +19,8 @@ use sveil\db\Query;
 use sveil\Exception;
 use sveil\exception\DbException;
 use sveil\exception\PDOException;
+use sveil\lib\Service;
+use sveil\lib\service\Node;
 
 /**
  * Class System
@@ -141,7 +141,7 @@ class System extends Service
     public function checkRunMode($type = 'dev')
     {
         $domain  = $this->app->request->host(true);
-        $isDemo  = is_numeric(stripos($domain, 'thinkadmin.top'));
+        $isDemo  = is_numeric(stripos($domain, 'sveil.com'));
         $isLocal = in_array($domain, ['127.0.0.1', 'localhost']);
 
         if ($type === 'dev') {
