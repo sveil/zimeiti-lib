@@ -224,7 +224,10 @@ class Install extends Service
             // }
 
             // touch(env('DOC_PATH') . 'install.lock');
-            // $this->success('安装成功!请确认您的安装信息。', url('@install') . '#' . url('install/index/info'));
+            return [
+                'success' => '安装成功!请确认您的安装信息。',
+                'url'     => url('@install') . '#' . url('install/index/info'),
+            ];
         }
     }
 }
