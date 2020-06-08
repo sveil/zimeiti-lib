@@ -12,20 +12,20 @@
 
 namespace sveil\lib;
 
-use sveil\lib\common\Options;
-use sveil\lib\rep\storage\Local;
-use sveil\lib\rep\storage\Oss;
-use sveil\lib\rep\storage\Qiniu;
 use sveil\Exception;
 use sveil\exception\PDOException;
 use sveil\facade\Log;
+use sveil\lib\common\Options;
+use sveil\lib\common\Strings;
+use sveil\lib\rep\storage\Local;
+use sveil\lib\rep\storage\Oss;
+use sveil\lib\rep\storage\Qiniu;
 
 /**
- * File management base class
- *
  * Class File
+ * File management base class
  * @author Richard <richard@sveil.com>
- * @package sveil
+ * @package sveil\lib
  * @method object instance($name) static Set file driver name
  * @method string name($url, $ext = '', $pre = '', $fun = 'md5') static Get file relative name
  * @method bool checkRead($dir) static Check the directory readable or create directory
@@ -36,7 +36,6 @@ use sveil\facade\Log;
  */
 class File
 {
-
     const DEVER_LOCAL   = 'local';
     const DERVER_QINIU  = 'qiniu';
     const DERVER_ALIOSS = 'oss';
@@ -82,9 +81,21 @@ class File
         ],
     ];
 
+    /*
+     * Class Constructor - Create a new database connection if one doesn't exist
+     * Set to private so no-one can create a new instance via ' = new DB();'
+     */
+    private function __construct()
+    {}
+
+    /*
+     * Like the constructor, we make __clone private so nobody can clone the instance
+     */
+    private function __clone()
+    {}
+
     /**
      * Static magic method
-     *
      * @param string $name
      * @param array $arguments
      * @return mixed
@@ -92,7 +103,6 @@ class File
      */
     public static function __callStatic($name, $arguments)
     {
-
         if (method_exists($class = self::instance(self::$config->get('storage_type')), $name)) {
             return call_user_func_array([$class, $name], $arguments);
         }
@@ -102,14 +112,12 @@ class File
 
     /**
      * Set file driver name
-     *
      * @param string $name
      * @return Local|Qiniu|Oss
      * @throws Exception
      */
     public static function instance($name)
     {
-
         if (isset(self::$object[$class = ucfirst(strtolower($name))])) {
             return self::$object[$class];
         }
@@ -123,14 +131,12 @@ class File
 
     /**
      * Obtain the file MINE according to the file suffix
-     *
      * @param array $ext File extension
      * @param array $mine File extension MINE info
      * @return string
      */
     public static function mine($ext, $mine = [])
     {
-
         $mines = self::mines();
 
         foreach (is_string($ext) ? explode(',', $ext) : $ext as $e) {
@@ -142,12 +148,10 @@ class File
 
     /**
      * Get all file extension mine
-     *
      * @return mixed
      */
     public static function mines()
     {
-
         static $mimes = [];
 
         if (count($mimes) > 0) {
@@ -159,7 +163,6 @@ class File
 
     /**
      * Get file relative name
-     *
      * @param string $url File link
      * @param string $ext File extension
      * @param string $pre File prefix（If any value needs to end with /）
@@ -168,7 +171,6 @@ class File
      */
     public static function name($url, $ext = '', $pre = '', $fun = 'md5')
     {
-
         empty($ext) && $ext = pathinfo($url, 4);
         empty($ext) || $ext = trim($ext, '.\\/');
         empty($pre) || $pre = trim($pre, '.\\/');
@@ -178,50 +180,53 @@ class File
     }
 
     /**
-     * 下载文件到本地
-     * @param string $url 文件URL地址
-     * @param boolean $force 是否强制下载
-     * @param integer $expire 文件保留时间
+     * Download file to local
+     * @param string $url File URL
+     * @param boolean $force Whether to force download
+     * @param integer $expire File expire
      * @return array
      */
     public static function down($url, $force = false, $expire = 0)
     {
-
         try {
             $file = self::instance('local');
             $name = self::name($url, '', 'down/');
+
             if (empty($force) && $file->has($name)) {
                 if ($expire < 1 || filemtime($file->path($name)) + $expire > time()) {
                     return $file->info($name);
                 }
             }
+
             return $file->save($name, file_get_contents($url));
         } catch (\Exception $e) {
             Log::error(__METHOD__ . " File download failed [ {$url} ] {$e->getMessage()}");
+
             return ['url' => $url, 'hash' => md5($url), 'key' => $url, 'file' => $url];
         }
-
     }
 
     /**
-     * 文件储存初始化
+     * File storage initialization
      * @param array $data
      * @throws Exception
      * @throws PDOException
      */
     public static function init($data = [])
     {
-
-        if (empty(self::$config) && function_exists('sysconf')) {
-            foreach (self::$params as $arr) {
-                foreach (array_keys($arr) as $key) {
-                    $data[$key] = sysconf($key);
+        try {
+            if (empty(self::$config) && function_exists('sysconf')) {
+                foreach (self::$params as $arr) {
+                    foreach (array_keys($arr) as $key) {
+                        $data[$key] = sysconf($key);
+                    }
                 }
             }
+
+            self::$config = new Options($data);
+        } catch (\Exception $e) {
+            Log::error(__METHOD__ . " File storage initialization exception. [{$e->getMessage()}]");
         }
-
-        self::$config = new Options($data);
-
     }
 
     /**
@@ -231,7 +236,6 @@ class File
      */
     public static function checkRead($dir)
     {
-
         if (is_dir($dir)) {
             if (is_readable($dir)) {
                 return true;
@@ -245,18 +249,15 @@ class File
                 return false;
             }
         }
-
     }
 
     /**
      * Determine whether the directory exists, Judge if it exists, Create a directory if it does not exist
-     *
      * @param string $dir
      * @return bool
      */
     public static function checkWrite($dir)
     {
-
         if (is_dir($dir)) {
             if (is_writable($dir)) {
                 return true;
@@ -266,18 +267,15 @@ class File
         } else {
             return mkdir($dir, 0755, true);
         }
-
     }
 
     /**
      * Recursively determine whether all content in the directory is readable
-     *
      * @param string $dir
      * @return bool
      */
     public static function isRead($dir)
     {
-
         if (is_dir($dir)) {
             if (is_readable($dir)) {
                 $objects = scandir($dir);
@@ -297,18 +295,15 @@ class File
         } elseif (file_exists($dir)) {
             return (is_readable($dir));
         }
-
     }
 
     /**
      * Recursively determine whether all content in the directory is writable
-     *
      * @param string $dir
      * @return bool
      */
     public static function isWrite($dir)
     {
-
         if (is_dir($dir)) {
             if (is_writable($dir)) {
                 $objects = scandir($dir);
@@ -328,37 +323,31 @@ class File
         } elseif (file_exists($dir)) {
             return (is_writable($dir));
         }
-
     }
 
     /**
      * Read the entire file into a string
-     *
      * @param string $filename
      * @return string|false
      */
     public static function readFiles($filename)
     {
-
         if (function_exists('file_get_contents')) {
             return @file_get_contents($filename, false, null, -1);
         } else {
             Log::error(__METHOD__ . " Function @file_get_contents is not exists!");
             return false;
         }
-
     }
 
     /**
      * Write string to file
-     *
      * @param string $filename
      * @param string $data
      * @return number|false
      */
     public static function writeFiles($filename, $data = '')
     {
-
         $dir = dirname($filename);
 
         if (!is_dir($dir)) {
@@ -371,19 +360,16 @@ class File
             Log::error(__METHOD__ . " Function @file_put_contents is not exists!");
             return false;
         }
-
     }
 
     /**
      * Save array to file
-     *
      * @param string $filename
      * @param string $arr
      * @return number|false
      */
     public static function arrFiles($filename, $arr = '')
     {
-
         if (is_array($arr)) {
             $con = Strings::arrStr($arr, true);
         } else {
@@ -394,13 +380,4 @@ class File
 
         return self::writeFiles($filename, $con);
     }
-
-}
-
-try {
-    // 初始化存储
-    File::init();
-    // Log::info(__METHOD__ . ' File storage initialization success');
-} catch (\Exception $e) {
-    Log::error(__METHOD__ . " File storage initialization exception. [{$e->getMessage()}]");
 }

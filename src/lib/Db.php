@@ -12,25 +12,31 @@
 
 namespace sveil\lib;
 
-use sveil\DbException;
+use sveil\exception\DbException;
 
 /**
- * Database base class
- *
  * Class Db
+ * Database base class
  * @author Richard <richard@sveil.com>
  * @package sveil
  */
 class Db
 {
-
+    // DB instance
     private static $objInstance;
+
+    // DB host
+    private static $host;
+
+    // DB user
+    private static $user;
 
     /*
      * Class Constructor - Create a new database connection if one doesn't exist
      * Set to private so no-one can create a new instance via ' = new DB();'
      */
-    // private function __construct() {}
+    private function __construct()
+    {}
 
     /*
      * Like the constructor, we make __clone private so nobody can clone the instance
@@ -40,16 +46,21 @@ class Db
 
     /*
      * Returns DB instance or create initial connection
-     *
      * @param
-     * @return $objInstance;
+     * @return $mix;
      */
     public static function connect($config = [], $options = null)
     {
-
         if (!empty($config) || !self::$objInstance) {
-            self::$objInstance = new \PDO('mysql:host=' . $config['hostname'] . ';port=' . $config['hostport'] . ';dbname=' . $config['database'] . ';charset=' . $config['charset'] . ';', $config['username'], $config['password'], $options);
-            self::$objInstance->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            self::$host = strtolower($config['hostname']);
+            self::$user = $config['username'];
+
+            try {
+                self::$objInstance = new \PDO('mysql:host=' . self::$host . ';port=' . $config['hostport'] . ';dbname=' . $config['database'] . ';charset=' . $config['charset'] . ';', self::$user, $config['password'], $options);
+                self::$objInstance->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            } catch (\PDOException $e) {
+                return false;
+            }
         }
 
         return self::$objInstance;
@@ -57,24 +68,75 @@ class Db
 
     /*
      * Passes on any static calls to this class onto the singleton PDO instance
-     *
      * @param $chrMethod, $arrArguments
      * @return $mix
      */
     final public static function __callStatic($chrMethod, $arrArguments)
     {
-
         if (self::$objInstance) {
             return call_user_func_array([self::$objInstance, $chrMethod], $arrArguments);
         } else {
             throw new DbException();
         }
-
     }
 
-    public static function mysqlClientVersion()
+    /*
+     * is not permission
+     * @param $config
+     * @return boolean
+     */
+    public static function noPermit()
     {
+        $noPermit = true;
 
+        if (self::$objInstance && self::$host && self::$user) {
+            $db   = self::$objInstance;
+            $user = self::$user;
+
+            if (self::$host === 'localhost' || self::$host === '127.0.0.1') {
+                $host = 'localhost';
+            } else {
+                $host = '%';
+            }
+
+            $sql = "SELECT `Select_priv`,`Insert_priv`,`Update_priv`,`Delete_priv`,`Create_priv`,`Drop_priv` FROM `user` WHERE `User`='" . $user . "' AND `Host`='" . $host . "';";
+
+            foreach ($db->query($sql) as $row) {
+                $noPermit = $row['Select_priv'] === 'N' ?: false;
+                $noPermit = $row['Insert_priv'] === 'N' ?: false;
+                $noPermit = $row['Update_priv'] === 'N' ?: false;
+                $noPermit = $row['Delete_priv'] === 'N' ?: false;
+                $noPermit = $row['Create_priv'] === 'N' ?: false;
+                $noPermit = $row['Drop_priv'] === 'N' ?: false;
+            }
+        }
+
+        return $noPermit;
+    }
+
+    /**
+     * mysql server version
+     * @return string
+     */
+    public static function serverVer()
+    {
+        if (self::$objInstance) {
+            $db = self::$objInstance;
+
+            foreach ($db->query('SELECT version() as ver') as $row) {
+                return $row['ver'];
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * mysql client version
+     * @return string
+     */
+    public static function clientVer()
+    {
         if (function_exists('mysqli_get_client_version')) {
             $version = @mysqli_get_client_version();
             return (intval($version / 10000)) . '.' . ($version / 100 - intval($version / 10000) * 100);
@@ -82,5 +144,4 @@ class Db
 
         return '';
     }
-
 }

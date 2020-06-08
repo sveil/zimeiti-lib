@@ -15,6 +15,8 @@ namespace sveil\lib\service;
 use sveil\App;
 use sveil\Exception;
 use sveil\exception\PDOException;
+use sveil\lib\common\Data;
+use sveil\lib\Db;
 use sveil\lib\Service;
 
 /**
@@ -151,42 +153,50 @@ class Install extends Service
                 return ['error' => '创始人账号不能使用administrator或admin。'];
             }
 
-            // $dbConfigOld = require env('config_path') . 'database.php';
-            // $dbConfig    = [
-            //     'hostname' => $post['dbhost'],
-            //     'hostport' => $post['dbport'],
-            //     'username' => $post['dbuser'],
-            //     'password' => $post['dbpwd'],
-            //     'charset'  => $dbConfigOld['charset'],
-            // ];
+            $configDb  = env('CONFIG_PATH') . 'database.php';
+            $configOld = require $configDb;
+            $dbConfig  = [
+                'hostname' => $post['dbhost'],
+                'hostport' => $post['dbport'],
+                'username' => $post['dbuser'],
+                'password' => $post['dbpwd'],
+                'charset'  => $configOld['charset'],
+                'database' => 'mysql',
+            ];
 
-            // try {
-            //     $dbConfig['database'] = 'mysql';
-            //     $db                   = DB::connect($dbConfig);
-            //     $db->query("SELECT * FROM user");
-            // } catch (\Exception $e) {
-            //     $this->error("无法连接数据库，请查看数据库账号密码是否正确？");
-            // }
+            if (!Db::connect($dbConfig)) {
+                return ['error' => '无法连接数据库，请查看数据库账号密码是否正确？'];
+            }
 
-            // try {
-            //     $dbConfig['database'] = $post['dbname'];
-            //     $db                   = DB::connect($dbConfig);
-            //     $db->query("CREATE TABLE `test`  ( `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, PRIMARY KEY (`id`) );");
-            //     $db->query("DROP TABLE IF EXISTS `test`;");
-            // } catch (\Exception $e) {
-            //     $dbConfig['database'] = 'mysql';
-            //     $db                   = DB::connect($dbConfig);
-            //     $db->query("create database " . $post['dbname']);
-            // }
+            if (Db::noPermit()) {
+                return ['error' => '操作数据库权限不够，请查看是否有数据库增删改查的权限？'];
+            }
 
-            // try {
-            //     $appConfigOld               = require env('config_path') . 'app.php';
-            //     $appConfig['module.manage'] = $post['adminmodule'];
-            //     $configNew                  = array_merge($appConfigOld, $appConfig);
-            //     arrFiles(env('config_path') . 'app.php', $configNew);
-            // } catch (\Exception $e) {
-            //     $this->error("写入应用配置文件错误，请查看是否有文件管理权限？");
-            // }
+            if (version_compare(Db::serverVer(), '5.7.0', '<')) {
+                return ['error' => '数据库版本太低，请更换数据库！'];
+            }
+
+            $dbConfig['database'] = $post['dbname'];
+
+            if (!Db::connect($dbConfig)) {
+                $dbConfig['database'] = 'mysql';
+                $db                   = Db::connect($dbConfig);
+                $db->query("create database " . $post['dbname']);
+            }
+
+            $configMo = env('CONFIG_PATH') . 'module.php';
+
+            try {
+                $moConfig = require $configMo;
+
+                foreach ($moConfig as $k => $v) {
+                    $moConfig[$k] = Data::randomCode(6, 2);
+                }
+
+                arrFiles($configMo, $moConfig);
+            } catch (\Exception $e) {
+                $this->error("写入应用配置文件错误，请查看是否有文件管理权限？");
+            }
 
             // try {
             //     $dbConfig['debug']    = false;

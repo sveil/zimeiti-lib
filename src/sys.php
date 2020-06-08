@@ -10,17 +10,17 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
+use sveil\db\exception\DataNotFoundException;
+use sveil\db\exception\ModelNotFoundException;
+use sveil\Exception;
+use sveil\exception\DbException;
+use sveil\exception\PDOException;
 use sveil\lib\Data;
 use sveil\lib\Db;
 use sveil\lib\File;
 use sveil\lib\service\Admin;
 use sveil\lib\service\Node;
 use sveil\lib\service\System;
-use sveil\db\exception\DataNotFoundException;
-use sveil\db\exception\ModelNotFoundException;
-use sveil\Exception;
-use sveil\exception\DbException;
-use sveil\exception\PDOException;
 
 if (!function_exists('isRead')) {
     /**
@@ -83,7 +83,7 @@ if (!function_exists('mysqlClientVersion')) {
      */
     function mysqlClientVersion()
     {
-        return DB::mysqlClientVersion();
+        return Db::clientVer();
     }
 }
 
