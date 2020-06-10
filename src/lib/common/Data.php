@@ -18,20 +18,17 @@ use sveil\Exception;
 use sveil\exception\PDOException;
 
 /**
- * Data processing tools
- *
  * Class Data
+ * Data processing tools
  * @author Richard <richard@sveil.com>
  * @package sveil\common
  */
 class Data
 {
-
     private static $res = [];
 
     /**
      * Data incremental storage
-     *
      * @param Query|string $dbQuery Data query object
      * @param array $data Data to be saved or updated
      * @param string $key Conditional primary key restrictions
@@ -42,7 +39,6 @@ class Data
      */
     public static function save($dbQuery, $data, $key = 'id', $where = [])
     {
-
         $db                  = is_string($dbQuery) ? Db::name($dbQuery) : $dbQuery;
         list($table, $value) = [$db->getTable(), isset($data[$key]) ? $data[$key] : null];
         $map                 = isset($where[$key]) ? [] : (is_string($value) ? [[$key, 'in', explode(',', $value)]] : [$key => $value]);
@@ -56,12 +52,10 @@ class Data
         } else {
             return Db::table($table)->strict(false)->insertGetId($data);
         }
-
     }
 
     /**
      * Update data in bulk
-     *
      * @param Query|string $dbQuery Data query object
      * @param array $data Data to be updated (Two-dimensional array)
      * @param string $key Conditional primary key restrictions
@@ -72,7 +66,6 @@ class Data
      */
     public static function batchSave($dbQuery, $data, $key = 'id', $where = [])
     {
-
         list($case, $input) = [[], []];
 
         foreach ($data as $row) {
@@ -96,7 +89,6 @@ class Data
 
     /**
      * One-dimensional data encoding to generate data tree
-     *
      * @param array $list data list
      * @param string $id parent id key
      * @param string $pid id key
@@ -126,7 +118,6 @@ class Data
 
     /**
      * One-dimensional data encoding to generate data tree
-     *
      * @param array $list data list
      * @param string $id id key
      * @param string $pid parent id key
@@ -136,7 +127,6 @@ class Data
      */
     public static function arr2table(array $list, $id = 'id', $pid = 'pid', $path = 'path', $ppath = '')
     {
-
         $tree = [];
 
         foreach (self::arr2tree($list, $id, $pid) as $attr) {
@@ -147,6 +137,7 @@ class Data
             $sub         = $attr['sub'];
             unset($attr['sub']);
             $tree[] = $attr;
+
             if (!empty($sub)) {
                 $tree = array_merge($tree, self::arr2table($sub, $id, $pid, $path, $attr[$path]));
             }
@@ -178,13 +169,11 @@ class Data
 
     /**
      * Unique digital code
-     *
      * @param integer $length
      * @return string
      */
     public static function uniqidNumberCode($length = 10)
     {
-
         $time = time() . '';
 
         if ($length < 10) {
@@ -202,7 +191,6 @@ class Data
 
     /**
      * Unique date encoding
-     *
      * @param integer $length
      * @return string
      */
@@ -223,14 +211,12 @@ class Data
 
     /**
      * Get random string encoding
-     *
      * @param integer $length Baseline length
      * @param integer $type String type (1 number, 2 letter, 3 number and letter)
      * @return string
      */
     public static function randomCode($length = 10, $type = 1)
     {
-
         $numbs = '0123456789';
         $chars = 'abcdefghijklmnopqrstuvwxyz';
 
@@ -258,15 +244,34 @@ class Data
     }
 
     /**
+     * Unique random string array
+     * @param $arr
+     * @param $length
+     * @return array
+     */
+    public static function uniqidRandom($arr, $length = 10)
+    {
+        if (sizeof($arr) <= 26) {
+            $chars = 'abcdefghijklmnopqrstuvwxyz';
+            $i     = 0;
+
+            foreach ($arr as $k => $v) {
+                $arr[$k] = $chars[$i] . Data::randomCode($length - 1, 2);
+                $i++;
+            }
+        }
+
+        return $arr;
+    }
+
+    /**
      * File size display conversion
-     *
      * @param integer $size File size
      * @param integer $deci Decimal places
      * @return string
      */
     public static function toFileSize($size, $deci = 2)
     {
-
         list($pos, $map) = [0, ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB']];
 
         while ($size >= 1024 && $pos < 6) {
@@ -280,13 +285,11 @@ class Data
 
     /**
      * Generate values ​​that expand the tree distribution based on ID values
-     *
      * @param int $id node id
      * @return array
      */
     public static function id2spread($id = 0)
     {
-
         foreach (self::$res as $v) {
             if ($v['id'] === $id) {
                 if ($v['pid']) {
@@ -303,14 +306,12 @@ class Data
 
     /**
      * Generate tree texture based on ID value
-     *
      * @param array $list data list
      * @param int $id node id
      * @return array
      */
     public static function id2arr($list, $id = 0)
     {
-
         $id               = $id + 0;
         list($tree, $map) = [[], []];
         self::$res        = $list;
@@ -328,5 +329,4 @@ class Data
 
         return $tree;
     }
-
 }

@@ -189,13 +189,13 @@ class Install extends Service
             try {
                 $moConfig = require $configMo;
 
-                foreach ($moConfig as $k => $v) {
-                    $moConfig[$k] = Data::randomCode(6, 2);
+                if (sizeof($moConfig) <= 26) {
+                    $moConfig = Data::uniqidRandom($moConfig, 4);
                 }
 
                 arrFiles($configMo, $moConfig);
             } catch (\Exception $e) {
-                $this->error("写入应用配置文件错误，请查看是否有文件管理权限？");
+                return ['error' => '写入应用配置文件错误，请查看是否有文件管理权限？'];
             }
 
             // try {
@@ -209,7 +209,7 @@ class Install extends Service
             // }
 
             // try {
-            //     $sql = readFiles(env('DOC_PATH') . '/install.sql');
+            //     $sql = readFiles(env('DOCS_PATH') . '/install.sql');
             //     $sql = str_replace('sve_', $post['dbprefix'], $sql);
             //     // $sql = str_replace('admin', $appConfig['module.manage'], $sql);
             //     $sql                  = str_replace("\r\n", "\n", $sql);
@@ -233,7 +233,7 @@ class Install extends Service
             //     $this->error($e->getMessage());
             // }
 
-            // touch(env('DOC_PATH') . 'install.lock');
+            // touch(env('DOCS_PATH') . 'install.lock');
             return [
                 'success' => '安装成功!请确认您的安装信息。',
                 'url'     => url('@install') . '#' . url('install/index/info'),
