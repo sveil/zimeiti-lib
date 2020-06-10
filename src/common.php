@@ -326,17 +326,17 @@ if (!function_exists('arrStr')) {
     }
 }
 
-if (!function_exists('jumpLogin')) {
+if (!function_exists('goBack')) {
     /**
-     * Jump login window
+     * Jump history back
      * @return string
      */
-    function jumpLogin()
+    function goBack()
     {
         return json([
             'code' => 0,
             'info' => '对不起，已经无法再安装视微系统了。',
-            'url'  => url('@manage/login'),
+            'url'  => 'javascript:history.back(-1);',
         ]);
     }
 }
