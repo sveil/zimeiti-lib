@@ -198,27 +198,36 @@ class Install extends Service
                 return ['error' => '写入应用配置文件错误，请查看是否有文件管理权限？'];
             }
 
-            // try {
-            //     $dbConfig['debug']    = false;
-            //     $dbConfig['database'] = $post['dbname'];
-            //     $dbConfig['prefix']   = $post['dbprefix'];
-            //     $configNew            = array_merge($dbConfigOld, $dbConfig);
-            //     arrFiles(env('config_path') . 'database.php', $configNew);
-            // } catch (\Exception $e) {
-            //     $this->error("写入数据库配置文件错误，请查看是否有文件管理权限？");
-            // }
+            try {
+                $dbConfig['debug']    = false;
+                $dbConfig['database'] = $post['dbname'];
+                $dbConfig['prefix']   = $post['dbprefix'];
+                $configNew            = array_merge($configOld, $dbConfig);
+                arrFiles($configDb, $configNew);
+            } catch (\Exception $e) {
+                return ['error' => '写入应用配置文件错误，请查看是否有文件管理权限？'];
+            }
 
-            // try {
-            //     $sql = readFiles(env('DOCS_PATH') . '/install.sql');
-            //     $sql = str_replace('sve_', $post['dbprefix'], $sql);
-            //     // $sql = str_replace('admin', $appConfig['module.manage'], $sql);
-            //     $sql                  = str_replace("\r\n", "\n", $sql);
-            //     $dbConfig['database'] = $post['dbname'];
-            //     $db                   = DB::connect($dbConfig);
-            //     $db->query($sql);
-            // } catch (\Exception $e) {
-            //     $this->error("无法导入数据库，请检查数据库安装是否正确？");
-            // }
+            $configApp = env('CONFIG_PATH') . 'app.php';
+
+            try {
+                $appConfig              = require $configApp;
+                $appConfig['app_debug'] = false;
+                arrFiles($configApp, $appConfig);
+            } catch (\Exception $e) {
+                return ['error' => '写入应用配置文件错误，请查看是否有文件管理权限？'];
+            }
+
+            try {
+                $sql = readFiles(env('DOCS_PATH') . '/install.sql');
+                $sql = str_replace('sve_', $post['dbprefix'], $sql);
+                // $sql = str_replace('admin', $appConfig['module.manage'], $sql);
+                $sql = str_replace("\r\n", "\n", $sql);
+                $db  = Db::connect($dbConfig);
+                $db->query($sql);
+            } catch (\Exception $e) {
+                $this->error("无法导入数据库，请检查数据库安装是否正确？");
+            }
 
             // $dbConfig['database'] = $post['dbname'];
             // $dbh                  = DB::connect($dbConfig, [\PDO::ATTR_PERSISTENT => true]);
