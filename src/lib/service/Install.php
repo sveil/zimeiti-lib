@@ -193,7 +193,7 @@ class Install extends Service
                     $moConfig = Data::uniqidRandom($moConfig, 4);
                 }
 
-                arrFiles($configMo, $moConfig);
+                // arrFiles($configMo, $moConfig);
             } catch (\Exception $e) {
                 return ['error' => '写入应用配置文件错误，请查看是否有文件管理权限？'];
             }
@@ -203,7 +203,7 @@ class Install extends Service
                 $dbConfig['database'] = $post['dbname'];
                 $dbConfig['prefix']   = $post['dbprefix'];
                 $configNew            = array_merge($configOld, $dbConfig);
-                arrFiles($configDb, $configNew);
+                // arrFiles($configDb, $configNew);
             } catch (\Exception $e) {
                 return ['error' => '写入应用配置文件错误，请查看是否有文件管理权限？'];
             }
@@ -213,20 +213,27 @@ class Install extends Service
             try {
                 $appConfig              = require $configApp;
                 $appConfig['app_debug'] = false;
-                arrFiles($configApp, $appConfig);
+                // arrFiles($configApp, $appConfig);
             } catch (\Exception $e) {
                 return ['error' => '写入应用配置文件错误，请查看是否有文件管理权限？'];
             }
 
             try {
-                $sql = readFiles(env('DOCS_PATH') . '/install.sql');
-                $sql = str_replace('sve_', $post['dbprefix'], $sql);
-                // $sql = str_replace('admin', $appConfig['module.manage'], $sql);
-                $sql = str_replace("\r\n", "\n", $sql);
-                $db  = Db::connect($dbConfig);
+                $sql    = readFiles(env('DOCS_PATH') . '/install.sql');
+                $sql    = str_replace('sve_', $post['dbprefix'], $sql);
+                $server = $post['dbhost'] === 'localhost' || $post['dbhost'] === '127.0.0.1' ? 'localhost' : '%';
+                $sql    = str_replace('`root`@`localhost`', '`' . $post['dbuser'] . '`@`' . $server . '`', $sql);
+                $sql    = str_replace("\r\n", "\n", $sql);
+                $db     = Db::connect($dbConfig);
+                $db->query($sql);
+
+                foreach ($db->query('SELECT create_sqlStr() as sqlStr') as $row) {
+                    $sql = $row['sqlStr'];
+                }
+
                 $db->query($sql);
             } catch (\Exception $e) {
-                $this->error("无法导入数据库，请检查数据库安装是否正确？");
+                return ['error' => '无法导入数据库，请检查数据库安装是否正确？'];
             }
 
             // $dbConfig['database'] = $post['dbname'];
