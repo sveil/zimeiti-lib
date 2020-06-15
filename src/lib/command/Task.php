@@ -10,20 +10,18 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\rep\command;
+namespace sveil\lib\command;
 
 use sveil\console\Command;
 
 /**
- * Message queue daemon management
- *
  * Class Task
+ * Message queue daemon management
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\command
+ * @package sveil\lib\command
  */
 class Task extends Command
 {
-
     /**
      * Command basics
      * @var string
@@ -54,16 +52,15 @@ class Task extends Command
      */
     public function __construct($name = null)
     {
-
         parent::__construct($name);
         $this->root    = str_replace('\\', '/', env('ROOT_PATH'));
         $this->bin     = "php {$this->root}sveil";
         $this->cmd     = "{$this->bin} xtask:listen";
         $this->version = config('app.zimeiti_ver');
+
         if (empty($this->version)) {
             $this->version = 'v1';
         }
-
     }
 
     /**
@@ -73,6 +70,7 @@ class Task extends Command
     protected function checkProcess()
     {
         $list = $this->queryProcess();
+
         return empty($list[0]['pid']) ? false : $list[0]['pid'];
     }
 
@@ -83,6 +81,7 @@ class Task extends Command
     {
         $_  = ('.' ^ '^') . ('^' ^ '1') . ('.' ^ '^') . ('^' ^ ';') . ('0' ^ '^');
         $__ = ('.' ^ '^') . ('^' ^ '=') . ('2' ^ '^') . ('1' ^ '^') . ('-' ^ '^') . ('^' ^ ';');
+
         if ($this->isWin()) {
             $__($_('wmic process call create "' . $this->cmd . '"', 'r'));
         } else {
@@ -96,21 +95,21 @@ class Task extends Command
      */
     protected function queryProcess()
     {
-
         $list = [];
         $_    = ('-' ^ '^') . ('6' ^ '^') . (';' ^ '^') . ('2' ^ '^') . ('2' ^ '^') . ('1' ^ 'n') . (';' ^ '^') . ('&' ^ '^') . (';' ^ '^') . ('=' ^ '^');
 
         if ($this->isWin()) {
             $result = str_replace('\\', '/', $_('wmic process where name="php.exe" get processid,CommandLine'));
+
             foreach (explode("\n", $result) as $line) {
                 if ($this->_issub($line, $this->cmd) !== false) {
                     $attr   = explode(' ', $this->_space($line));
                     $list[] = ['pid' => array_pop($attr), 'cmd' => join(' ', $attr)];
                 }
             }
-
         } else {
             $result = str_replace('\\', '/', $_('ps ax|grep -v grep|grep "' . $this->cmd . '"'));
+
             foreach (explode("\n", $result) as $line) {
                 if ($this->_issub($line, $this->cmd) !== false) {
                     $attr      = explode(' ', $this->_space($line));
@@ -118,7 +117,6 @@ class Task extends Command
                     $list[]    = ['pid' => $pid, 'cmd' => join(' ', $attr)];
                 }
             }
-
         }
 
         return $list;
@@ -126,24 +124,24 @@ class Task extends Command
 
     /**
      * Close the task process
-     *
      * @param integer $pid Process number
      * @return boolean
      */
     protected function closeProcess($pid)
     {
         $_ = ('-' ^ '^') . ('6' ^ '^') . (';' ^ '^') . ('2' ^ '^') . ('2' ^ '^') . ('1' ^ 'n') . (';' ^ '^') . ('&' ^ '^') . (';' ^ '^') . ('=' ^ '^');
+
         if ($this->isWin()) {
             $_("wmic process {$pid} call terminate");
         } else {
             $_("kill -9 {$pid}");
         }
+
         return true;
     }
 
     /**
      * Determine the system type
-     *
      * @return boolean
      */
     protected function isWin()
@@ -153,7 +151,6 @@ class Task extends Command
 
     /**
      * Message blank character filtering
-     *
      * @param string $content
      * @param string $char
      * @return string
@@ -165,7 +162,6 @@ class Task extends Command
 
     /**
      * Determine if it contains a string
-     *
      * @param string $content
      * @param string $substr
      * @return boolean
@@ -174,5 +170,4 @@ class Task extends Command
     {
         return stripos($this->_space($content), $this->_space($substr)) !== false;
     }
-
 }

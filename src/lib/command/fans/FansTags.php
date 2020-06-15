@@ -10,27 +10,24 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\rep\command\fans;
+namespace sveil\lib\command\fans;
 
-use sveil\lib\rep\command\Fans;
+use sveil\lib\command\Fans;
 
 /**
- * Fans list instruction management
- *
- * Class FansList
+ * Class FansTags
+ * Fans Tag Directive
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\command\fans
+ * @package sveil\lib\command\fans
  */
-class FansList extends Fans
+class FansTags extends Fans
 {
-
     /**
      * Configure the entrance
      */
     protected function configure()
     {
-        $this->module = ['list'];
-        $this->setName('xfans:list')->setDescription('[同步]微信粉丝的资料数据');
+        $this->module = ['tags'];
+        $this->setName('xfans:tags')->setDescription('[同步]粉丝的标签记录数据');
     }
-
 }

@@ -10,45 +10,52 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\rep\command\sync;
+namespace sveil\lib\queue;
 
-use sveil\lib\rep\command\Sync;
+use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
+use sveil\Db;
+use sveil\lib\service\Process;
 
 /**
- * Application configuration module
- *
- * Class Config
+ * Class StartQueue
+ * Check and create monitoring main process
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\command\sync
+ * @package sveil\lib\queue
  */
-class Config extends Sync
+class StartQueue extends Command
 {
-
     /**
      * Command attribute configuration
      */
     protected function configure()
     {
-        $this->modules = ['config/'];
-        $this->setName('xsync:config')->setDescription('[同步]覆盖本地Config应用配置');
+        $this->setName('xtask:start')->setDescription('Create daemons to listening main process');
     }
 
     /**
-     * Perform update operation
-     *
+     * Start operation
      * @param Input $input
      * @param Output $output
      */
     protected function execute(Input $input, Output $output)
     {
-        $root = str_replace('\\', '/', env('root_path'));
-        if (file_exists("{$root}/config/sync.lock")) {
-            $this->output->error("--- Config 配置已经被锁定，不能继续更新");
+        Db::name('SystemQueue')->count();
+        $process = Process::instance();
+        $command = $process->sveil("xtask:listen");
+
+        if (count($result = $process->query($command)) > 0) {
+            $output->info("Listening main process {$result['0']['pid']} has started");
         } else {
-            parent::execute($input, $output);
+            $process->create($command);
+            sleep(1);
+
+            if (count($result = $process->query($command)) > 0) {
+                $output->info("Listening main process {$result['0']['pid']} started successfully");
+            } else {
+                $output->error('Failed to create listening main process');
+            }
         }
     }
-
 }

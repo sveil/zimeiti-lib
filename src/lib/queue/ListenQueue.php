@@ -10,7 +10,7 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\rep\command\queue;
+namespace sveil\lib\queue;
 
 use sveil\console\Command;
 use sveil\console\Input;
@@ -24,15 +24,13 @@ use sveil\exception\PDOException;
 use sveil\lib\service\Process;
 
 /**
- * Start the main process of the listening task
- *
  * Class ListenQueue
+ * Start the main process of the listening task
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\command\queue
+ * @package sveil\lib\queue
  */
 class ListenQueue extends Command
 {
-
     /**
      * Current task service
      * @var ProcessService
@@ -49,7 +47,6 @@ class ListenQueue extends Command
 
     /**
      * Execution process daemon monitoring
-     *
      * @param Input $input
      * @param Output $output
      * @throws Exception
@@ -60,7 +57,6 @@ class ListenQueue extends Command
      */
     protected function execute(Input $input, Output $output)
     {
-
         set_time_limit(0);
         Db::name('SystemQueue')->count();
 
@@ -72,9 +68,11 @@ class ListenQueue extends Command
 
         while (true) {
             $map = [['status', 'eq', '1'], ['time', '<=', time()]];
+
             foreach (Db::name('SystemQueue')->where($map)->order('time asc')->select() as $vo) {
                 try {
                     $command = $process->sveil("xtask:_work {$vo['id']} -");
+
                     if (count($process->query($command)) > 0) {
                         $this->output->writeln("Already in progress -> [{$vo['id']}] {$vo['title']}");
                     } else {
@@ -88,7 +86,5 @@ class ListenQueue extends Command
             }
             sleep(1);
         }
-
     }
-
 }

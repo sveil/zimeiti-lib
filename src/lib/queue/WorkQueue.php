@@ -10,9 +10,8 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\rep\command\queue;
+namespace sveil\lib\queue;
 
-use sveil\lib\service\Process;
 use sveil\Console;
 use sveil\console\Command;
 use sveil\console\Input;
@@ -21,17 +20,16 @@ use sveil\console\Output;
 use sveil\Db;
 use sveil\Exception;
 use sveil\exception\PDOException;
+use sveil\lib\service\Process;
 
 /**
- * Start an independent execution process
- *
  * Class WorkQueue
+ * Start an independent execution process
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\command\queue
+ * @package sveil\lib\queue
  */
 class WorkQueue extends Command
 {
-
     /**
      * Current task ID
      * @var integer
@@ -49,11 +47,9 @@ class WorkQueue extends Command
      */
     protected function configure()
     {
-
         $this->setName('xtask:_work')->setDescription('Create a process to execute a task');
         $this->addArgument('id', Argument::OPTIONAL, 'TaskNumber');
         $this->addArgument('sp', Argument::OPTIONAL, 'Separator');
-
     }
 
     /**
@@ -66,7 +62,6 @@ class WorkQueue extends Command
      */
     protected function execute(Input $input, Output $output)
     {
-
         $this->id = trim($input->getArgument('id'));
 
         if (empty($this->id)) {
@@ -74,12 +69,14 @@ class WorkQueue extends Command
         } else {
             try {
                 $queue = Db::name('SystemQueue')->where(['id' => $this->id, 'status' => '1'])->find();
+
                 if (empty($queue)) {
                     // No processing is done here (the task may already be executed elsewhere)
                     $this->output->warning("The or status of task {$this->id} is abnormal");
                 } else {
                     // Lock task status
                     Db::name('SystemQueue')->where(['id' => $queue['id']])->update(['status' => '2', 'start_at' => date('Y-m-d H:i:s')]);
+
                     // Set Process Title
                     if (($process = Process::instance())->iswin() && function_exists('cli_set_process_title')) {
                         cli_set_process_title("ThinkAdmin {$process->version()} Queue - {$queue['title']}");
@@ -89,12 +86,15 @@ class WorkQueue extends Command
                         // Custom file, support return message (support abnormal end, abnormal code can choose 3 | 4 to set task status)
                         if (method_exists($class = new $queue['preload'], 'execute')) {
                             $data = json_decode($queue['data'], true);
+
                             if (isset($class->jobid)) {
                                 $class->jobid = $this->id;
                             }
+
                             if (isset($class->title)) {
                                 $class->title = $queue['title'];
                             }
+
                             $this->update('3', $class->execute($input, $output, is_array($data) ? $data : []));
                         } else {
                             throw new Exception("Task processing class {$queue['preload']} not defined execute");
@@ -112,14 +112,11 @@ class WorkQueue extends Command
                     $this->update('4', $e->getMessage());
                 }
             }
-
         }
-
     }
 
     /**
      * Modify the current task status
-     *
      * @param mixed $status Task status
      * @param mixed $message Message content
      * @return boolean
@@ -128,7 +125,6 @@ class WorkQueue extends Command
      */
     protected function update($status, $message)
     {
-
         $desc   = explode("\n", trim(is_string($message) ? $message : ''));
         $result = Db::name('SystemQueue')->where(['id' => $this->id])->update([
             'status' => $status, 'end_at' => date('Y-m-d H:i:s'), 'desc' => $desc[0],
@@ -137,5 +133,4 @@ class WorkQueue extends Command
 
         return $result !== false;
     }
-
 }

@@ -10,9 +10,8 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\rep\command;
+namespace sveil\lib\command;
 
-use sveil\lib\common\We;
 use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
@@ -22,17 +21,16 @@ use sveil\db\exception\ModelNotFoundException;
 use sveil\Exception;
 use sveil\exception\DbException;
 use sveil\exception\PDOException;
+use sveil\lib\common\We;
 
 /**
- * Shopping mall data processing instructions
- *
  * Class AutoRun
+ * Shopping mall data processing instructions
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\command
+ * @package sveil\lib\command
  */
 class AutoRun extends Command
 {
-
     /**
      * 配置指令信息
      */
@@ -43,7 +41,6 @@ class AutoRun extends Command
 
     /**
      * Business instruction execution
-     *
      * @param Input $input
      * @param Output $output
      * @throws Exception
@@ -66,7 +63,6 @@ class AutoRun extends Command
 
     /**
      * Automatically cancel 30 minute unpaid orders
-     *
      * @throws Exception
      * @throws PDOException
      */
@@ -80,6 +76,7 @@ class AutoRun extends Command
             'cancel_at'    => date('Y-m-d H:i:s'),
             'cancel_desc'  => '30分钟未完成支付自动取消订单',
         ]);
+
         if ($count > 0) {
             $this->output->info("共计自动取消了30分钟未支付的{$count}笔订单！");
         } else {
@@ -89,7 +86,6 @@ class AutoRun extends Command
 
     /**
      * Clean up orders that were not paid a day ago
-     *
      * @throws Exception
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
@@ -101,6 +97,7 @@ class AutoRun extends Command
         $datetime = $this->getDatetime('store_order_clear_time');
         $where    = [['status', 'eq', '0'], ['pay_state', 'eq', '0'], ['create_at', '<', $datetime]];
         $list     = Db::name('StoreOrder')->where($where)->limit(20)->select();
+
         if (count($orderNos = array_unique(array_column($list, 'order_no'))) > 0) {
             $this->output->info("自动删除前一天已经取消的订单：" . PHP_EOL . join(',' . PHP_EOL, $orderNos));
             Db::name('StoreOrder')->whereIn('order_no', $orderNos)->delete();
@@ -131,6 +128,7 @@ class AutoRun extends Command
                     'refund_fee'     => $order['pay_price'] * 100,
                     'refund_account' => 'REFUND_SOURCE_UNSETTLED_FUNDS',
                 ]);
+
                 if ($result['return_code'] === 'SUCCESS' && $result['result_code'] === 'SUCCESS') {
                     Db::name('StoreOrder')->where(['order_no' => $order['order_no']])->update([
                         'refund_state' => '2', 'refund_desc' => '自动退款成功！',
@@ -151,7 +149,6 @@ class AutoRun extends Command
 
     /**
      * Corporate automatic payment operation
-     *
      * @throws Exception
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
@@ -172,6 +169,7 @@ class AutoRun extends Command
                     'desc'             => '营销活动拥金提现',
                     'spbill_create_ip' => '127.0.0.1',
                 ]);
+
                 if ($result['return_code'] === 'SUCCESS' && $result['result_code'] === 'SUCCESS') {
                     Db::name('StoreProfitUsed')->where(['trs_no' => $vo['trs_no']])->update([
                         'status' => '2', 'pay_desc' => '拥金提现成功！', 'pay_no' => $result['payment_no'], 'pay_at' => date('Y-m-d H:i:s'),
@@ -186,12 +184,10 @@ class AutoRun extends Command
                 Db::name('StoreProfitUsed')->where(['trs_no' => $vo['trs_no']])->update(['pay_desc' => $e->getMessage()]);
             }
         }
-
     }
 
     /**
      * Get configuration time
-     *
      * @param string $code
      * @return string
      * @throws Exception
@@ -200,6 +196,7 @@ class AutoRun extends Command
     private function getDatetime($code)
     {
         $minutes = intval(sysconf($code) * 60);
+
         return date('Y-m-d H:i:s', strtotime("-{$minutes} minutes"));
     }
 

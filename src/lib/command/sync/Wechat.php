@@ -10,47 +10,42 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\rep\command;
+namespace sveil\lib\command\sync;
 
-use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
+use sveil\lib\command\Sync;
 
 /**
- * Clean up session files
- *
- * Class Sess
+ * Class Wechat
+ * WeChat module
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\command
+ * @package sveil\lib\command\sync
  */
-class Sess extends Command
+class Wechat extends Sync
 {
-
     /**
      * Command attribute configuration
      */
     protected function configure()
     {
-        $this->setName('xclean:session')->setDescription('Clean up invalid session files');
+        $this->modules = ['apps/wechat/'];
+        $this->setName('xsync:wechat')->setDescription('[同步]覆盖本地Wechat模块代码');
     }
 
     /**
-     * Perform a cleanup operation
-     *
+     * Perform update operation
      * @param Input $input
      * @param Output $output
      */
     protected function execute(Input $input, Output $output)
     {
-        $output->comment('Start cleaning up invalid session files');
-        foreach (glob(config('session.path') . 'sess_*') as $file) {
-            list($fileatime, $filesize) = [fileatime($file), filesize($file)];
-            if ($filesize < 1 || $fileatime < time() - 3600) {
-                $output->info('Remove session file -> [ ' . date('Y-m-d H:i:s', $fileatime) . ' ] ' . basename($file) . " {$filesize}");
-                @unlink($file);
-            }
-        }
-        $output->comment('Cleaning up invalid session files complete');
-    }
+        $root = str_replace('\\', '/', env('root_path'));
 
+        if (file_exists("{$root}/apps/wechat/sync.lock")) {
+            $this->output->error("--- Wechat 模块已经被锁定，不能继续更新");
+        } else {
+            parent::execute($input, $output);
+        }
+    }
 }

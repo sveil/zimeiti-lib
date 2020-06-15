@@ -266,18 +266,20 @@ if (class_exists('sveil\Console')) {
         // Register to clean up invalid sessions
         'sveil\lib\command\Sess',
         // Register System Task Instructions
-        'sveil\lib\queue\WorkQueue',
-        'sveil\lib\queue\StopQueue',
-        'sveil\lib\queue\StateQueue',
-        'sveil\lib\queue\StartQueue',
-        'sveil\lib\queue\QueryQueue',
+        'sveil\lib\queue\FansQueue',
         'sveil\lib\queue\ListenQueue',
+        'sveil\lib\queue\QueryQueue',
+        'sveil\lib\queue\StartQueue',
+        'sveil\lib\queue\StateQueue',
+        'sveil\lib\queue\StopQueue',
+        'sveil\lib\queue\WorkQueue',
         // Register System Update Instructions
-        'sveil\lib\command\sync\Admin',
-        'sveil\lib\command\sync\Plugs',
         'sveil\lib\command\sync\Config',
-        'sveil\lib\command\sync\Wechat',
+        'sveil\lib\command\sync\Docs',
+        'sveil\lib\command\sync\Manage',
+        'sveil\lib\command\sync\Plugs',
         'sveil\lib\command\sync\Service',
+        'sveil\lib\command\sync\Wechat',
     ]);
 }
 

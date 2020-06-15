@@ -10,28 +10,26 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\rep\command\queue;
+namespace sveil\lib\queue;
 
-use sveil\lib\exception\InvalidResponseException;
-use sveil\lib\exception\LocalCacheException;
-use sveil\lib\service\Fans;
-use sveil\lib\service\Wechat;
 use sveil\console\Input;
 use sveil\console\Output;
 use sveil\Db;
 use sveil\Exception;
 use sveil\exception\PDOException;
+use sveil\lib\exception\InvalidResponseException;
+use sveil\lib\exception\LocalCacheException;
+use sveil\lib\service\Fans;
+use sveil\lib\service\Wechat;
 
 /**
- * WeChat fans management
- *
  * Class FansQueue
+ * WeChat fans management
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\command\queue
+ * @package sveil\lib\queue
  */
 class FansQueue extends Command
 {
-
     /**
      * Current class name
      * @var string
@@ -46,7 +44,6 @@ class FansQueue extends Command
 
     /**
      * Perform tasks
-     *
      * @param Input $input
      * @param Output $output
      * @param array $data
@@ -59,11 +56,12 @@ class FansQueue extends Command
     {
         $appid  = Wechat::getAppid();
         $wechat = Wechat::WeChatUser();
-
         // Get remote fans
         list($next, $done) = ['', 0];
+
         while (!is_null($next) && is_array($result = $wechat->getUserList($next)) && !empty($result['data']['openid'])) {
             $done += $result['count'];
+
             foreach (array_chunk($result['data']['openid'], 100) as $chunk) {
                 if (is_array($list = $wechat->getBatchUserInfo($chunk)) && !empty($list['user_info_list'])) {
                     foreach ($list['user_info_list'] as $user) {
@@ -71,16 +69,20 @@ class FansQueue extends Command
                     }
                 }
             }
+
             $next = $result['total'] > $done ? $result['next_openid'] : null;
         }
 
         // Sync fans blacklist
         list($next, $done) = ['', 0];
+
         while (!is_null($next) && is_array($result = $wechat->getBlackList($next)) && !empty($result['data']['openid'])) {
             $done += $result['count'];
+
             foreach (array_chunk($result['data']['openid'], 100) as $chunk) {
                 Db::name('WechatFans')->where(['is_black' => '0'])->whereIn('openid', $chunk)->update(['is_black' => '1']);
             }
+
             $next = $result['total'] > $done ? $result['next_openid'] : null;
         }
 
@@ -89,9 +91,9 @@ class FansQueue extends Command
             foreach ($list['tags'] as &$tag) {
                 $tag['appid'] = $appid;
             }
+
             Db::name('WechatFansTags')->where('1=1')->delete();
             Db::name('WechatFansTags')->insertAll($list['tags']);
         }
     }
-
 }

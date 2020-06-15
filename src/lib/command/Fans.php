@@ -10,29 +10,27 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\rep\command;
+namespace sveil\lib\command;
 
-use sveil\lib\exception\InvalidResponseException;
-use sveil\lib\exception\LocalCacheException;
-use sveil\lib\service\Fans as FansService;
-use sveil\lib\service\Wechat;
 use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
 use sveil\Db;
 use sveil\Exception;
 use sveil\exception\PDOException;
+use sveil\lib\exception\InvalidResponseException;
+use sveil\lib\exception\LocalCacheException;
+use sveil\lib\service\Fans as FansService;
+use sveil\lib\service\Wechat;
 
 /**
- * WeChat fans management
- *
  * Class Fans
+ * WeChat fans management
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\command
+ * @package sveil\lib\command
  */
 class Fans extends Command
 {
-
     /**
      * Modules to be processed
      * @var array
@@ -41,25 +39,21 @@ class Fans extends Command
 
     /**
      * Execute instruction
-     *
      * @param Input $input
      * @param Output $output
      * @return int|void|null
      */
     protected function execute(Input $input, Output $output)
     {
-
         foreach ($this->module as $m) {
             if (method_exists($this, $fun = "_{$m}")) {
                 $this->$fun();
             }
         }
-
     }
 
     /**
      * Sync WeChat fan list
-     *
      * @param string $next
      * @param integer $done
      * @throws InvalidResponseException
@@ -83,6 +77,7 @@ class Fans extends Command
                     }
                 }
             }
+
             $next = $result['total'] > $done ? $result['next_openid'] : null;
         }
 
@@ -92,7 +87,6 @@ class Fans extends Command
 
     /**
      * Sync fans blacklist
-     *
      * @param string $next
      * @param integer $done
      * @throws InvalidResponseException
@@ -107,9 +101,11 @@ class Fans extends Command
 
         while (!is_null($next) && is_array($result = $wechat->getBlackList($next)) && !empty($result['data']['openid'])) {
             $done += $result['count'];
+
             foreach (array_chunk($result['data']['openid'], 100) as $chunk) {
                 Db::name('WechatFans')->where(['is_black' => '0'])->whereIn('openid', $chunk)->update(['is_black' => '1']);
             }
+
             $this->output->writeln("--> 共计同步微信黑名单{$result['total']}人");
             $next = $result['total'] > $done ? $result['next_openid'] : null;
         }
@@ -120,7 +116,6 @@ class Fans extends Command
 
     /**
      * Sync fans tag list
-     *
      * @param integer $index
      * @throws InvalidResponseException
      * @throws LocalCacheException
@@ -129,18 +124,19 @@ class Fans extends Command
      */
     public function _tags($index = 0)
     {
-
         $appid  = Wechat::getAppid();
         $wechat = Wechat::WeChatTags();
         $this->output->comment('同步微信粉丝标签数据...');
 
         if (is_array($list = $wechat->getTags()) && !empty($list['tags'])) {
             $count = count($list['tags']);
+
             foreach ($list['tags'] as &$tag) {
                 $tag['appid'] = $appid;
                 $indexString  = str_pad(++$index, strlen($count), '0', STR_PAD_LEFT);
                 $this->output->writeln("({$indexString}/{$count}) 更新粉丝标签 {$tag['name']}");
             }
+
             Db::name('WechatFansTags')->where(['appid' => $appid])->delete();
             Db::name('WechatFansTags')->insertAll($list['tags']);
         }
@@ -148,5 +144,4 @@ class Fans extends Command
         $this->output->comment('微信粉丝标签数据同步完成');
         $this->output->newLine();
     }
-
 }

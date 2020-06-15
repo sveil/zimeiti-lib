@@ -10,48 +10,46 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\rep\command\sync;
+namespace sveil\lib\command;
 
-use sveil\lib\rep\command\Sync;
+use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
 
 /**
- * Plug-in module
- *
- * Class Plugs
+ * Class Sess
+ * Clean up session files
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\command\sync
+ * @package sveil\lib\command
  */
-class Plugs extends Sync
+class Sess extends Command
 {
-
     /**
      * Command attribute configuration
      */
     protected function configure()
     {
-        $this->modules = ['public/static/'];
-        $this->setName('xsync:plugs')->setDescription('[同步]覆盖本地Plugs插件代码');
+        $this->setName('xclean:session')->setDescription('Clean up invalid session files');
     }
 
     /**
-     * Perform update operation
-     *
+     * Perform a cleanup operation
      * @param Input $input
      * @param Output $output
      */
     protected function execute(Input $input, Output $output)
     {
+        $output->comment('Start cleaning up invalid session files');
 
-        $root = str_replace('\\', '/', env('root_path'));
+        foreach (glob(config('session.path') . 'sess_*') as $file) {
+            list($fileatime, $filesize) = [fileatime($file), filesize($file)];
 
-        if (file_exists("{$root}/public/static/sync.lock")) {
-            $this->output->error("--- Plugs 资源已经被锁定，不能继续更新");
-        } else {
-            parent::execute($input, $output);
+            if ($filesize < 1 || $fileatime < time() - 3600) {
+                $output->info('Remove session file -> [ ' . date('Y-m-d H:i:s', $fileatime) . ' ] ' . basename($file) . " {$filesize}");
+                @unlink($file);
+            }
         }
 
+        $output->comment('Cleaning up invalid session files complete');
     }
-
 }

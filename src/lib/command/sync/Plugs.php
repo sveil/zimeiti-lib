@@ -10,48 +10,42 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\rep\command\queue;
+namespace sveil\lib\command\sync;
 
-use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
-use sveil\lib\service\Process;
+use sveil\lib\command\Sync;
 
 /**
- * Query the PID of the process being executed
- *
- * Class QueryQueue
+ * Class Plugs
+ * Plug-in module
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\command\queue
+ * @package sveil\lib\command\sync
  */
-class QueryQueue extends Command
+class Plugs extends Sync
 {
-
     /**
      * Command attribute configuration
      */
     protected function configure()
     {
-        $this->setName('xtask:query')->setDescription('Query all running task processes');
+        $this->modules = ['public/static/'];
+        $this->setName('xsync:plugs')->setDescription('[同步]覆盖本地Plugs插件代码');
     }
 
     /**
-     * Perform related process queries
-     *
+     * Perform update operation
      * @param Input $input
      * @param Output $output
      */
     protected function execute(Input $input, Output $output)
     {
-        $process = Process::instance();
-        $result  = $process->query($process->sveil("xtask:"));
-        if (count($result) > 0) {
-            foreach ($result as $item) {
-                $output->writeln("{$item['pid']}\t{$item['cmd']}");
-            }
+        $root = str_replace('\\', '/', env('root_path'));
+
+        if (file_exists("{$root}/public/static/sync.lock")) {
+            $this->output->error("--- Plugs 资源已经被锁定，不能继续更新");
         } else {
-            $output->writeln('No related task process found');
+            parent::execute($input, $output);
         }
     }
-
 }
