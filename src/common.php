@@ -280,6 +280,13 @@ if (class_exists('sveil\Console')) {
         'sveil\lib\command\xsync\Plugs',
         'sveil\lib\command\xsync\Service',
         'sveil\lib\command\xsync\Wechat',
+        // Register System Queue Task
+        'sveil\lib\command\queue\Listen',
+        'sveil\lib\command\queue\Query',
+        'sveil\lib\command\queue\Start',
+        'sveil\lib\command\queue\State',
+        'sveil\lib\command\queue\Stop',
+        'sveil\lib\command\queue\Work',
     ]);
 }
 
