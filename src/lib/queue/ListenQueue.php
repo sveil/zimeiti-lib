@@ -84,6 +84,7 @@ class ListenQueue extends Command
                     $output->error("Execution failed -> [{$vo['id']}] {$vo['title']}，{$e->getMessage()}");
                 }
             }
+
             sleep(1);
         }
     }

@@ -14,7 +14,7 @@ namespace sveil\lib\command\sync;
 
 use sveil\console\Input;
 use sveil\console\Output;
-use sveil\lib\rep\command\Sync;
+use sveil\lib\command\Sync;
 
 /**
  * Class Docs

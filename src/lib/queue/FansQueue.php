@@ -12,6 +12,7 @@
 
 namespace sveil\lib\queue;
 
+use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
 use sveil\Db;
@@ -31,16 +32,18 @@ use sveil\lib\service\Wechat;
 class FansQueue extends Command
 {
     /**
-     * Current class name
-     * @var string
-     */
-    const URI = self::class;
-
-    /**
      * APPID of current operation
      * @var string
      */
     protected $appid;
+
+    /**
+     * Configuration specific information
+     */
+    protected function configure()
+    {
+        $this->setName('xtask:fans')->setDescription('Start task fans queue process');
+    }
 
     /**
      * Perform tasks
