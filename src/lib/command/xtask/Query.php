@@ -10,52 +10,45 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\queue;
+namespace sveil\lib\command\xtask;
 
 use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
-use sveil\Db;
 use sveil\lib\service\Process;
 
 /**
- * Class StartQueue
- * Check and create monitoring main process
+ * Class Query
+ * Query the PID of the process being executed
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\queue
+ * @package sveil\lib\command\xtask
  */
-class StartQueue extends Command
+class Query extends Command
 {
     /**
      * Command attribute configuration
      */
     protected function configure()
     {
-        $this->setName('xtask:start')->setDescription('Create daemons to listening main process');
+        $this->setName('xtask:query')->setDescription('Query all running task processes');
     }
 
     /**
-     * Start operation
+     * Perform related process queries
      * @param Input $input
      * @param Output $output
      */
     protected function execute(Input $input, Output $output)
     {
-        Db::name('SystemQueue')->count();
         $process = Process::instance();
-        $command = $process->sveil("xtask:listen");
+        $result  = $process->query($process->sveil("xtask:"));
 
-        if (count($result = $process->query($command)) > 0) {
-            $output->info("Listening main process {$result['0']['pid']} has started");
-        } else {
-            $process->create($command);
-            sleep(1);
-
-            if (count($result = $process->query($command)) > 0) {
-                $output->info("Listening main process {$result['0']['pid']} started successfully");
-            } else {
-                $output->error('Failed to create listening main process');
+        if (count($result) > 0) {
+            foreach ($result as $item) {
+                $output->writeln("{$item['pid']}\t{$item['cmd']}");
             }
+        } else {
+            $output->writeln('No related task process found');
         }
     }
 }

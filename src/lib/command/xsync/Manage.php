@@ -10,46 +10,42 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\queue;
+namespace sveil\lib\command\xsync;
 
-use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
-use sveil\lib\service\Process;
+use sveil\lib\command\Sync;
 
 /**
- * Class StopQueue
- * Smoothly stop all processes of the task
+ * Class Manage
+ * Management Module
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\queue
+ * @package sveil\lib\command\xsync
  */
-class StopQueue extends Command
+class Manage extends Sync
 {
     /**
      * Command attribute configuration
      */
     protected function configure()
     {
-        $this->setName('xtask:stop')->setDescription('Smooth stop of all task processes');
+        $this->modules = ['apps/manage/', 'sveil'];
+        $this->setName('xsync:manage')->setDescription('[同步]覆盖本地Manage模块代码');
     }
 
     /**
-     * Stop all task execution
+     * Perform update operation
      * @param Input $input
      * @param Output $output
      */
     protected function execute(Input $input, Output $output)
     {
-        $process = Process::instance();
-        $command = $process->sveil('xtask:');
+        $root = str_replace('\\', '/', env('root_path'));
 
-        if (count($result = $process->query($command)) < 1) {
-            $output->writeln("There is no task process to finish");
+        if (file_exists("{$root}/apps/manage/sync.lock")) {
+            $this->output->error("--- Manage 模块已经被锁定，不能继续更新");
         } else {
-            foreach ($result as $item) {
-                $process->close($item['pid']);
-                $output->writeln("Sending end process {$item['pid']} signal succeeded");
-            }
+            parent::execute($input, $output);
         }
     }
 }

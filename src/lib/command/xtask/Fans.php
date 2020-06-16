@@ -10,7 +10,7 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\queue;
+namespace sveil\lib\command\xtask;
 
 use sveil\console\Command;
 use sveil\console\Input;
@@ -20,16 +20,16 @@ use sveil\Exception;
 use sveil\exception\PDOException;
 use sveil\lib\exception\InvalidResponseException;
 use sveil\lib\exception\LocalCacheException;
-use sveil\lib\service\Fans;
+use sveil\lib\service\Fans as FansService;
 use sveil\lib\service\Wechat;
 
 /**
- * Class FansQueue
+ * Class Fans
  * WeChat fans management
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\queue
+ * @package sveil\lib\command\xtask
  */
-class FansQueue extends Command
+class Fans extends Command
 {
     /**
      * APPID of current operation
@@ -68,7 +68,7 @@ class FansQueue extends Command
             foreach (array_chunk($result['data']['openid'], 100) as $chunk) {
                 if (is_array($list = $wechat->getBatchUserInfo($chunk)) && !empty($list['user_info_list'])) {
                     foreach ($list['user_info_list'] as $user) {
-                        Fans::set($user, $appid);
+                        FansService::set($user, $appid);
                     }
                 }
             }

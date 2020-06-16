@@ -10,43 +10,42 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\queue;
+namespace sveil\lib\command\xsync;
 
-use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
-use sveil\lib\service\Process;
+use sveil\lib\command\Sync;
 
 /**
- * Class StateQueue
- * View the status of the main process monitored by the task
+ * Class Service
+ * Service Module
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\queue
+ * @package sveil\lib\command\xsync
  */
-class StateQueue extends Command
+class Service extends Sync
 {
     /**
      * Command attribute configuration
      */
     protected function configure()
     {
-        $this->setName('xtask:state')->setDescription('Check listening main process status');
+        $this->modules = ['apps/service/'];
+        $this->setName('xsync:service')->setDescription('[同步]覆盖本地Service模块代码');
     }
 
     /**
-     * Instruction execution status
+     * Perform update operation
      * @param Input $input
      * @param Output $output
      */
     protected function execute(Input $input, Output $output)
     {
-        $process = Process::instance();
-        $command = $process->sveil('xtask:listen');
+        $root = str_replace('\\', '/', env('root_path'));
 
-        if (count($result = $process->query($command)) > 0) {
-            $output->info("Listening for main process {$result[0]['pid']} running");
+        if (file_exists("{$root}/apps/service/sync.lock")) {
+            $this->output->error("--- Service 模块已经被锁定，不能继续更新");
         } else {
-            $output->error("The Listening main process is not running");
+            parent::execute($input, $output);
         }
     }
 }

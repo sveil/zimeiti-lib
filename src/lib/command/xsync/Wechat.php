@@ -10,7 +10,7 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\command\sync;
+namespace sveil\lib\command\xsync;
 
 use sveil\console\Input;
 use sveil\console\Output;
@@ -20,7 +20,7 @@ use sveil\lib\command\Sync;
  * Class Wechat
  * WeChat module
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\command\sync
+ * @package sveil\lib\command\xsync
  */
 class Wechat extends Sync
 {

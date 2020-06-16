@@ -10,42 +10,52 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\command\sync;
+namespace sveil\lib\command\xtask;
 
+use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
-use sveil\lib\command\Sync;
+use sveil\Db;
+use sveil\lib\service\Process;
 
 /**
- * Class Plugs
- * Plug-in module
+ * Class Start
+ * Check and create monitoring main process
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\command\sync
+ * @package sveil\lib\command\xtask
  */
-class Plugs extends Sync
+class Start extends Command
 {
     /**
      * Command attribute configuration
      */
     protected function configure()
     {
-        $this->modules = ['public/static/'];
-        $this->setName('xsync:plugs')->setDescription('[同步]覆盖本地Plugs插件代码');
+        $this->setName('xtask:start')->setDescription('Create daemons to listening main process');
     }
 
     /**
-     * Perform update operation
+     * Start operation
      * @param Input $input
      * @param Output $output
      */
     protected function execute(Input $input, Output $output)
     {
-        $root = str_replace('\\', '/', env('root_path'));
+        Db::name('SystemQueue')->count();
+        $process = Process::instance();
+        $command = $process->sveil("xtask:listen");
 
-        if (file_exists("{$root}/public/static/sync.lock")) {
-            $this->output->error("--- Plugs 资源已经被锁定，不能继续更新");
+        if (count($result = $process->query($command)) > 0) {
+            $output->info("Listening main process {$result['0']['pid']} has started");
         } else {
-            parent::execute($input, $output);
+            $process->create($command);
+            sleep(1);
+
+            if (count($result = $process->query($command)) > 0) {
+                $output->info("Listening main process {$result['0']['pid']} started successfully");
+            } else {
+                $output->error('Failed to create listening main process');
+            }
         }
     }
 }

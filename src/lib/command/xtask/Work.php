@@ -10,7 +10,7 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\queue;
+namespace sveil\lib\command\xtask;
 
 use sveil\Console;
 use sveil\console\Command;
@@ -23,12 +23,12 @@ use sveil\exception\PDOException;
 use sveil\lib\service\Process;
 
 /**
- * Class WorkQueue
+ * Class Work
  * Start an independent execution process
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\queue
+ * @package sveil\lib\command\xtask
  */
-class WorkQueue extends Command
+class Work extends Command
 {
     /**
      * Current task ID

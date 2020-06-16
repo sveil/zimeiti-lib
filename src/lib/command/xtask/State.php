@@ -10,7 +10,7 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\queue;
+namespace sveil\lib\command\xtask;
 
 use sveil\console\Command;
 use sveil\console\Input;
@@ -18,37 +18,35 @@ use sveil\console\Output;
 use sveil\lib\service\Process;
 
 /**
- * Class QueryQueue
- * Query the PID of the process being executed
+ * Class State
+ * View the status of the main process monitored by the task
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\command\queue
+ * @package sveil\lib\command\xtask
  */
-class QueryQueue extends Command
+class State extends Command
 {
     /**
      * Command attribute configuration
      */
     protected function configure()
     {
-        $this->setName('xtask:query')->setDescription('Query all running task processes');
+        $this->setName('xtask:state')->setDescription('Check listening main process status');
     }
 
     /**
-     * Perform related process queries
+     * Instruction execution status
      * @param Input $input
      * @param Output $output
      */
     protected function execute(Input $input, Output $output)
     {
         $process = Process::instance();
-        $result  = $process->query($process->sveil("xtask:"));
+        $command = $process->sveil('xtask:listen');
 
-        if (count($result) > 0) {
-            foreach ($result as $item) {
-                $output->writeln("{$item['pid']}\t{$item['cmd']}");
-            }
+        if (count($result = $process->query($command)) > 0) {
+            $output->info("Listening for main process {$result[0]['pid']} running");
         } else {
-            $output->writeln('No related task process found');
+            $output->error("The Listening main process is not running");
         }
     }
 }

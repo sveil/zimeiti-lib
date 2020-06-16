@@ -10,27 +10,27 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\command\sync;
+namespace sveil\lib\command\xsync;
 
 use sveil\console\Input;
 use sveil\console\Output;
 use sveil\lib\command\Sync;
 
 /**
- * Class Config
- * Application configuration module
+ * Class Docs
+ * Script module
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\command\sync
+ * @package sveil\lib\command\xsync
  */
-class Config extends Sync
+class Docs extends Sync
 {
     /**
      * Command attribute configuration
      */
     protected function configure()
     {
-        $this->modules = ['config/'];
-        $this->setName('xsync:config')->setDescription('[同步]覆盖本地Config应用配置');
+        $this->modules = ['apps/docs/', 'sveil'];
+        $this->setName('xsync:docs')->setDescription('[同步]覆盖本地Docs模块代码');
     }
 
     /**
@@ -42,8 +42,8 @@ class Config extends Sync
     {
         $root = str_replace('\\', '/', env('root_path'));
 
-        if (file_exists("{$root}/config/sync.lock")) {
-            $this->output->error("--- Config 配置已经被锁定，不能继续更新");
+        if (file_exists("{$root}/apps/docs/sync.lock")) {
+            $this->output->error("--- Docs 模块已经被锁定，不能继续更新");
         } else {
             parent::execute($input, $output);
         }

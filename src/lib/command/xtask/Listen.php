@@ -10,7 +10,7 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\queue;
+namespace sveil\lib\command\xtask;
 
 use sveil\console\Command;
 use sveil\console\Input;
@@ -24,12 +24,12 @@ use sveil\exception\PDOException;
 use sveil\lib\service\Process;
 
 /**
- * Class ListenQueue
+ * Class Listen
  * Start the main process of the listening task
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\queue
+ * @package sveil\lib\command\xtask
  */
-class ListenQueue extends Command
+class Listen extends Command
 {
     /**
      * Current task service

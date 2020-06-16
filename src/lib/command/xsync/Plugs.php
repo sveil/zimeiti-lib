@@ -10,27 +10,27 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\command\sync;
+namespace sveil\lib\command\xsync;
 
 use sveil\console\Input;
 use sveil\console\Output;
 use sveil\lib\command\Sync;
 
 /**
- * Class Manage
- * Management Module
+ * Class Plugs
+ * Plug-in module
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\command\sync
+ * @package sveil\lib\command\xsync
  */
-class Manage extends Sync
+class Plugs extends Sync
 {
     /**
      * Command attribute configuration
      */
     protected function configure()
     {
-        $this->modules = ['apps/manage/', 'sveil'];
-        $this->setName('xsync:manage')->setDescription('[同步]覆盖本地Manage模块代码');
+        $this->modules = ['public/static/'];
+        $this->setName('xsync:plugs')->setDescription('[同步]覆盖本地Plugs插件代码');
     }
 
     /**
@@ -42,8 +42,8 @@ class Manage extends Sync
     {
         $root = str_replace('\\', '/', env('root_path'));
 
-        if (file_exists("{$root}/apps/manage/sync.lock")) {
-            $this->output->error("--- Manage 模块已经被锁定，不能继续更新");
+        if (file_exists("{$root}/public/static/sync.lock")) {
+            $this->output->error("--- Plugs 资源已经被锁定，不能继续更新");
         } else {
             parent::execute($input, $output);
         }

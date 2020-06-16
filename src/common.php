@@ -266,20 +266,20 @@ if (class_exists('sveil\Console')) {
         // Register to clean up invalid sessions
         'sveil\lib\command\Sess',
         // Register System Task Instructions
-        'sveil\lib\queue\FansQueue',
-        'sveil\lib\queue\ListenQueue',
-        'sveil\lib\queue\QueryQueue',
-        'sveil\lib\queue\StartQueue',
-        'sveil\lib\queue\StateQueue',
-        'sveil\lib\queue\StopQueue',
-        'sveil\lib\queue\WorkQueue',
+        'sveil\lib\command\xtask\Fans',
+        'sveil\lib\command\xtask\Listen',
+        'sveil\lib\command\xtask\Query',
+        'sveil\lib\command\xtask\Start',
+        'sveil\lib\command\xtask\State',
+        'sveil\lib\command\xtask\Stop',
+        'sveil\lib\command\xtask\Work',
         // Register System Update Instructions
-        'sveil\lib\command\sync\Config',
-        'sveil\lib\command\sync\Docs',
-        'sveil\lib\command\sync\Manage',
-        'sveil\lib\command\sync\Plugs',
-        'sveil\lib\command\sync\Service',
-        'sveil\lib\command\sync\Wechat',
+        'sveil\lib\command\xsync\Config',
+        'sveil\lib\command\xsync\Docs',
+        'sveil\lib\command\xsync\Manage',
+        'sveil\lib\command\xsync\Plugs',
+        'sveil\lib\command\xsync\Service',
+        'sveil\lib\command\xsync\Wechat',
     ]);
 }
 
