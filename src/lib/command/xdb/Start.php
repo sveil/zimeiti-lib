@@ -10,33 +10,22 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\command\queue;
+namespace sveil\lib\command\xdb;
 
 use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
 use sveil\Db;
-use sveil\db\exception\DataNotFoundException;
-use sveil\db\exception\ModelNotFoundException;
-use sveil\Exception;
-use sveil\exception\DbException;
-use sveil\exception\PDOException;
 use sveil\lib\service\Process;
 
 /**
- * Class Listen
- * Start the main process of the listening task
+ * Class Start
+ * Check and create monitoring main process
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\command\queue
+ * @package sveil\lib\command\xdb
  */
-class Listen extends Command
+class Start extends Command
 {
-    /**
-     * Current task service
-     * @var ProcessService
-     */
-    protected $process;
-
     /**
      * Binding data table
      * @var string
@@ -44,27 +33,35 @@ class Listen extends Command
     protected $table = 'Queue';
 
     /**
-     * Configuration specific information
+     * Command attribute configuration
      */
     protected function configure()
     {
-        $this->setName('queue:listen')->setDescription('Start task listening main process');
+        $this->setName('xdb:start')->setDescription('Create daemons to listening main process');
     }
 
     /**
-     * Execution process daemon monitoring
+     * Start operation
      * @param Input $input
      * @param Output $output
-     * @throws Exception
-     * @throws DataNotFoundException
-     * @throws ModelNotFoundException
-     * @throws DbException
-     * @throws PDOException
      */
     protected function execute(Input $input, Output $output)
     {
-        set_time_limit(0);
-        $count = Db::name($this->table)->count();
-        echo $count;
+        Db::name($this->table)->count();
+        $process = Process::instance();
+        $command = $process->sveil("xdb:listen");
+
+        if (count($result = $process->query($command)) > 0) {
+            $output->info("Listening main process {$result['0']['pid']} has started");
+        } else {
+            $process->create($command);
+            sleep(1);
+
+            if (count($result = $process->query($command)) > 0) {
+                $output->info("Listening main process {$result['0']['pid']} started successfully");
+            } else {
+                $output->error('Failed to create listening main process');
+            }
+        }
     }
 }

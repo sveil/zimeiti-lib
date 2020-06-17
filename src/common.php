@@ -280,13 +280,18 @@ if (class_exists('sveil\Console')) {
         'sveil\lib\command\xsync\Plugs',
         'sveil\lib\command\xsync\Service',
         'sveil\lib\command\xsync\Wechat',
-        // Register System Queue Task
-        'sveil\lib\command\queue\Listen',
-        'sveil\lib\command\queue\Query',
-        'sveil\lib\command\queue\Start',
-        'sveil\lib\command\queue\State',
-        'sveil\lib\command\queue\Stop',
-        'sveil\lib\command\queue\Work',
+        // Register Database Queue Task
+        'sveil\lib\command\xdb\Listen',
+        'sveil\lib\command\xdb\Query',
+        'sveil\lib\command\xdb\Start',
+        'sveil\lib\command\xdb\State',
+        'sveil\lib\command\xdb\Stop',
+        'sveil\lib\command\xdb\Work',
+        // Register Queue Command
+        'sveil\queue\command\Work',
+        'sveil\queue\command\Restart',
+        'sveil\queue\command\Listen',
+        'sveil\queue\command\Subscribe',
     ]);
 }
 

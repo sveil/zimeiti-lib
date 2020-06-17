@@ -53,7 +53,7 @@ class Process extends Service
     public function create($command)
     {
         if ($this->iswin()) {
-            $this->exec(__DIR__ . "/bin/console.exe {$command}");
+            $this->exec(dirname(dirname(dirname(__DIR__))) . "/bin/console.exe {$command}");
         } else {
             $this->exec("{$command} > /dev/null &");
         }
@@ -159,5 +159,4 @@ class Process extends Service
     {
         return stripos($this->_space($content), $this->_space($substr)) !== false;
     }
-
 }

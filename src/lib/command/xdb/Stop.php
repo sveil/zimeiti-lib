@@ -10,7 +10,7 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\command\queue;
+namespace sveil\lib\command\xdb;
 
 use sveil\console\Command;
 use sveil\console\Input;
@@ -18,35 +18,38 @@ use sveil\console\Output;
 use sveil\lib\service\Process;
 
 /**
- * Class State
- * View the status of the main process monitored by the task
+ * Class Stop
+ * Smoothly stop all processes of the task
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\command\queue
+ * @package sveil\lib\command\xdb
  */
-class State extends Command
+class Stop extends Command
 {
     /**
      * Command attribute configuration
      */
     protected function configure()
     {
-        $this->setName('queue:state')->setDescription('Check listening main process status');
+        $this->setName('xdb:stop')->setDescription('Smooth stop of all task processes');
     }
 
     /**
-     * Instruction execution status
+     * Stop all task execution
      * @param Input $input
      * @param Output $output
      */
     protected function execute(Input $input, Output $output)
     {
         $process = Process::instance();
-        $command = $process->sveil('queue:listen');
+        $command = $process->sveil('xdb:');
 
-        if (count($result = $process->query($command)) > 0) {
-            $output->info("Listening for main process {$result[0]['pid']} running");
+        if (count($result = $process->query($command)) < 1) {
+            $output->writeln("There is no task process to finish");
         } else {
-            $output->error("The Listening main process is not running");
+            foreach ($result as $item) {
+                $process->close($item['pid']);
+                $output->writeln("Sending end process {$item['pid']} signal succeeded");
+            }
         }
     }
 }

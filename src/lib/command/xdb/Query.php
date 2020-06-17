@@ -10,58 +10,45 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\command\queue;
+namespace sveil\lib\command\xdb;
 
 use sveil\console\Command;
 use sveil\console\Input;
 use sveil\console\Output;
-use sveil\Db;
 use sveil\lib\service\Process;
 
 /**
- * Class Start
- * Check and create monitoring main process
+ * Class Query
+ * Query the PID of the process being executed
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\command\queue
+ * @package sveil\lib\command\xdb
  */
-class Start extends Command
+class Query extends Command
 {
-    /**
-     * Binding data table
-     * @var string
-     */
-    protected $table = 'Queue';
-
     /**
      * Command attribute configuration
      */
     protected function configure()
     {
-        $this->setName('queue:start')->setDescription('Create daemons to listening main process');
+        $this->setName('xdb:query')->setDescription('Query all running task processes');
     }
 
     /**
-     * Start operation
+     * Perform related process queries
      * @param Input $input
      * @param Output $output
      */
     protected function execute(Input $input, Output $output)
     {
-        Db::name($this->table)->count();
         $process = Process::instance();
-        $command = $process->sveil("queue:listen");
+        $result  = $process->query($process->sveil("xdb:"));
 
-        if (count($result = $process->query($command)) > 0) {
-            $output->info("Listening main process {$result['0']['pid']} has started");
-        } else {
-            $process->create($command);
-            sleep(1);
-
-            if (count($result = $process->query($command)) > 0) {
-                $output->info("Listening main process {$result['0']['pid']} started successfully");
-            } else {
-                $output->error('Failed to create listening main process');
+        if (count($result) > 0) {
+            foreach ($result as $item) {
+                $output->writeln("{$item['pid']}\t{$item['cmd']}");
             }
+        } else {
+            $output->writeln('No related task process found');
         }
     }
 }

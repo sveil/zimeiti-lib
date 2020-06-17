@@ -10,7 +10,7 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\command\queue;
+namespace sveil\lib\command\xdb;
 
 use sveil\Console;
 use sveil\console\Command;
@@ -26,7 +26,7 @@ use sveil\lib\service\Process;
  * Class Work
  * Start an independent execution process
  * @author Richard <richard@sveil.com>
- * @package sveil\lib\command\queue
+ * @package sveil\lib\command\xdb
  */
 class Work extends Command
 {
@@ -47,7 +47,7 @@ class Work extends Command
      */
     protected function configure()
     {
-        $this->setName('queue:_work')->setDescription('Create a process to execute a task');
+        $this->setName('xdb:_work')->setDescription('Create a process to execute a task');
         $this->addArgument('id', Argument::OPTIONAL, 'TaskNumber');
         $this->addArgument('sp', Argument::OPTIONAL, 'Separator');
     }
@@ -81,6 +81,7 @@ class Work extends Command
                     if (($process = Process::instance())->iswin() && function_exists('cli_set_process_title')) {
                         cli_set_process_title("ThinkAdmin {$process->version()} Queue - {$queue['title']}");
                     }
+
                     // Content of task
                     if (class_exists($queue['preload'])) {
                         // Custom file, support return message (support abnormal end, abnormal code can choose 3 | 4 to set task status)
