@@ -69,6 +69,8 @@ class Listen extends Command
             cli_set_process_title("Database {$process->version()} Queue Listen");
         }
 
+        echo Db::name($this->table)->count();
+
         $output->writeln('============ LISTENING ============');
 
         while (true) {

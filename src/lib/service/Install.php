@@ -193,7 +193,7 @@ class Install extends Service
                     $moConfig = Data::uniqidRandom($moConfig, 4);
                 }
 
-                // arrFiles($configMo, $moConfig);
+                arrFiles($configMo, $moConfig);
             } catch (\Exception $e) {
                 return ['error' => '写入应用配置文件错误，请查看是否有文件管理权限？'];
             }
@@ -203,7 +203,7 @@ class Install extends Service
                 $dbConfig['database'] = $post['dbname'];
                 $dbConfig['prefix']   = $post['dbprefix'];
                 $configNew            = array_merge($configOld, $dbConfig);
-                // arrFiles($configDb, $configNew);
+                arrFiles($configDb, $configNew);
             } catch (\Exception $e) {
                 return ['error' => '写入应用配置文件错误，请查看是否有文件管理权限？'];
             }
@@ -213,7 +213,7 @@ class Install extends Service
             try {
                 $appConfig              = require $configApp;
                 $appConfig['app_debug'] = false;
-                // arrFiles($configApp, $appConfig);
+                arrFiles($configApp, $appConfig);
             } catch (\Exception $e) {
                 return ['error' => '写入应用配置文件错误，请查看是否有文件管理权限？'];
             }
