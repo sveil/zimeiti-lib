@@ -13,20 +13,17 @@
 namespace sveil\lib\common;
 
 /**
- * WeOpen message - encryption and decryption
- *
  * Class Prpcrypt
+ * WeOpen message - encryption and decryption
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class Prpcrypt
 {
-
     public $key;
 
     /**
      * Prpcrypt constructor
-     *
      * @param $key
      */
     public function __construct($key)
@@ -36,7 +33,6 @@ class Prpcrypt
 
     /**
      * Encrypt plaintext
-     *
      * @param string $text Plaintext that needs encryption
      * @param string $appid WeOpen APPID
      * @return array
@@ -57,13 +53,11 @@ class Prpcrypt
 
     /**
      * Decrypt the ciphertext
-     *
      * @param string $encrypted Ciphertext to be decrypted
      * @return array
      */
     public function decrypt($encrypted)
     {
-
         try {
             $iv        = substr($this->key, 0, 16);
             $decrypted = openssl_decrypt($encrypted, 'AES-256-CBC', substr($this->key, 0, 32), OPENSSL_ZERO_PADDING, $iv);
@@ -74,28 +68,28 @@ class Prpcrypt
         try {
             $pkcEncoder = new PKCS7Encoder();
             $result     = $pkcEncoder->decode($decrypted);
+
             if (strlen($result) < 16) {
                 return [ErrorCode::$DecryptAESError, null];
             }
+
             $content  = substr($result, 16, strlen($result));
             $len_list = unpack("N", substr($content, 0, 4));
             $xml_len  = $len_list[1];
+
             return [0, substr($content, 4, $xml_len), substr($content, $xml_len + 4)];
         } catch (Exception $e) {
             return [ErrorCode::$IllegalBuffer, null];
         }
-
     }
 
     /**
      * Randomly generate 16-bit character strings
-     *
      * @param string $str
      * @return string The generated string
      */
     public function getRandomStr($str = "")
     {
-
         $str_pol = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
         $max     = strlen($str_pol) - 1;
 
@@ -105,5 +99,4 @@ class Prpcrypt
 
         return $str;
     }
-
 }

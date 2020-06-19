@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WePay;
 
 /**
- * WeChat merchants transfer money to change
- *
  * Class Transfers
+ * WeChat merchants transfer money to change
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wepay
+ * @package sveil\lib\rep\wechat\wepay
  */
 class Transfers extends WePay
 {
-
     /**
      * Corporate payment to change
-     *
      * @param array $options
      * @return array
      * @throws InvalidResponseException
@@ -36,7 +33,6 @@ class Transfers extends WePay
      */
     public function create(array $options)
     {
-
         $this->params->offsetUnset('appid');
         $this->params->offsetUnset('mch_id');
         $this->params->set('mchid', $this->config->get('mch_id'));
@@ -48,15 +44,13 @@ class Transfers extends WePay
 
     /**
      * Check the corporate payment to change
-     *
-     * @param string $partnerTradeNo 商户调用企业付款API时使用的商户订单号
+     * @param string $partnerTradeNo The merchant order number used by the merchant when calling the enterprise payment API
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function query($partnerTradeNo)
     {
-
         $this->params->offsetUnset('mchid');
         $this->params->offsetUnset('mch_appid');
         $this->params->set('appid', $this->config->get('appid'));
@@ -65,5 +59,4 @@ class Transfers extends WePay
 
         return $this->callPostApi($url, ['partner_trade_no' => $partnerTradeNo], true, 'MD5', false);
     }
-
 }

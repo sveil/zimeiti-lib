@@ -17,15 +17,13 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * WeChat open platform account management
- *
  * Class User
+ * WeChat open platform account management
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class User extends WeChat
 {
-
     /**
      * 1. Create an open platform account and bind WeOpen / Applet
      * @param string $appid Appid of authorized WeOpen or Applet
@@ -35,7 +33,6 @@ class User extends WeChat
      */
     public function create($appid)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/open/create?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -52,7 +49,6 @@ class User extends WeChat
      */
     public function bind($appid, $openAppid)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/open/bind?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -69,7 +65,6 @@ class User extends WeChat
      */
     public function unbind($appid, $openAppid)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/open/unbind?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -85,11 +80,9 @@ class User extends WeChat
      */
     public function get($appid)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/open/get?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->httpPostForJson($url, ['appid' => $appid]);
     }
-
 }

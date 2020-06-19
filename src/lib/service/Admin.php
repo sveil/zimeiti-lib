@@ -12,19 +12,19 @@
 
 namespace sveil\lib\service;
 
-use sveil\lib\common\Data;
-use sveil\lib\Service;
-use sveil\lib\service\Node;
 use sveil\Db;
 use sveil\db\exception\DataNotFoundException;
 use sveil\db\exception\ModelNotFoundException;
 use sveil\exception\DbException;
+use sveil\lib\common\Data;
+use sveil\lib\Service;
+use sveil\lib\service\Node;
 
 /**
  * System authority management service
  *
  * Class Admin
- * @package sveil\service
+ * @package sveil\lib\service
  */
 class Admin extends Service
 {

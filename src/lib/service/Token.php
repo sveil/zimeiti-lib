@@ -19,7 +19,7 @@ use sveil\lib\service\Node;
  * Class Token
  * Form Token Management Service
  * @author Richard <richard@sveil.com>
- * @package sveil\service
+ * @package sveil\lib\service
  */
 class Token extends Service
 {

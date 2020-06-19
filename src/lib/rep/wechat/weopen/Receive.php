@@ -15,24 +15,21 @@ namespace sveil\lib\rep\wechat\weopen;
 use sveil\lib\rep\PushEvent;
 
 /**
- * WeOpen push management
- *
  * Class Receive
+ * WeOpen push management
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\weopen
+ * @package sveil\lib\rep\wechat\weopen
  */
 class Receive extends PushEvent
 {
 
     /**
      * Forward multiple customer service messages
-     *
      * @param string $account
      * @return $this
      */
     public function transferCustomerService($account = '')
     {
-
         $this->message = [
             'CreateTime'   => time(),
             'ToUserName'   => $this->getOpenid(),
@@ -46,13 +43,11 @@ class Receive extends PushEvent
 
     /**
      * Set text message
-     *
      * @param string $content Text content
      * @return $this
      */
     public function text($content = '')
     {
-
         $this->message = [
             'MsgType'      => 'text',
             'CreateTime'   => time(),
@@ -66,13 +61,11 @@ class Receive extends PushEvent
 
     /**
      * Set reply text
-     *
      * @param array $newsData
      * @return $this
      */
     public function news($newsData = [])
     {
-
         $this->message = [
             'CreateTime'   => time(),
             'MsgType'      => 'news',
@@ -87,13 +80,11 @@ class Receive extends PushEvent
 
     /**
      * Set Picture Message
-     *
      * @param string $mediaId Media ID
      * @return $this
      */
     public function image($mediaId = '')
     {
-
         $this->message = [
             'MsgType'      => 'image',
             'CreateTime'   => time(),
@@ -107,13 +98,11 @@ class Receive extends PushEvent
 
     /**
      * Set voice reply message
-     *
      * @param string $mediaid Media ID
      * @return $this
      */
     public function voice($mediaid = '')
     {
-
         $this->message = [
             'CreateTime'   => time(),
             'MsgType'      => 'voice',
@@ -127,7 +116,6 @@ class Receive extends PushEvent
 
     /**
      * Set video reply message
-     *
      * @param string $mediaid Media ID
      * @param string $title Title
      * @param string $description Description
@@ -135,7 +123,6 @@ class Receive extends PushEvent
      */
     public function video($mediaid = '', $title = '', $description = '')
     {
-
         $this->message = [
             'CreateTime'   => time(),
             'MsgType'      => 'video',
@@ -153,7 +140,6 @@ class Receive extends PushEvent
 
     /**
      * Set music reply message
-     *
      * @param string $title Title
      * @param string $desc Description
      * @param string $musicurl Music URL
@@ -163,7 +149,6 @@ class Receive extends PushEvent
      */
     public function music($title, $desc, $musicurl, $hgmusicurl = '', $thumbmediaid = '')
     {
-
         $this->message = [
             'CreateTime'   => time(),
             'MsgType'      => 'music',
@@ -183,5 +168,4 @@ class Receive extends PushEvent
 
         return $this;
     }
-
 }

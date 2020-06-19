@@ -12,20 +12,20 @@
 
 namespace sveil\lib\service;
 
-use sveil\lib\Service;
 use sveil\Db;
 use sveil\db\exception\DataNotFoundException;
 use sveil\db\exception\ModelNotFoundException;
 use sveil\Exception;
 use sveil\exception\DbException;
 use sveil\exception\PDOException;
+use sveil\lib\Service;
 
 /**
  * Commodity data management
  *
  * Class Goods
  * @author Richard <richard@sveil.com>
- * @package sveil\service
+ * @package sveil\lib\service
  */
 class Goods extends Service
 {

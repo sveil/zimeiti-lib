@@ -16,31 +16,27 @@ use OSS\Core\OssException;
 use OSS\Model\CorsConfig;
 use OSS\Model\CorsRule;
 use OSS\OssClient;
-use sveil\lib\File;
 use sveil\Exception;
 use sveil\facade\Log;
 use sveil\facade\Request;
+use sveil\lib\File;
 
 /**
- * Alibaba Cloud file storage
- *
  * Class Oss
+ * Alibaba Cloud file storage
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\storage
+ * @package sveil\lib\rep\storage
  */
 class Oss extends File
 {
-
     /**
      * Check if the file already exists
-     *
      * @param string $name file name
      * @return boolean
      * @throws OssException
      */
     public function has($name)
     {
-
         $bucket = self::$config->get('storage_oss_bucket');
 
         return $this->getOssClient()->doesObjectExist($bucket, $name);
@@ -48,14 +44,12 @@ class Oss extends File
 
     /**
      * Read file content from Key
-     *
      * @param string $name file name
      * @return string
      * @throws OssException
      */
     public function get($name)
     {
-
         $bucket = self::$config->get('storage_oss_bucket');
 
         return $this->getOssClient()->getObject($bucket, $name);
@@ -63,7 +57,6 @@ class Oss extends File
 
     /**
      * Get the current URL of a file
-     *
      * @param string $name file name
      * @return boolean|string
      * @throws OssException
@@ -76,12 +69,10 @@ class Oss extends File
 
     /**
      * Get AliOSS upload address
-     *
      * @return string
      */
     public function upload()
     {
-
         $protocol = Request::isSsl() ? 'https' : 'http';
 
         return "{$protocol}://" . self::$config->get('storage_oss_domain');
@@ -89,14 +80,12 @@ class Oss extends File
 
     /**
      * Obtain Alibaba Cloud object storage URL prefix
-     *
      * @param string $name file name
      * @return string
      * @throws Exception
      */
     public function base($name = '')
     {
-
         $domain = self::$config->get('storage_oss_domain');
 
         switch (strtolower(self::$config->get('storage_oss_is_https'))) {
@@ -109,33 +98,30 @@ class Oss extends File
             default:
                 throw new Exception('未设置阿里云文件地址协议');
         }
-
     }
 
     /**
      * Alibaba Cloud OSS save file
-     *
      * @param string $name file name
      * @param string $content document content
      * @return array|null
      */
     public function save($name, $content)
     {
-
         try {
             $bucket = self::$config->get('storage_oss_bucket');
             $result = $this->getOssClient()->putObject($bucket, $name, $content);
+
             return ['file' => $name, 'hash' => $result['content-md5'], 'key' => $name, 'url' => $this->base($name)];
         } catch (\Exception $e) {
             Log::error("阿里云OSS文件上传失败，{$e->getMessage()}");
+
             return null;
         }
-
     }
 
     /**
      * Get file path
-     *
      * @param string $name file name
      * @return string
      */
@@ -146,7 +132,6 @@ class Oss extends File
 
     /**
      * Get file information
-     *
      * @param string $name file name
      * @return array|null
      * @throws OssException
@@ -154,7 +139,6 @@ class Oss extends File
      */
     public function info($name)
     {
-
         $bucket = self::$config->get('storage_oss_bucket');
         $result = $this->getOssClient()->getObjectMeta($bucket, $name);
 
@@ -167,39 +151,36 @@ class Oss extends File
 
     /**
      * Delete Files
-     *
      * @param string $name file name
      * @return boolean
      */
     public function remove($name)
     {
-
         try {
             $bucket = self::$config->get('storage_oss_bucket');
             $this->getOssClient()->deleteObject($bucket, $name);
+
             return true;
         } catch (\Exception $e) {
             return false;
         }
-
     }
 
     /**
      * Create OSS space name
-     *
      * @param string $bucket OSS space name
      * @return string Returns the newly created domain name
      * @throws OssException
      */
     public function setBucket($bucket)
     {
-
         $client = $this->getOssClient();
         // Space and permission handling
         $aclType = OssClient::OSS_ACL_TYPE_PUBLIC_READ_WRITE;
 
         if ($client->doesBucketExist($bucket)) {
             $result = $client->getBucketMeta($bucket);
+
             if ($client->getBucketAcl($bucket) !== $aclType) {
                 $client->putBucketAcl($bucket, $aclType);
             }
@@ -223,18 +204,15 @@ class Oss extends File
 
     /**
      * Get OssClient object
-     *
      * @return OssClient
      * @throws OssException
      */
     private function getOssClient()
     {
-
         $keyid    = self::$config->get('storage_oss_keyid');
         $secret   = self::$config->get('storage_oss_secret');
         $endpoint = 'http://' . self::$config->get('storage_oss_endpoint');
 
         return new OssClient($keyid, $secret, $endpoint);
     }
-
 }

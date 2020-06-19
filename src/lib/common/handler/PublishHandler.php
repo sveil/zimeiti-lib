@@ -18,15 +18,13 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\service\Wechat;
 
 /**
- * usage platform test goes live
- *
  * Class PublishHandler
+ * usage platform test goes live
  * @author Richard <richard@sveil.com>
- * @package app\common\handler
+ * @package sveil\lib\common\handler
  */
 class PublishHandler
 {
-
     /**
      * Current WeChat APPID
      * @var string
@@ -70,5 +68,4 @@ class PublishHandler
         }
 
     }
-
 }

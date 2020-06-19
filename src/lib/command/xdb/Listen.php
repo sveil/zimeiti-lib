@@ -21,6 +21,7 @@ use sveil\db\exception\ModelNotFoundException;
 use sveil\Exception;
 use sveil\exception\DbException;
 use sveil\exception\PDOException;
+use sveil\facade\Log;
 use sveil\lib\service\Process;
 
 /**
@@ -69,13 +70,12 @@ class Listen extends Command
             cli_set_process_title("Database {$process->version()} Queue Listen");
         }
 
-        echo Db::name($this->table)->count();
-
         $output->writeln('============ LISTENING ============');
 
         while (true) {
-            sleep(1);
-            echo $count;
+            sleep(10);
+            $count = Db::name($this->table)->count();
+            Log::error(__METHOD__ . " Queue count is [ {$count} ]");
         }
     }
 }

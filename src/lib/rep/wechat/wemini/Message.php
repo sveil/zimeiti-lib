@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * Applet news
- *
  * Class Message
+ * Applet news
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Message extends WeChat
 {
-
     /**
      * Dynamic news, create activity_id to be shared dynamic news
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -36,7 +33,6 @@ class Message extends WeChat
      */
     public function createActivityId($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/activityid/create?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -45,7 +41,6 @@ class Message extends WeChat
 
     /**
      * Dynamic message, modify the shared dynamic message
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -53,7 +48,6 @@ class Message extends WeChat
      */
     public function setUpdatableMsg($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/updatablemsg/send?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -62,7 +56,6 @@ class Message extends WeChat
 
     /**
      * Distribute uniform service messages for Applets and WeOpen
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -70,11 +63,9 @@ class Message extends WeChat
      */
     public function uniformSend($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/uniform_send?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->callPostApi($url, $data, true);
     }
-
 }

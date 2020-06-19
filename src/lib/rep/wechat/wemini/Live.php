@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * Applet live broadcast interface
- *
  * Class Live
+ * Applet live broadcast interface
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Live extends WeChat
 {
-
     /**
      * Get live room list
-     *
      * @param integer $start Start pulling room
      * @param integer $limit Maximum number of pulls at a time
      * @return array
@@ -37,7 +34,6 @@ class Live extends WeChat
      */
     public function getLiveList($start = 0, $limit = 10)
     {
-
         $url = 'http://api.weixin.qq.com/wxa/business/getliveinfo?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -46,7 +42,6 @@ class Live extends WeChat
 
     /**
      * Get playback source video
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -54,11 +49,9 @@ class Live extends WeChat
      */
     public function getLiveInfo($data = [])
     {
-
         $url = 'http://api.weixin.qq.com/wxa/business/getliveinfo?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->callPostApi($url, $data, true);
     }
-
 }

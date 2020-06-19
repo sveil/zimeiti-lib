@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * WeChat Applet Address Management
- *
  * Class Poi
+ * WeChat Applet Address Management
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Poi extends WeChat
 {
-
     /**
      * Add a place
-     *
      * @param string $related_name Business Qualification Subject
      * @param string $related_credential Business qualification certificate number
      * @param string $related_address Business qualification address
@@ -39,7 +36,6 @@ class Poi extends WeChat
      */
     public function addBearByPoi($related_name, $related_credential, $related_address, $related_proof_material)
     {
-
         $url = 'https://api.weixin.qq.com/wxa/addnearbypoi?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
         $data = [
@@ -52,7 +48,6 @@ class Poi extends WeChat
 
     /**
      * View a list of places
-     *
      * @param integer $page Start page id (counting from 1)
      * @param integer $page_rows Number of impressions per page (up to 1000)
      * @return array
@@ -61,7 +56,6 @@ class Poi extends WeChat
      */
     public function getNearByPoiList($page = 1, $page_rows = 1000)
     {
-
         $url = "https://api.weixin.qq.com/wxa/getnearbypoilist?page={$page}&page_rows={$page_rows}&access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -70,7 +64,6 @@ class Poi extends WeChat
 
     /**
      * Delete place
-     *
      * @param string $poi_id Nearby place ID
      * @return array
      * @throws InvalidResponseException
@@ -78,7 +71,6 @@ class Poi extends WeChat
      */
     public function delNearByPoiList($poi_id)
     {
-
         $url = "https://api.weixin.qq.com/wxa/delnearbypoi?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -87,7 +79,6 @@ class Poi extends WeChat
 
     /**
      * Show / unshow nearby applets
-     *
      * @param string $poi_id Nearby place ID
      * @param string $status 0: cancel display; 1: display
      * @return array
@@ -96,11 +87,9 @@ class Poi extends WeChat
      */
     public function setNearByPoiShowStatus($poi_id, $status)
     {
-
         $url = "https://api.weixin.qq.com/wxa/setnearbypoishowstatus?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->callPostApi($url, ['poi_id' => $poi_id, 'status' => $status], true);
     }
-
 }

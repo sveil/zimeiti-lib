@@ -13,33 +13,27 @@
 namespace sveil\lib\common;
 
 /**
- * Handling Emoji
- *
  * Class Emoji
+ * Handling Emoji
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class Emoji
 {
-
     /**
      * Emoji graphics converted to string
-     *
      * @param string $content
      * @return string
      */
     public static function encode($content)
     {
-
         return json_decode(preg_replace_callback("/(\\\u[ed][0-9a-f]{3})/i", function ($maps) {
             return addslashes($maps[0]);
         }, json_encode($content)));
-
     }
 
     /**
      * Emoji string converted to graphics
-     *
      * @param string $content
      * @return string
      */
@@ -52,7 +46,6 @@ class Emoji
 
     /**
      * Emoji string cleanup
-     *
      * @param string $content
      * @return string
      */
@@ -62,5 +55,4 @@ class Emoji
             return strlen($match[0]) >= 4 ? '' : $match[0];
         }, $content);
     }
-
 }

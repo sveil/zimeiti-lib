@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * Member management
- *
  * Class Tester
+ * Member management
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Tester extends WeChat
 {
-
     /**
      * 1. Bind WeChat users as applet experiencers
-     *
      * @param string $testid Wechat number
      * @return array
      * @throws InvalidResponseException
@@ -36,7 +33,6 @@ class Tester extends WeChat
      */
     public function bindTester($testid)
     {
-
         $url = 'https://api.weixin.qq.com/wxa/bind_tester?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -45,7 +41,6 @@ class Tester extends WeChat
 
     /**
      * 2. Experiencers who unbind applets
-     *
      * @param string $testid Wechat number
      * @return array
      * @throws InvalidResponseException
@@ -53,7 +48,6 @@ class Tester extends WeChat
      */
     public function unbindTester($testid)
     {
-
         $url = 'https://api.weixin.qq.com/wxa/unbind_tester?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -62,18 +56,15 @@ class Tester extends WeChat
 
     /**
      * 3. Get a list of experiencers
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getTesterList()
     {
-
         $url = 'https://api.weixin.qq.com/wxa/memberauth?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->httpPostForJson($url, ['action' => 'get_experiencer'], true);
     }
-
 }

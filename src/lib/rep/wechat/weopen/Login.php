@@ -18,15 +18,13 @@ use sveil\lib\exception\InvalidArgumentException;
 use sveil\lib\exception\LocalCacheException;
 
 /**
- * Website application WeChat login
- *
  * Class Login
+ * Website application WeChat login
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\weopen
+ * @package sveil\lib\rep\wechat\weopen
  */
 class Login
 {
-
     /**
      * Current configuration object
      * @var DataArray
@@ -40,7 +38,6 @@ class Login
      */
     public function __construct(array $options)
     {
-
         $this->config = new DataArray($options);
 
         if (empty($options['appid'])) {
@@ -50,18 +47,15 @@ class Login
         if (empty($options['appsecret'])) {
             throw new InvalidArgumentException("Missing Config -- [appsecret]");
         }
-
     }
 
     /**
      * Step first: Request CODE
-     *
      * @param string $redirectUri Please use urlEncode to process the link
      * @return string
      */
     public function auth($redirectUri)
     {
-
         $appid       = $this->config->get('appid');
         $redirectUri = urlencode($redirectUri);
 
@@ -70,13 +64,11 @@ class Login
 
     /**
      * Step second: Get access_token by code
-     *
      * @return mixed
      * @throws LocalCacheException
      */
     public function getAccessToken()
     {
-
         $appid  = $this->config->get('appid');
         $secret = $this->config->get('appsecret');
         $code   = isset($_GET['code']) ? $_GET['code'] : '';
@@ -87,14 +79,12 @@ class Login
 
     /**
      * Refresh the validity period of AccessToken
-     *
      * @param string $refreshToken
      * @return array
      * @throws LocalCacheException
      */
     public function refreshToken($refreshToken)
     {
-
         $appid = $this->config->get('appid');
         $url   = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid={$appid}&grant_type=refresh_token&refresh_token={$refreshToken}";
 
@@ -103,7 +93,6 @@ class Login
 
     /**
      * Check if the authorization certificate (access_token) is valid
-     *
      * @param string $accessToken Call voucher
      * @param string $openid Ordinary user ID, unique to the current developer account
      * @return array
@@ -111,7 +100,6 @@ class Login
      */
     public function checkAccessToken($accessToken, $openid)
     {
-
         $url = "https://api.weixin.qq.com/sns/auth?access_token={$accessToken}&openid={$openid}";
 
         return json_decode(Tools::get($url));
@@ -119,7 +107,6 @@ class Login
 
     /**
      * Obtain user personal information (UnionID mechanism)
-     *
      * @param string $accessToken Call voucher
      * @param string $openid Ordinary user ID, unique to the current developer account
      * @return array
@@ -127,10 +114,8 @@ class Login
      */
     public function getUserinfo($accessToken, $openid)
     {
-
         $url = "https://api.weixin.qq.com/sns/userinfo?access_token={$accessToken}&openid={$openid}";
 
         return json_decode(Tools::get($url));
     }
-
 }

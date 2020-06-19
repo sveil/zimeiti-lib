@@ -18,7 +18,7 @@ use sveil\lib\Service;
  * Class Process
  * System Process Management Service
  * @author Richard <richard@sveil.com>
- * @package sveil\service
+ * @package sveil\lib\service
  */
 class Process extends Service
 {
@@ -36,7 +36,6 @@ class Process extends Service
 
     /**
      * Get current application version
-     *
      * @return string
      */
     public function version()
@@ -46,7 +45,6 @@ class Process extends Service
 
     /**
      * Create asynchronous process
-     *
      * @param string $command Task command
      * @return $this
      */
@@ -57,12 +55,12 @@ class Process extends Service
         } else {
             $this->exec("{$command} > /dev/null &");
         }
+
         return $this;
     }
 
     /**
      * Query related process list
-     *
      * @param string $command Task command
      * @return array
      */
@@ -73,6 +71,7 @@ class Process extends Service
 
         if ($this->iswin()) {
             $lines = $this->exec('wmic process where name="php.exe" get processid,CommandLine', true);
+
             foreach ($lines as $line) {
                 if ($this->_issub($line, $command) !== false) {
                     $attr   = explode(' ', $this->_space($line));
@@ -81,6 +80,7 @@ class Process extends Service
             }
         } else {
             $lines = $this->exec("ps ax|grep -v grep|grep \"{$command}\"", true);
+
             foreach ($lines as $line) {
                 if ($this->_issub($line, $command) !== false) {
                     $attr      = explode(' ', $this->_space($line));
@@ -95,13 +95,11 @@ class Process extends Service
 
     /**
      * Close the task process
-     *
      * @param integer $pid Process number
      * @return $this
      */
     public function close($pid)
     {
-
         if ($this->iswin()) {
             $this->exec("wmic process {$pid} call terminate");
         } else {
@@ -113,14 +111,12 @@ class Process extends Service
 
     /**
      * Execute instructions immediately
-     *
      * @param string $command Execute command
      * @param boolean $outarr Return type
      * @return string|array
      */
     public function exec($command, $outarr = false)
     {
-
         exec($command, $output);
 
         return $outarr ? $output : join("\n", $output);
@@ -128,7 +124,6 @@ class Process extends Service
 
     /**
      * Determine the system type
-     *
      * @return boolean
      */
     public function iswin()
@@ -138,7 +133,6 @@ class Process extends Service
 
     /**
      * Message blank character filtering
-     *
      * @param string $content
      * @param string $tochar
      * @return string
@@ -150,7 +144,6 @@ class Process extends Service
 
     /**
      * Determine if it contains a string
-     *
      * @param string $content
      * @param string $substr
      * @return boolean

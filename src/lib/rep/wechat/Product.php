@@ -17,18 +17,16 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * Store management
- *
  * Class Product
+ * Store management
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat
+ * @package sveil\lib\rep\wechat
  */
 class Product extends WeChat
 {
 
     /**
      * Submit review / unpublish product
-     *
      * @param string $keystandard Commodity coding standard
      * @param string $keystr Commodity coding content
      * @param string $status Set release status. on for submission review, off is to cancel the release.
@@ -38,7 +36,6 @@ class Product extends WeChat
      */
     public function modStatus($keystandard, $keystr, $status = 'on')
     {
-
         $data = ['keystandard' => $keystandard, 'keystr' => $keystr, 'status' => $status];
         $url  = "https://api.weixin.qq.com/scan/product/modstatus?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
@@ -48,7 +45,6 @@ class Product extends WeChat
 
     /**
      * Set tester whitelist
-     *
      * @param array $openids Testers' openid list
      * @param array $usernames Tester's WeChat List
      * @return array
@@ -57,7 +53,6 @@ class Product extends WeChat
      */
     public function setTestWhiteList(array $openids = [], array $usernames = [])
     {
-
         $data = ['openid' => $openids, 'username' => $usernames];
         $url  = "https://api.weixin.qq.com/scan/testwhitelist/set?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
@@ -67,7 +62,6 @@ class Product extends WeChat
 
     /**
      * Get product QR code
-     *
      * @param string $keystandard Commodity coding standard
      * @param string $keystr Commodity coding content
      * @param integer $qrcode_size QR code size(Integer), The value represents the number of pixels in the side length, The default value is 100.
@@ -79,7 +73,6 @@ class Product extends WeChat
      */
     public function getQrcode($keystandard, $keystr, $qrcode_size, $extinfo = [])
     {
-
         $data                               = ['keystandard' => $keystandard, 'keystr' => $keystr, 'qrcode_size' => $qrcode_size];
         empty($extinfo) || $data['extinfo'] = $extinfo;
         $url                                = "https://api.weixin.qq.com/scan/product/getqrcode?access_token=ACCESS_TOKEN";
@@ -90,7 +83,6 @@ class Product extends WeChat
 
     /**
      * Query product information
-     *
      * @param string $keystandard Commodity coding standard
      * @param string $keystr Commodity coding content
      * @return array
@@ -99,7 +91,6 @@ class Product extends WeChat
      */
     public function getProduct($keystandard, $keystr)
     {
-
         $data                               = ['keystandard' => $keystandard, 'keystr' => $keystr];
         empty($extinfo) || $data['extinfo'] = $extinfo;
         $url                                = "https://api.weixin.qq.com/scan/product/get?access_token=ACCESS_TOKEN";
@@ -110,7 +101,6 @@ class Product extends WeChat
 
     /**
      * Query product information in bulk
-     *
      * @param integer $offset The starting position of the batch query, starting from 0, including the starting position
      * @param integer $limit Number of batch queries
      * @param null|string $status Support pull by status. on is released, off is unreleased, check is under review,
@@ -123,7 +113,6 @@ class Product extends WeChat
      */
     public function getProductList($offset, $limit = 10, $status = null, $keystr = '')
     {
-
         $data                               = ['offset' => $offset, 'limit' => $limit];
         is_null($status) || $data['status'] = $status;
         empty($keystr) || $data['keystr']   = $keystr;
@@ -135,7 +124,6 @@ class Product extends WeChat
 
     /**
      * Update product information
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -143,7 +131,6 @@ class Product extends WeChat
      */
     public function updateProduct(array $data)
     {
-
         $url = "https://api.weixin.qq.com/scan/product/update?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -152,7 +139,6 @@ class Product extends WeChat
 
     /**
      * Clear product information
-     *
      * @param string $keystandard Commodity coding standard
      * @param string $keystr Commodity coding content
      * @return array
@@ -161,7 +147,6 @@ class Product extends WeChat
      */
     public function clearProduct($keystandard, $keystr)
     {
-
         $url = "https://api.weixin.qq.com/scan/product/clear?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -170,7 +155,6 @@ class Product extends WeChat
 
     /**
      * Check wxticket parameters
-     *
      * @param string $ticket
      * @return array
      * @throws InvalidResponseException
@@ -178,7 +162,6 @@ class Product extends WeChat
      */
     public function scanTicketCheck($ticket)
     {
-
         $url = "https://api.weixin.qq.com/scan/scanticket/check?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -187,7 +170,6 @@ class Product extends WeChat
 
     /**
      * Clear scan code record
-     *
      * @param string $keystandard Commodity coding standard
      * @param string $keystr Commodity coding content
      * @param string $extinfo The extinfo passed in when calling "Get Product QR Code Interface" is the identification parameter
@@ -197,12 +179,10 @@ class Product extends WeChat
      */
     public function clearScanticket($keystandard, $keystr, $extinfo)
     {
-
         $data = ['keystandard' => $keystandard, 'keystr' => $keystr, 'extinfo' => $extinfo];
         $url  = "https://api.weixin.qq.com/scan/scanticket/check?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->httpPostForJson($url, $data);
     }
-
 }

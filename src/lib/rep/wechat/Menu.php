@@ -17,25 +17,21 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * WeChat menu management
- *
  * Class Menu
+ * WeChat menu management
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat
+ * @package sveil\lib\rep\wechat
  */
 class Menu extends WeChat
 {
-
     /**
      * Custom menu query interface
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function get()
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -44,14 +40,12 @@ class Menu extends WeChat
 
     /**
      * Custom menu delete interface
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function delete()
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -60,7 +54,6 @@ class Menu extends WeChat
 
     /**
      * Custom menu creation
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -68,7 +61,6 @@ class Menu extends WeChat
      */
     public function create(array $data)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -77,7 +69,6 @@ class Menu extends WeChat
 
     /**
      * Create a personalized menu
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -85,7 +76,6 @@ class Menu extends WeChat
      */
     public function addConditional(array $data)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/menu/addconditional?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -94,7 +84,6 @@ class Menu extends WeChat
 
     /**
      * Delete personalized menu
-     *
      * @param string $menuid
      * @return array
      * @throws InvalidResponseException
@@ -102,7 +91,6 @@ class Menu extends WeChat
      */
     public function delConditional($menuid)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/menu/delconditional?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -111,7 +99,6 @@ class Menu extends WeChat
 
     /**
      * Test personalized menu matching results
-     *
      * @param string $openid
      * @return array
      * @throws InvalidResponseException
@@ -119,11 +106,9 @@ class Menu extends WeChat
      */
     public function tryConditional($openid)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/menu/trymatch?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->httpPostForJson($url, ['user_id' => $openid]);
     }
-
 }

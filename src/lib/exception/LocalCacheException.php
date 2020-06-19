@@ -17,7 +17,7 @@ namespace sveil\lib\exception;
  *
  * Class LocalCacheException
  * @author Richard <richard@sveil.com>
- * @package sveil\exception
+ * @package sveil\lib\exception
  */
 class LocalCacheException extends \Exception
 {

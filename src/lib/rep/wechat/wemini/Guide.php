@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * Applets shopping guide assistant
- *
  * Class Guide
+ * Applets shopping guide assistant
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Guide extends WeChat
 {
-
     /**
      * Service number add shopping guide
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -36,7 +33,6 @@ class Guide extends WeChat
      */
     public function addGuideAcct($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/addguideacct?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -45,7 +41,6 @@ class Guide extends WeChat
 
     /**
      * Service number delete shopping guide
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -53,7 +48,6 @@ class Guide extends WeChat
      */
     public function delGuideAcct($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/delguideacct?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -62,7 +56,6 @@ class Guide extends WeChat
 
     /**
      * Service guide to get shopping guide information
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -70,7 +63,6 @@ class Guide extends WeChat
      */
     public function getGuideAcct($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguideacct?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -79,14 +71,12 @@ class Guide extends WeChat
 
     /**
      * Obtain sensitive word information and automatic reply information of service number
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getGuideAcctConfig()
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguideacctconfig?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -95,7 +85,6 @@ class Guide extends WeChat
 
     /**
      * Service number pull shopping guide list
-     *
      * @param integer $page
      * @param integer $num
      * @return array
@@ -104,7 +93,6 @@ class Guide extends WeChat
      */
     public function getGuideAcctList($page = 0, $num = 10)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguideacctconfig?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -113,7 +101,6 @@ class Guide extends WeChat
 
     /**
      * Get shopping guide chat history
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -121,7 +108,6 @@ class Guide extends WeChat
      */
     public function getGuideBuyerChatRecord($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguideacct?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -130,7 +116,6 @@ class Guide extends WeChat
 
     /**
      * Get quick reply information for shopping guide
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -138,7 +123,6 @@ class Guide extends WeChat
      */
     public function getGuideConfig($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguideconfig?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -147,7 +131,6 @@ class Guide extends WeChat
 
     /**
      * Generate QR code for shopping guide
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -155,7 +138,6 @@ class Guide extends WeChat
      */
     public function guideCreateQrCode($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/guidecreateqrcode?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -164,7 +146,6 @@ class Guide extends WeChat
 
     /**
      * Push show Wechat a path menu
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -172,7 +153,6 @@ class Guide extends WeChat
      */
     public function pushShowWxaPathMenu($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/pushshowwxapathmenu?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -181,7 +161,6 @@ class Guide extends WeChat
 
     /**
      * Set sensitive words and automatic reply for service number
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -189,7 +168,6 @@ class Guide extends WeChat
      */
     public function setGuideAcctConfig($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/setguideacctconfig?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -198,7 +176,6 @@ class Guide extends WeChat
 
     /**
      * Set up quick response to shopping guide
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -206,7 +183,6 @@ class Guide extends WeChat
      */
     public function setGuideConfig($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/setguideconfig?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -215,7 +191,6 @@ class Guide extends WeChat
 
     /**
      * Update shopping guide nickname or avatar
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -223,7 +198,6 @@ class Guide extends WeChat
      */
     public function updateGuideAcct($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/setguideconfig?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -232,7 +206,6 @@ class Guide extends WeChat
 
     /**
      * Add display label information
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -240,7 +213,6 @@ class Guide extends WeChat
      */
     public function addGuideBuyerDisplayTag($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/addguidebuyerdisplaytag?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -249,7 +221,6 @@ class Guide extends WeChat
 
     /**
      * Add queryable tags for fans
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -257,7 +228,6 @@ class Guide extends WeChat
      */
     public function addGuideBuyerTag($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/addguidebuyertag?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -266,7 +236,6 @@ class Guide extends WeChat
 
     /**
      * Add tag optional value
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -274,7 +243,6 @@ class Guide extends WeChat
      */
     public function addGuideTagOption($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/addguidetagoption?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -283,7 +251,6 @@ class Guide extends WeChat
 
     /**
      * Remove fans tag
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -291,7 +258,6 @@ class Guide extends WeChat
      */
     public function delGuideBuyerTag($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/delguidebuyertag?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -300,7 +266,6 @@ class Guide extends WeChat
 
     /**
      * Query display tag information
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -308,7 +273,6 @@ class Guide extends WeChat
      */
     public function getGuideBuyerDisplayTag($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguidebuyerdisplaytag?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -317,7 +281,6 @@ class Guide extends WeChat
 
     /**
      * Query fans tags
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -325,7 +288,6 @@ class Guide extends WeChat
      */
     public function getGuideBuyerTag($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguidebuyertag?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -334,14 +296,12 @@ class Guide extends WeChat
 
     /**
      * Query label optional value information
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getGuideTagOption()
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguidetagoption?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -350,7 +310,6 @@ class Guide extends WeChat
 
     /**
      * New queryable tag type, support to create 4 new types of queryable tags
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -358,7 +317,6 @@ class Guide extends WeChat
      */
     public function newGuideTagOption($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/newguidetagoption?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -367,7 +325,6 @@ class Guide extends WeChat
 
     /**
      * Filter fans based on tag value
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -375,7 +332,6 @@ class Guide extends WeChat
      */
     public function queryGuideBuyerByTag($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/queryguidebuyerbytag?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -384,7 +340,6 @@ class Guide extends WeChat
 
     /**
      * Add fans for service account shopping guide
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -392,7 +347,6 @@ class Guide extends WeChat
      */
     public function addGuideBuyerRelation($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/addguidebuyerrelation?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -401,7 +355,6 @@ class Guide extends WeChat
 
     /**
      * Remove fans from shopping guide
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -409,7 +362,6 @@ class Guide extends WeChat
      */
     public function delGuideBuyerRelation($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/delguidebuyerrelation?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -418,7 +370,6 @@ class Guide extends WeChat
 
     /**
      * Query the binding relationship between a certain fan and shopping guide
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -426,7 +377,6 @@ class Guide extends WeChat
      */
     public function getGuideBuyerRelation($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguidebuyerrelation?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -435,7 +385,6 @@ class Guide extends WeChat
 
     /**
      * Query the binding relationship between the fan and the shopping guide through the fan information
-     *
      * @param string $openid
      * @return array
      * @throws InvalidResponseException
@@ -443,7 +392,6 @@ class Guide extends WeChat
      */
     public function getGuideBuyerRelationByBuyer($openid)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguidebuyerrelation?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -452,7 +400,6 @@ class Guide extends WeChat
 
     /**
      * Pull the list of fans of shopping guide
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -460,7 +407,6 @@ class Guide extends WeChat
      */
     public function getGuideBuyerRelationList($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguidebuyerrelationlist?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -469,7 +415,6 @@ class Guide extends WeChat
 
     /**
      * Move fans from one shopping guide to another
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -477,7 +422,6 @@ class Guide extends WeChat
      */
     public function rebindGuideAcctForBuyer($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/rebindguideacctforbuyer?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -486,7 +430,6 @@ class Guide extends WeChat
 
     /**
      * Update fan nickname
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -494,7 +437,6 @@ class Guide extends WeChat
      */
     public function updateGuideBuyerRelation($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/updateguidebuyerrelation?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -503,7 +445,6 @@ class Guide extends WeChat
 
     /**
      * Delete applet card material
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -511,7 +452,6 @@ class Guide extends WeChat
      */
     public function delGuideCardMaterial($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/delguidecardmaterial?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -520,7 +460,6 @@ class Guide extends WeChat
 
     /**
      * Delete picture material
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -528,7 +467,6 @@ class Guide extends WeChat
      */
     public function delGuideImageMaterial($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/delguideimagematerial?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -537,7 +475,6 @@ class Guide extends WeChat
 
     /**
      * Delete text material
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -545,7 +482,6 @@ class Guide extends WeChat
      */
     public function delGuideWordMaterial($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/delguidewordmaterial?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -554,7 +490,6 @@ class Guide extends WeChat
 
     /**
      * Get Mini Program Card Material Information
-     *
      * @param integer $type
      * @return array
      * @throws InvalidResponseException
@@ -562,7 +497,6 @@ class Guide extends WeChat
      */
     public function getGuideCardMaterial($type = 0)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguidecardmaterial?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -571,7 +505,6 @@ class Guide extends WeChat
 
     /**
      * Get image material information
-     *
      * @param integer $type Operation type
      * @param integer $start Pagination query, starting position
      * @param integer $num Pagination query, query number
@@ -581,7 +514,6 @@ class Guide extends WeChat
      */
     public function getGuideImageMaterial($type = 0, $start = 0, $num = 10)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguideimagematerial?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -590,7 +522,6 @@ class Guide extends WeChat
 
     /**
      * Get text material information
-     *
      * @param integer $type Operation type
      * @param integer $start Pagination query, starting position
      * @param integer $num Pagination query, query number
@@ -600,7 +531,6 @@ class Guide extends WeChat
      */
     public function getGuideWordMaterial($type = 0, $start = 0, $num = 10)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/getguidewordmaterial?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -609,7 +539,6 @@ class Guide extends WeChat
 
     /**
      * Add Mini Program Card Material
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -617,7 +546,6 @@ class Guide extends WeChat
      */
     public function setGuideCardMaterial($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/setguidecardmaterial?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -626,7 +554,6 @@ class Guide extends WeChat
 
     /**
      * Add picture material
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -634,7 +561,6 @@ class Guide extends WeChat
      */
     public function setGuideImageMaterial($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/setguideimagematerial?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -643,7 +569,6 @@ class Guide extends WeChat
 
     /**
      * Add text material for service number
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -651,11 +576,9 @@ class Guide extends WeChat
      */
     public function setGuideWordMaterial($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/guide/setguidewordmaterial?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->callPostApi($url, $data, true);
     }
-
 }

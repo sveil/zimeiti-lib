@@ -18,15 +18,13 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\AliPay;
 
 /**
- * Alipay transfer to account
- *
  * Class Transfer
+ * Alipay transfer to account
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\alipay
+ * @package sveil\lib\rep\alipay
  */
 class Transfer extends AliPay
 {
-
     /**
      * Old: Transfer to designated Alipay account
      * @param array $options
@@ -37,6 +35,7 @@ class Transfer extends AliPay
     public function apply($options)
     {
         $this->options->set('method', 'alipay.fund.trans.toaccount.transfer');
+
         return $this->getResult($options);
     }
 
@@ -51,6 +50,7 @@ class Transfer extends AliPay
     {
         $this->setAppCertSnAndRootCertSn();
         $this->options->set('method', 'alipay.fund.trans.uni.transfer');
+
         return $this->getResult($options);
     }
 
@@ -65,6 +65,7 @@ class Transfer extends AliPay
     {
         $this->setAppCertSnAndRootCertSn();
         $this->options->set('method', 'alipay.fund.trans.common.query');
+
         return $this->getResult($options);
 
     }
@@ -80,6 +81,7 @@ class Transfer extends AliPay
     {
         $this->setAppCertSnAndRootCertSn();
         $this->options->set('method', 'alipay.fund.account.query');
+
         return $this->getResult($options);
     }
 
@@ -91,17 +93,20 @@ class Transfer extends AliPay
         if (!$this->config->get('app_cert')) {
             throw new InvalidArgumentException("Missing Config -- [app_cert]");
         }
+
         if (!$this->config->get('root_cert')) {
             throw new InvalidArgumentException("Missing Config -- [root_cert]");
         }
+
         $this->options->set('app_cert_sn', $this->getCertSN($this->config->get('app_cert')));
         $this->options->set('alipay_root_cert_sn', $this->getRootCertSN($this->config->get('root_cert')));
+
         if (!$this->options->get('app_cert_sn')) {
             throw new InvalidArgumentException("Missing options -- [app_cert_sn]");
         }
+
         if (!$this->options->get('alipay_root_cert_sn')) {
             throw new InvalidArgumentException("Missing options -- [alipay_root_cert_sn]");
         }
     }
-
 }

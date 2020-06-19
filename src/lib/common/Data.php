@@ -21,7 +21,7 @@ use sveil\exception\PDOException;
  * Class Data
  * Data processing tools
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class Data
 {

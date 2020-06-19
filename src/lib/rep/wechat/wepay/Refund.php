@@ -18,18 +18,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WePay;
 
 /**
- * WeChat merchant refund
- *
  * Class Refund
+ * WeChat merchant refund
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wepay
+ * @package sveil\lib\rep\wechat\wepay
  */
 class Refund extends WePay
 {
-
     /**
      * Create refund order
-     *
      * @param array $options
      * @return array
      * @throws InvalidResponseException
@@ -37,7 +34,6 @@ class Refund extends WePay
      */
     public function create(array $options)
     {
-
         $url = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
 
         return $this->callPostApi($url, $options, true);
@@ -45,7 +41,6 @@ class Refund extends WePay
 
     /**
      * Check refund
-     *
      * @param array $options
      * @return array
      * @throws InvalidResponseException
@@ -53,7 +48,6 @@ class Refund extends WePay
      */
     public function query(array $options)
     {
-
         $url = 'https://api.mch.weixin.qq.com/pay/refundquery';
 
         return $this->callPostApi($url, $options);
@@ -61,13 +55,11 @@ class Refund extends WePay
 
     /**
      * Get a refund notice
-     *
      * @return array
      * @throws InvalidResponseException
      */
     public function getNotify()
     {
-
         $data = Tools::xml2arr(file_get_contents("php://input"));
 
         if (!isset($data['return_code']) || $data['return_code'] !== 'SUCCESS') {
@@ -89,5 +81,4 @@ class Refund extends WePay
 
         return $data;
     }
-
 }

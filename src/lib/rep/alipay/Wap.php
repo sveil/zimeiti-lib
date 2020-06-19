@@ -15,18 +15,15 @@ namespace sveil\lib\rep\alipay;
 use sveil\lib\rep\AliPay;
 
 /**
- * Mobile WAP website payment support
- *
  * Class Wap
+ * Mobile WAP website payment support
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\alipay
+ * @package sveil\lib\rep\alipay
  */
 class Wap extends AliPay
 {
-
     /**
      * Wap constructor
-     *
      * @param array $options
      */
     public function __construct(array $options)
@@ -38,14 +35,13 @@ class Wap extends AliPay
 
     /**
      * Create data operation
-     *
      * @param array $options
      * @return string
      */
     public function apply($options)
     {
         parent::applyData($options);
+
         return $this->buildPayHtml();
     }
-
 }

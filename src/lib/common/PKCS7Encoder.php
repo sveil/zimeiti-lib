@@ -13,26 +13,22 @@
 namespace sveil\lib\common;
 
 /**
- * PKCS7 algorithm - encryption and decryption
- *
  * Class PKCS7Encoder
+ * PKCS7 algorithm - encryption and decryption
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class PKCS7Encoder
 {
-
     public static $blockSize = 32;
 
     /**
      * Padding the plaintext that needs to be encrypted
-     *
      * @param string $text Plain text requiring padding
      * @return string Fill in plain text strings
      */
     public function encode($text)
     {
-
         $amount_to_pad = PKCS7Encoder::$blockSize - (strlen($text) % PKCS7Encoder::$blockSize);
 
         if ($amount_to_pad == 0) {
@@ -50,7 +46,6 @@ class PKCS7Encoder
 
     /**
      * Fill-in and delete the decrypted plaintext
-     *
      * @param string $text Decrypted plaintext
      * @return string Plaintext with padding removed
      */
@@ -64,5 +59,4 @@ class PKCS7Encoder
 
         return substr($text, 0, strlen($text) - $pad);
     }
-
 }

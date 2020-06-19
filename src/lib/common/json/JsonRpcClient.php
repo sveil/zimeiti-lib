@@ -15,15 +15,13 @@ namespace sveil\lib\common\json;
 use sveil\Exception;
 
 /**
- * JsonRpc Client
- *
  * Class JsonRpcClient
+ * JsonRpc Client
  * @author Richard <richard@sveil.com>
- * @package sveil\common\json
+ * @package sveil\lib\common\json
  */
 class JsonRpcClient
 {
-
     /**
      * Request ID
      * @var integer
@@ -42,15 +40,12 @@ class JsonRpcClient
      */
     public function __construct($proxy)
     {
-
         $this->id    = Data::randomCode(16, 3);
         $this->proxy = $proxy;
-
     }
 
     /**
      * Execute JsonRpc request
-     *
      * @param string $method
      * @param array $params
      * @return mixed
@@ -58,7 +53,6 @@ class JsonRpcClient
      */
     public function __call($method, $params)
     {
-
         // Performs the HTTP POST
         $options = [
             'http' => [
@@ -72,9 +66,11 @@ class JsonRpcClient
 
         if ($fp = fopen($this->proxy, 'r', false, stream_context_create($options))) {
             $response = '';
+
             while ($row = fgets($fp)) {
                 $response .= trim($row) . "\n";
             }
+
             fclose($fp);
             $response = json_decode($response, true);
         } else {
@@ -91,7 +87,5 @@ class JsonRpcClient
         } else {
             throw new Exception("请求错误：{$response['error']['message']}", $response['error']['code']);
         }
-
     }
-
 }

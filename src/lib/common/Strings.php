@@ -13,29 +13,24 @@
 namespace sveil\lib\common;
 
 /**
- * String tool
- *
  * Class Strings
+ * String tool
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  * @method string arrStr($arr) static Array to string
  */
 class Strings
 {
-
     /**
      * Array to string
-     *
      * @param array $arr
      * @return string
      */
     public static function arrStr($arr)
     {
-
         $result = str_replace('array (', '[', var_export($arr, true));
         $result = str_replace(')', ']', $result);
 
         return $result;
     }
-
 }

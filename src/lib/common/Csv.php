@@ -13,24 +13,20 @@
 namespace sveil\lib\common;
 
 /**
- * CSV export tool
- *
  * Class Csv
+ * CSV export tool
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class Csv
 {
-
     /**
      * Write into CSV file header
-     *
      * @param string $filename Export file
      * @param array $headers CSV header (One-dimensional array)
      */
     public static function header($filename, array $headers)
     {
-
         header('Content-Type: application/octet-stream');
         header("Content-Disposition: attachment; filename=" . iconv('UTF-8', 'GB2312//IGNORE', $filename));
         $handle = fopen('php://output', 'w');
@@ -49,17 +45,16 @@ class Csv
 
     /**
      * Write into CSV file content
-     *
      * @param array $list Data list (two-dimensional array or multi-dimensional array)
      * @param array $rules Data rules (one-dimensional array)
      */
     public static function body(array $list, array $rules)
     {
-
         $handle = fopen('php://output', 'w');
 
         foreach ($list as $data) {
             $rows = [];
+
             foreach ($rules as $rule) {
                 $rows[] = self::parseKeyDotValue($data, $rule);
             }
@@ -70,19 +65,16 @@ class Csv
         if (is_resource($handle)) {
             fclose($handle);
         }
-
     }
 
     /**
      * Query from array key (with dot rules)
-     *
      * @param array $data data
      * @param string $rule rules, such as: order.order_no
      * @return mixed
      */
     public static function parseKeyDotValue(array $data, $rule)
     {
-
         list($temp, $attr) = [$data, explode('.', trim($rule, '.'))];
 
         while ($key = array_shift($attr)) {
@@ -91,5 +83,4 @@ class Csv
 
         return (is_string($temp) || is_numeric($temp)) ? @iconv('UTF-8', 'GB2312//IGNORE', "{$temp}") : '';
     }
-
 }

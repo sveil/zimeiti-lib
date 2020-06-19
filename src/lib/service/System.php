@@ -26,7 +26,7 @@ use sveil\lib\service\Node;
  * Class System
  * System parameter management service
  * @author Richard <richard@sveil.com>
- * @package sveil\service
+ * @package sveil\lib\service
  */
 class System extends Service
 {

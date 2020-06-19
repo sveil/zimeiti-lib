@@ -19,7 +19,7 @@ use sveil\lib\Service;
  *
  * Class Data
  * @author Richard <richard@sveil.com>
- * @package sveil\service
+ * @package sveil\lib\service
  */
 class Data extends Service
 {

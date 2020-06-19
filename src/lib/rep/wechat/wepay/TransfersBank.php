@@ -20,18 +20,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WePay;
 
 /**
- * WeChat merchant transfers money to bank card
- *
  * Class TransfersBank
+ * WeChat merchant transfers money to bank card
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wepay
+ * @package sveil\lib\rep\wechat\wepay
  */
 class TransfersBank extends WePay
 {
-
     /**
      * Corporate payment to bank card
-     *
      * @param array $options
      * @return array
      * @throws InvalidDecryptException
@@ -40,7 +37,6 @@ class TransfersBank extends WePay
      */
     public function create(array $options)
     {
-
         if (!isset($options['partner_trade_no'])) {
             throw new InvalidArgumentException('Missing Options -- [partner_trade_no]');
         }
@@ -75,7 +71,6 @@ class TransfersBank extends WePay
 
     /**
      * Merchant enterprise payment to bank card operation for results query
-     *
      * @param string $partnerTradeNo Merchant order number, need to be unique
      * @return array
      * @throws InvalidResponseException
@@ -83,7 +78,6 @@ class TransfersBank extends WePay
      */
     public function query($partnerTradeNo)
     {
-
         $this->params->offsetUnset('appid');
         $url = 'https://api.mch.weixin.qq.com/mmpaysptrans/query_bank';
 
@@ -92,7 +86,6 @@ class TransfersBank extends WePay
 
     /**
      * RSA encryption processing
-     *
      * @param string $string
      * @param string $encrypted
      * @return string
@@ -102,7 +95,6 @@ class TransfersBank extends WePay
      */
     private function rsaEncode($string, $encrypted = '')
     {
-
         $search    = ['-----BEGIN RSA PUBLIC KEY-----', '-----END RSA PUBLIC KEY-----', "\n", "\r"];
         $pkc1      = str_replace($search, '', $this->getRsaContent());
         $publicKey = '-----BEGIN PUBLIC KEY-----' . PHP_EOL . wordwrap('MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A' . $pkc1, 64, PHP_EOL, true) .
@@ -117,14 +109,12 @@ class TransfersBank extends WePay
 
     /**
      * Get the contents of the signed file
-     *
      * @return string
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     private function getRsaContent()
     {
-
         $cacheKey = "pub_ras_key_" . $this->config->get('mch_id');
 
         if (($pub_key = Tools::getCache($cacheKey))) {
@@ -143,5 +133,4 @@ class TransfersBank extends WePay
 
         return $data['pub_key'];
     }
-
 }

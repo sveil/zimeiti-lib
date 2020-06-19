@@ -21,7 +21,7 @@ use sveil\lib\rep\WeChat;
  *
  * Class Tags
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat
+ * @package sveil\lib\rep\wechat
  */
 class Tags extends WeChat
 {

@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * WeChat Applet Data Interface
- *
  * Class Total
+ * WeChat Applet Data Interface
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Total extends WeChat
 {
-
     /**
      * Data analysis interface
-     *
      * @param string $begin_date start date
      * @param string $end_date End date, limited to query 1 day of data, the maximum value allowed by end_date is yesterday
      * @return array
@@ -37,7 +34,6 @@ class Total extends WeChat
      */
     public function getWeanalysisAppidDailySummarytrend($begin_date, $end_date)
     {
-
         $url = 'https://api.weixin.qq.com/datacube/getweanalysisappiddailysummarytrend?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -46,7 +42,6 @@ class Total extends WeChat
 
     /**
      * Access analysis
-     *
      * @param string $begin_date start date
      * @param string $end_date End date, limited to query 1 day of data, the maximum value allowed by end_date is yesterday
      * @return array
@@ -55,7 +50,6 @@ class Total extends WeChat
      */
     public function getWeanalysisAppidDailyVisittrend($begin_date, $end_date)
     {
-
         $url = 'https://api.weixin.qq.com/datacube/getweanalysisappiddailyvisittrend?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -64,7 +58,6 @@ class Total extends WeChat
 
     /**
      * Weekly trend
-     *
      * @param string $begin_date start date，Is a Monday date
      * @param string $end_date End date is Sunday date, limited query for one week of data
      * @return array
@@ -73,7 +66,6 @@ class Total extends WeChat
      */
     public function getWeanalysisAppidWeeklyVisittrend($begin_date, $end_date)
     {
-
         $url = 'https://api.weixin.qq.com/datacube/getweanalysisappidweeklyvisittrend?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -82,7 +74,6 @@ class Total extends WeChat
 
     /**
      * Monthly trend
-     *
      * @param string $begin_date start date，for the first day of the natural month
      * @param string $end_date End date, the last day of the natural month, limited query for one month of data
      * @return array
@@ -91,7 +82,6 @@ class Total extends WeChat
      */
     public function getWeanalysisAppidMonthlyVisittrend($begin_date, $end_date)
     {
-
         $url = 'https://api.weixin.qq.com/datacube/getweanalysisappidmonthlyvisittrend?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -100,7 +90,6 @@ class Total extends WeChat
 
     /**
      * Access distribution
-     *
      * @param string $begin_date start date
      * @param string $end_date End date, limited to query 1 day of data, the maximum value allowed by end_date is yesterday
      * @return array
@@ -109,7 +98,6 @@ class Total extends WeChat
      */
     public function getWeanalysisAppidVisitdistribution($begin_date, $end_date)
     {
-
         $url = 'https://api.weixin.qq.com/datacube/getweanalysisappidvisitdistribution?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -118,7 +106,6 @@ class Total extends WeChat
 
     /**
      * Daily retention
-     *
      * @param string $begin_date start date
      * @param string $end_date End date, limited to query 1 day of data, the maximum value allowed by end_date is yesterday
      * @return array
@@ -127,7 +114,6 @@ class Total extends WeChat
      */
     public function getWeanalysisAppidDailyRetaininfo($begin_date, $end_date)
     {
-
         $url = 'https://api.weixin.qq.com/datacube/getweanalysisappiddailyretaininfo?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -136,7 +122,6 @@ class Total extends WeChat
 
     /**
      * Weekly retention
-     *
      * @param string $begin_date start date，Is a Monday date
      * @param string $end_date End date is Sunday date, limited query for one week of data
      * @return array
@@ -145,7 +130,6 @@ class Total extends WeChat
      */
     public function getWeanalysisAppidWeeklyRetaininfo($begin_date, $end_date)
     {
-
         $url = 'https://api.weixin.qq.com/datacube/getweanalysisappidweeklyretaininfo?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -154,7 +138,6 @@ class Total extends WeChat
 
     /**
      * Monthly retention
-     *
      * @param string $begin_date start date，for the first day of the natural month
      * @param string $end_date End date, the last day of the natural month, limited query for one month of data
      * @return array
@@ -163,7 +146,6 @@ class Total extends WeChat
      */
     public function getWeanalysisAppidMonthlyRetaininfo($begin_date, $end_date)
     {
-
         $url = 'https://api.weixin.qq.com/datacube/getweanalysisappidmonthlyretaininfo?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -172,7 +154,6 @@ class Total extends WeChat
 
     /**
      * Visit page
-     *
      * @param string $begin_date start date
      * @param string $end_date End date, limited to query 1 day of data, the maximum value allowed by end_date is yesterday
      * @return array
@@ -181,7 +162,6 @@ class Total extends WeChat
      */
     public function getWeanalysisAppidVisitPage($begin_date, $end_date)
     {
-
         $url = 'https://api.weixin.qq.com/datacube/getweanalysisappidvisitpage?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -199,11 +179,9 @@ class Total extends WeChat
      */
     public function getWeanalysisAppidUserportrait($begin_date, $end_date)
     {
-
         $url = 'https://api.weixin.qq.com/datacube/getweanalysisappiduserportrait?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->callPostApi($url, ['begin_date' => $begin_date, 'end_date' => $end_date], true);
     }
-
 }

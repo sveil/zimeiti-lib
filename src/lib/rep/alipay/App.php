@@ -15,18 +15,15 @@ namespace sveil\lib\rep\alipay;
 use sveil\lib\rep\AliPay;
 
 /**
- * Alipay App Payment Gateway
- *
  * Class App
+ * Alipay App Payment Gateway
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\alipay
+ * @package sveil\lib\rep\alipay
  */
 class App extends AliPay
 {
-
     /**
      * App constructor
-     *
      * @param array $options
      */
     public function __construct(array $options)
@@ -38,7 +35,6 @@ class App extends AliPay
 
     /**
      * Create data operation
-     *
      * @param array $options
      * @return string
      */
@@ -47,5 +43,4 @@ class App extends AliPay
         $this->applyData($options);
         return http_build_query($this->options->get());
     }
-
 }

@@ -18,7 +18,7 @@ use sveil\lib\Service;
  * Class Node
  * Application node service management
  * @author Richard <richard@sveil.com>
- * @package sveil\service
+ * @package sveil\lib\service
  */
 class Node extends Service
 {

@@ -15,18 +15,15 @@ namespace sveil\lib\rep\storage;
 use sveil\lib\File;
 
 /**
- * Local file storage
- *
  * Class Local
+ * Local file storage
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\storage
+ * @package sveil\lib\rep\storage
  */
 class Local extends File
 {
-
     /**
      * Check if the file already exists
-     *
      * @param string $name file name
      * @param boolean $safe Safe Mode
      * @return boolean
@@ -38,7 +35,6 @@ class Local extends File
 
     /**
      * Read file content from Key
-     *
      * @param string $name file name
      * @param boolean $safe Safe Mode
      * @return string
@@ -54,7 +50,6 @@ class Local extends File
 
     /**
      * Get the current URL of a file
-     *
      * @param string $name file name
      * @param boolean $safe Safe Mode
      * @return boolean|string|null
@@ -70,7 +65,6 @@ class Local extends File
 
     /**
      * Obtain the local upload target address according to the configuration
-     *
      * @return string
      */
     public function upload()
@@ -80,7 +74,6 @@ class Local extends File
 
     /**
      * Get server URL prefix
-     *
      * @param string $name file name
      * @param boolean $safe Safe Mode
      * @return string|null
@@ -92,12 +85,12 @@ class Local extends File
         }
 
         $root = rtrim(dirname(request()->basefile(true)), '\\/');
+
         return "{$root}/" . config('upload_dir') . "/{$name}";
     }
 
     /**
      * Get file path
-     *
      * @param string $name file name
      * @param boolean $safe Safe Mode
      * @return string
@@ -105,12 +98,12 @@ class Local extends File
     public function path($name, $safe = false)
     {
         $path = $safe ? 'safefile' : config('upload_dir');
+
         return str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT'] . "/{$path}/{$name}");
     }
 
     /**
      * File is stored locally
-     *
      * @param string $name file name
      * @param string $content document content
      * @param boolean $safe Safe Mode
@@ -121,19 +114,19 @@ class Local extends File
         try {
             $file = $this->path($name, $safe);
             file_exists(dirname($file)) || mkdir(dirname($file), 0755, true);
+
             if (file_put_contents($file, $content)) {
                 return $this->info($name, $safe);
             }
-
         } catch (\Exception $e) {
             Log::error(__METHOD__ . " 本地文件存储失败，{$e->getMessage()}");
         }
+
         return null;
     }
 
     /**
      * Get file information
-     *
      * @param string $name file name
      * @param boolean $safe Safe Mode
      * @return array|null
@@ -149,7 +142,6 @@ class Local extends File
 
     /**
      * Delete Files
-     *
      * @param string $name file name
      * @param boolean $safe Safe Mode
      * @return boolean|null
@@ -162,5 +154,4 @@ class Local extends File
             return true;
         }
     }
-
 }

@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * Applet Operation and Maintenance Center
- *
  * Class Operation
+ * Applet Operation and Maintenance Center
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Operation extends WeChat
 {
-
     /**
      * Real-time log query
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -36,11 +33,9 @@ class Operation extends WeChat
      */
     public function realtimelogSearch($data)
     {
-
         $url = 'https://api.weixin.qq.com/wxaapi/userlog/userlog_search?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->callPostApi($url, $data, true);
     }
-
 }

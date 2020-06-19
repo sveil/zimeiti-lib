@@ -23,7 +23,7 @@ use sveil\exception\PDOException;
  *
  * Class Extend
  * @author Richard <richard@sveil.com>
- * @package sveil\service
+ * @package sveil\lib\service
  * =================================
  * =================================
  * Send domestic SMS need to give product code [productid]

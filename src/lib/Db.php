@@ -18,7 +18,7 @@ use sveil\exception\DbException;
  * Class Db
  * Database base class
  * @author Richard <richard@sveil.com>
- * @package sveil
+ * @package sveil\lib
  */
 class Db
 {

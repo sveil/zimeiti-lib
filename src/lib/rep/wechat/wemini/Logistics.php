@@ -17,15 +17,13 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * Applets Logistics Assistant
- *
  * Class Logistics
+ * Applets Logistics Assistant
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Logistics extends WeChat
 {
-
     /**
      * Generate waybill
      * @param array $data
@@ -35,7 +33,6 @@ class Logistics extends WeChat
      */
     public function addOrder($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/business/order/add?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -44,7 +41,6 @@ class Logistics extends WeChat
 
     /**
      * Cancel Waybill
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -52,7 +48,6 @@ class Logistics extends WeChat
      */
     public function cancelOrder($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/business/order/cancel?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -61,14 +56,12 @@ class Logistics extends WeChat
 
     /**
      * Get a list of supported courier companies
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getAllDelivery()
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/business/delivery/getall?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -77,7 +70,6 @@ class Logistics extends WeChat
 
     /**
      * Get waybill data
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -85,7 +77,6 @@ class Logistics extends WeChat
      */
     public function getOrder($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/business/order/get?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -94,7 +85,6 @@ class Logistics extends WeChat
 
     /**
      * Check the waybill track
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -102,7 +92,6 @@ class Logistics extends WeChat
      */
     public function getPath($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/business/path/get?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -111,14 +100,12 @@ class Logistics extends WeChat
 
     /**
      * Get a printer. If you need to use WeChat ordering PC software, you only need to call
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getPrinter()
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/business/printer/getall?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -127,7 +114,6 @@ class Logistics extends WeChat
 
     /**
      * Get the balance of the electronic face sheet. Can only be called when using an affiliate express company
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -135,7 +121,6 @@ class Logistics extends WeChat
      */
     public function getQuota($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/business/path/get?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -144,7 +129,6 @@ class Logistics extends WeChat
 
     /**
      * Simulate express company to update order status, this interface can only be tested by user
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -152,7 +136,6 @@ class Logistics extends WeChat
      */
     public function testUpdateOrder($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/business/test_update_order?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -161,7 +144,6 @@ class Logistics extends WeChat
 
     /**
      * Configure the face sheet printer, if you need to use WeChat ordering PC software, you only need to call
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -169,7 +151,6 @@ class Logistics extends WeChat
      */
     public function updatePrinter($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/business/printer/update?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -178,7 +159,6 @@ class Logistics extends WeChat
 
     /**
      * Get contact information
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -186,7 +166,6 @@ class Logistics extends WeChat
      */
     public function getContact($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/delivery/contact/get?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -195,7 +174,6 @@ class Logistics extends WeChat
 
     /**
      * Preview the face sheet template. Used for debugging surface single template
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -203,7 +181,6 @@ class Logistics extends WeChat
      */
     public function previewTemplate($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/delivery/template/preview?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -212,7 +189,6 @@ class Logistics extends WeChat
 
     /**
      * Update merchant review results
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -220,7 +196,6 @@ class Logistics extends WeChat
      */
     public function updateBusiness($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/delivery/service/business/update?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -229,7 +204,6 @@ class Logistics extends WeChat
 
     /**
      * Update waybill track
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -237,11 +211,9 @@ class Logistics extends WeChat
      */
     public function updatePath($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/delivery/path/update?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->callPostApi($url, $data, true);
     }
-
 }

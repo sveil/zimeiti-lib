@@ -12,7 +12,6 @@
 
 namespace sveil\lib\helper;
 
-use sveil\lib\Helper;
 use sveil\Db;
 use sveil\db\exception\DataNotFoundException;
 use sveil\db\exception\ModelNotFoundException;
@@ -20,17 +19,16 @@ use sveil\db\Query;
 use sveil\Exception;
 use sveil\exception\DbException;
 use sveil\exception\PDOException;
+use sveil\lib\Helper;
 
 /**
- * Page management assistant
- *
  * Class Pager
+ * Page management assistant
  * @author Richard <richard@sveil.com>
- * @package sveil\helper
+ * @package sveil\lib\helper
  */
 class Pager extends Helper
 {
-
     /**
      * Whether to enable paging
      * @var boolean
@@ -57,7 +55,6 @@ class Pager extends Helper
 
     /**
      * Logic initialization
-     *
      * @param string|Query $dbQuery
      * @param boolean $page Whether to enable paging
      * @param boolean $display Whether to render the template
@@ -72,7 +69,6 @@ class Pager extends Helper
      */
     public function init($dbQuery, $page = true, $display = true, $total = false, $limit = 0)
     {
-
         $this->page    = $page;
         $this->total   = $total;
         $this->limit   = $limit;
@@ -97,16 +93,20 @@ class Pager extends Helper
             // Display the number of records per page
             $limit = intval($this->controller->request->get('limit', cookie('page-limit')));
             cookie('page-limit', $limit = $limit >= 10 ? $limit : 20);
+
             if ($this->limit > 0) {
                 $limit = $this->limit;
             }
+
             $rows = [];
             $page = $this->query->paginate($limit, $this->total, ['query' => ($query = $this->controller->request->get())]);
+
             foreach ([10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200] as $num) {
                 list($query['limit'], $query['page'], $selected) = [$num, '1', $limit === $num ? 'selected' : ''];
                 $url                                             = url('@admin') . '#' . $this->controller->request->baseUrl() . '?' . urldecode(http_build_query($query));
                 array_push($rows, "<option data-num='{$num}' value='{$url}' {$selected}>{$num}</option>");
             }
+
             $selects  = "<select onchange='location.href=this.options[this.selectedIndex].value' data-auto-none>" . join('', $rows) . "</select>";
             $pagetext = lang('lib_page_html', [$page->total(), $selects, $page->lastPage(), $page->currentPage()]);
             $pagehtml = "<div class='pagination-container nowrap'><span>{$pagetext}</span>{$page->render()}</div>";
@@ -115,23 +115,21 @@ class Pager extends Helper
         } else {
             $result = ['list' => $this->query->select()];
         }
+
         if (false !== $this->controller->callback('_page_filter', $result['list']) && $this->display) {
             return $this->controller->fetch('', $result);
         } else {
             return $result;
         }
-
     }
 
     /**
      * List sort operation
-     *
      * @throws Exception
      * @throws PDOException
      */
     protected function _sort()
     {
-
         switch (strtolower($this->controller->request->post('action', ''))) {
             case 'resort':
                 foreach ($this->controller->request->post() as $key => $value) {
@@ -142,18 +140,18 @@ class Pager extends Helper
                         }
                     }
                 }
+
                 return $this->controller->success(lang('lib_sort_success'), '');
             case 'sort':
                 $where = $this->controller->request->post();
                 $sort  = intval($this->controller->request->post('sort'));
                 unset($where['action'], $where['sort']);
+
                 if (Db::table($this->query->getTable())->where($where)->update(['sort' => $sort]) !== false) {
                     return $this->controller->success(lang('lib_sort_success'), '');
                 } else {
                     return $this->controller->error(lang('lib_sort_error'));
                 }
         }
-
     }
-
 }

@@ -12,17 +12,16 @@
 
 namespace sveil\lib\service;
 
-use sveil\lib\Service;
 use sveil\Db;
 use sveil\Exception;
 use sveil\exception\PDOException;
+use sveil\lib\Service;
 
 /**
  * Class Wechat
  * WeChat data service
  * @author Richard <richard@sveil.com>
- * @package sveil\service
- *
+ * @package sveil\lib\service
  * @method \wechat\card WeChatCard($appid) static WeChat card and coupon management
  * @method \wechat\custom WeChatCustom($appid) static WeChat customer service news
  * @method \wechat\limit WeChatLimit($appid) static Interface call frequency limit

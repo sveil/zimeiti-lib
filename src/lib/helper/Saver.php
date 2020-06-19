@@ -12,21 +12,19 @@
 
 namespace sveil\lib\helper;
 
-use sveil\lib\Helper;
 use sveil\db\Query;
 use sveil\Exception;
 use sveil\exception\PDOException;
+use sveil\lib\Helper;
 
 /**
- * Save data assistant
- *
  * Class Saver
+ * Save data assistant
  * @author Richard <richard@sveil.com>
- * @package sveil\helper
+ * @package sveil\lib\helper
  */
 class Saver extends Helper
 {
-
     /**
      * Form extension data
      * @var array
@@ -53,7 +51,6 @@ class Saver extends Helper
 
     /**
      * Logic initialization
-     *
      * @param Query|string $dbQuery
      * @param array $data Form extension data
      * @param string $field Data object primary key name
@@ -64,7 +61,6 @@ class Saver extends Helper
      */
     public function init($dbQuery, $data = [], $field = '', $where = [])
     {
-
         $this->where = $where;
         $this->query = $this->buildQuery($dbQuery);
         $this->data  = empty($data) ? $this->app->request->post() : $data;
@@ -74,6 +70,7 @@ class Saver extends Helper
         // Primary key restriction processing
         if (!isset($this->where[$this->field]) && is_string($this->value)) {
             $this->query->whereIn($this->field, explode(',', $this->value));
+
             if (isset($this->data)) {
                 unset($this->data[$this->field]);
             }
@@ -99,7 +96,5 @@ class Saver extends Helper
         } else {
             $this->controller->error(lang('lib_save_error'));
         }
-
     }
-
 }

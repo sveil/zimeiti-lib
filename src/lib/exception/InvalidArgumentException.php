@@ -13,15 +13,13 @@
 namespace sveil\lib\exception;
 
 /**
- * Exception thrown if an argument is not of the expected type
- *
  * Class InvalidArgumentException
+ * Exception thrown if an argument is not of the expected type
  * @author Richard <richard@sveil.com>
- * @package sveil\exception
+ * @package sveil\lib\exception
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {
-
     /**
      * @var array
      */
@@ -38,5 +36,4 @@ class InvalidArgumentException extends \InvalidArgumentException
         parent::__construct($message, intval($code));
         $this->raw = $raw;
     }
-
 }

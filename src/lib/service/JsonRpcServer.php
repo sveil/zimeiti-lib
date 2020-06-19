@@ -12,15 +12,15 @@
 
 namespace sveil\lib\service;
 
-use sveil\lib\Service;
 use sveil\exception\HttpResponseException;
+use sveil\lib\Service;
 
 /**
  * JsonRpc Server service
  *
  * Class JsonRpcServer
  * @author Richard <richard@sveil.com>
- * @package sveil\service
+ * @package sveil\lib\service
  */
 class JsonRpcServer extends Service
 {

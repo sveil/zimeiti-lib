@@ -19,15 +19,13 @@ use sveil\lib\exception\InvalidResponseException;
 use sveil\lib\exception\LocalCacheException;
 
 /**
- * Usage platform support
- *
  * Class Usage
+ * Usage platform support
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\weopen
+ * @package sveil\lib\rep\wechat\weopen
  */
 class Usage
 {
-
     /**
      * Current configuration object
      * @var DataArray
@@ -41,7 +39,6 @@ class Usage
      */
     public function __construct(array $options)
     {
-
         if (empty($options['component_token'])) {
             throw new InvalidArgumentException("Missing Config -- [component_token]");
         }
@@ -67,14 +64,12 @@ class Usage
 
     /**
      * Receive Tickets Pushed by WeOpen
-     *
      * @return bool|array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getComonentTicket()
     {
-
         $receive = new Receive([
             'token'          => $this->config->get('component_token'),
             'appid'          => $this->config->get('component_appid'),
@@ -93,7 +88,6 @@ class Usage
 
     /**
      * Get or refresh service AccessToken
-     *
      * @return bool|string
      * @throws InvalidResponseException
      * @throws LocalCacheException
@@ -125,7 +119,6 @@ class Usage
 
     /**
      * Obtain the basic information of the authorized party's account
-     *
      * @param string $authorizerAppid Appid of authorized WeOpen or Applet
      * @return array
      * @throws InvalidResponseException
@@ -133,7 +126,6 @@ class Usage
      */
     public function getAuthorizerInfo($authorizerAppid)
     {
-
         $componentAccessToken = $this->getComponentAccessToken();
         $url                  = "https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token={$componentAccessToken}";
         $data                 = [
@@ -151,7 +143,6 @@ class Usage
 
     /**
      * Confirm to accept the authorization of the high-level authority of a certain authority set by WeOpen
-     *
      * @param string $authorizerAppid Appid of authorized WeOpen or Applet
      * @param string $funcscopeCategoryId Permission Set ID
      * @param string $confirmValue Whether to confirm (1. Confirm authorization, 2. Cancel confirmation)
@@ -163,6 +154,7 @@ class Usage
     {
         $componentAccessToken = $this->getComponentAccessToken();
         $url                  = "https://api.weixin.qq.com/cgi-bin/component/api_confirm_authorization?component_access_token={$componentAccessToken}";
+
         return $this->httpPostForJson($url, [
             'confirm_value'         => $confirmValue,
             'authorizer_appid'      => $authorizerAppid,
@@ -173,7 +165,6 @@ class Usage
 
     /**
      * Set options for authorized parties
-     *
      * @param string $authorizerAppid Appid of authorized WeOpen or Applet
      * @param string $optionName Option name
      * @param string $optionValue Set option value
@@ -185,6 +176,7 @@ class Usage
     {
         $componentAccessToken = $this->getComponentAccessToken();
         $url                  = "https://api.weixin.qq.com/cgi-bin/component/api_set_authorizer_option?component_access_token={$componentAccessToken}";
+
         return $this->httpPostForJson($url, [
             'option_name'      => $optionName,
             'option_value'     => $optionValue,
@@ -195,7 +187,6 @@ class Usage
 
     /**
      * Get the option setting information of the authorized party
-     *
      * @param string $authorizerAppid Appid of authorized WeOpen or Applet
      * @param string $optionName Option name
      * @return array
@@ -206,6 +197,7 @@ class Usage
     {
         $componentAccessToken = $this->getComponentAccessToken();
         $url                  = "https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_option?component_access_token={$componentAccessToken}";
+
         return $this->httpPostForJson($url, [
             'option_name'      => $optionName,
             'authorizer_appid' => $authorizerAppid,
@@ -215,7 +207,6 @@ class Usage
 
     /**
      * Get pre-authentication code pre_auth_code
-     *
      * @return string
      * @throws InvalidResponseException
      * @throws LocalCacheException
@@ -225,15 +216,16 @@ class Usage
         $componentAccessToken = $this->getComponentAccessToken();
         $url                  = "https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?component_access_token={$componentAccessToken}";
         $result               = $this->httpPostForJson($url, ['component_appid' => $this->config->get('component_appid')]);
+
         if (empty($result['pre_auth_code'])) {
             throw new InvalidResponseException('GetPreauthCode Faild.', '0', $result);
         }
+
         return $result['pre_auth_code'];
     }
 
     /**
      * Obtain authorized bounce address
-     *
      * @param string $redirectUri Callback URI
      * @param integer $authType Account type to be authorized
      * @return bool
@@ -245,12 +237,12 @@ class Usage
         $redirectUri    = urlencode($redirectUri);
         $preAuthCode    = $this->getPreauthCode();
         $componentAppid = $this->config->get('component_appid');
+
         return "https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid={$componentAppid}&pre_auth_code={$preAuthCode}&redirect_uri={$redirectUri}&auth_type={$authType}";
     }
 
     /**
      * Use authorization code in exchange for WeOpen or Applet interface call credentials and authorization information
-     *
      * @param null $authCode Authorization code
      * @return bool|array
      * @throws InvalidResponseException
@@ -261,9 +253,11 @@ class Usage
         if (is_null($authCode) && isset($_GET['auth_code'])) {
             $authCode = $_GET['auth_code'];
         }
+
         if (empty($authCode)) {
             return false;
         }
+
         $componentAccessToken = $this->getComponentAccessToken();
         $url                  = "https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token={$componentAccessToken}";
         $data                 = [
@@ -271,19 +265,21 @@ class Usage
             'component_appid'    => $this->config->get('component_appid'),
         ];
         $result = $this->httpPostForJson($url, $data);
+
         if (empty($result['authorization_info'])) {
             throw new InvalidResponseException($result['errmsg'], $result['errcode'], $data);
         }
+
         $authorizerAppid       = $result['authorization_info']['authorizer_appid'];
         $authorizerAccessToken = $result['authorization_info']['authorizer_access_token'];
         // Cache authorized WeOpen to access ACCESS_TOKEN
         Tools::setCache("{$authorizerAppid}_access_token", $authorizerAccessToken, 7000);
+
         return $result['authorization_info'];
     }
 
     /**
      * Get (refresh) the token of authorized WeOpen
-     *
      * @param string $authorizerAppid Appid of authorized WeOpen or Applet
      * @param string $authorizerRefreshToken Authorization party's refresh token
      * @return array
@@ -300,17 +296,19 @@ class Usage
             'component_appid'          => $this->config->get('component_appid'),
         ];
         $result = $this->httpPostForJson($url, $data);
+
         if (empty($result['authorizer_access_token'])) {
             throw new InvalidResponseException($result['errmsg'], $result['errcode'], $data);
         }
+
         // Cache authorized WeOpen to access ACCESS_TOKEN
         Tools::setCache("{$authorizerAppid}_access_token", $result['authorizer_access_token'], 7000);
+
         return $result;
     }
 
     /**
      * oauth authorization jump interface
-     *
      * @param string $authorizerAppid Appid of authorized WeOpen or Applet
      * @param string $redirectUri Callback address
      * @param string $scope snsapi_userinfo|snsapi_base
@@ -320,12 +318,12 @@ class Usage
     {
         $redirectUri    = urlencode($redirectUri);
         $componentAppid = $this->config->get('component_appid');
+
         return "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$authorizerAppid}&redirect_uri={$redirectUri}&response_type=code&scope={$scope}&state={$authorizerAppid}&component_appid={$componentAppid}#wechat_redirect";
     }
 
     /**
      * Get AccessToken by code
-     *
      * @param string $authorizerAppid Appid of authorized WeOpen or Applet
      * @return bool|array
      * @throws InvalidResponseException
@@ -336,15 +334,16 @@ class Usage
         if (empty($_GET['code'])) {
             return false;
         }
+
         $componentAppid       = $this->config->get('component_appid');
         $componentAccessToken = $this->getComponentAccessToken();
         $url                  = "https://api.weixin.qq.com/sns/oauth2/component/access_token?appid={$authorizerAppid}&code={$_GET['code']}&grant_type=authorization_code&component_appid={$componentAppid}&component_access_token={$componentAccessToken}";
+
         return $this->httpGetForJson($url);
     }
 
     /**
      * Get basic information of all currently authorized accounts
-     *
      * @param integer $count Number of pulls, maximum 500
      * @param integer $offset Offset position / start position
      * @return array|bool
@@ -356,12 +355,12 @@ class Usage
         $componentAppid       = $this->config->get('component_appid');
         $componentAccessToken = $this->getComponentAccessToken();
         $url                  = "https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_list?component_access_token={$componentAccessToken}";
+
         return $this->httpPostForJson($url, ['count' => $count, 'offset' => $offset, 'component_appid' => $componentAppid]);
     }
 
     /**
      * Reset all API calls to Usage platforms
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
@@ -371,12 +370,12 @@ class Usage
         $componentAppid       = $this->config->get('component_appid');
         $componentAccessToken = $this->getComponentAccessToken();
         $url                  = "https://api.weixin.qq.com/cgi-bin/component/clear_quota?component_access_token={$componentAccessToken}";
+
         return $this->httpPostForJson($url, ['component_appid' => $componentAppid]);
     }
 
     /**
      * Create a designated authorized WeOpen interface instance
-     *
      * @param string $name Interface instance name to be loaded
      * @param string $authorizerAppid Appid of authorized WeOpen
      * @param string $type Load SDK type WeChat|WeMini
@@ -385,12 +384,12 @@ class Usage
     public function instance($name, $authorizerAppid, $type = 'WeChat')
     {
         $className = "{$type}\\" . ucfirst(strtolower($name));
+
         return new $className($this->getConfig($authorizerAppid));
     }
 
     /**
      * Obtain authorized WeOpen configuration parameters
-     *
      * @param string $authorizerAppid Appid of authorized WeOpen
      * @return array
      */
@@ -401,12 +400,12 @@ class Usage
         $config['token']          = $this->config->get('component_token');
         $config['appsecret']      = $this->config->get('component_appsecret');
         $config['encodingaeskey'] = $this->config->get('component_encodingaeskey');
+
         return $config;
     }
 
     /**
      * Get interface data with POST and convert to array
-     *
      * @param string $url interface address
      * @param array $data Request data
      * @param bool $buildToJson
@@ -420,7 +419,6 @@ class Usage
 
     /**
      * Get interface data with GET and convert to array
-     *
      * @param string $url interface address
      * @return array
      * @throws LocalCacheException
@@ -429,5 +427,4 @@ class Usage
     {
         return json_decode(Tools::get($url), true);
     }
-
 }

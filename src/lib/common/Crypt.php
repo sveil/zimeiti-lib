@@ -13,25 +13,22 @@
 namespace sveil\lib\common;
 
 /**
- * Data encryption and decryption tools
- *
  * Class Crypt
+ * Data encryption and decryption tools
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class Crypt
 {
-
     /**
      * UTF8 serial encryption
-     *
      * @param string $string
      * @return string
      */
     public static function encode($string)
     {
-
         list($chars, $length) = ['', strlen($content = iconv('UTF-8', 'GBK//TRANSLIT', $string))];
+
         for ($i = 0; $i < $length; $i++) {
             $chars .= str_pad(base_convert(ord($content[$i]), 10, 36), 2, 0, 0);
         }
@@ -41,13 +38,11 @@ class Crypt
 
     /**
      * UTF8 string decryption
-     *
      * @param string $encode
      * @return string
      */
     public static function decode($encode)
     {
-
         $chars = '';
 
         foreach (str_split($encode, 2) as $char) {
@@ -59,21 +54,17 @@ class Crypt
 
     /**
      * Static call method processing
-     *
      * @param string $name
      * @param string $args
      * @return mixed
      */
     public static function __callStatic($name, $args)
     {
-
         if (stripos($name, 'emoji') === 0) {
             $method = str_replace('emoji', '', strtolower($name));
             if (in_array($method, ['encode', 'decode', 'clear'])) {
                 return Emoji::$method($args[0]);
             }
         }
-
     }
-
 }

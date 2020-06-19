@@ -22,7 +22,7 @@ use sveil\lib\rep\WeChat;
  *
  * Class Script
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat
+ * @package sveil\lib\rep\wechat
  */
 class Script extends WeChat
 {

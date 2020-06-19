@@ -18,18 +18,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WePay;
 
 /**
- * WeChat merchant order
- *
  * Class Order
+ * WeChat merchant order
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wepay
+ * @package sveil\lib\rep\wechat\wepay
  */
 class Order extends WePay
 {
-
     /**
      * Unified order
-     *
      * @param array $options
      * @return array
      * @throws InvalidResponseException
@@ -37,7 +34,6 @@ class Order extends WePay
      */
     public function create(array $options)
     {
-
         $url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
 
         return $this->callPostApi($url, $options, false, 'MD5');
@@ -45,7 +41,6 @@ class Order extends WePay
 
     /**
      * Credit card payment
-     *
      * @param array $options
      * @return array
      * @throws InvalidResponseException
@@ -53,7 +48,6 @@ class Order extends WePay
      */
     public function micropay(array $options)
     {
-
         $url = 'https://api.mch.weixin.qq.com/pay/micropay';
 
         return $this->callPostApi($url, $options, false, 'MD5');
@@ -61,7 +55,6 @@ class Order extends WePay
 
     /**
      * checking order
-     *
      * @param array $options
      * @return array
      * @throws InvalidResponseException
@@ -69,7 +62,6 @@ class Order extends WePay
      */
     public function query(array $options)
     {
-
         $url = 'https://api.mch.weixin.qq.com/pay/orderquery';
 
         return $this->callPostApi($url, $options);
@@ -77,7 +69,6 @@ class Order extends WePay
 
     /**
      * Close order
-     *
      * @param string $outTradeNo Merchant order number
      * @return array
      * @throws InvalidResponseException
@@ -85,7 +76,6 @@ class Order extends WePay
      */
     public function close($outTradeNo)
     {
-
         $url = 'https://api.mch.weixin.qq.com/pay/closeorder';
 
         return $this->callPostApi($url, ['out_trade_no' => $outTradeNo]);
@@ -93,13 +83,11 @@ class Order extends WePay
 
     /**
      * Create JsApi and H5 payment parameters
-     *
      * @param string $prepayId Unified order prepayment code
      * @return array
      */
     public function jsapiParams($prepayId)
     {
-
         $option              = [];
         $option["appId"]     = $this->config->get('appid');
         $option["timeStamp"] = (string) time();
@@ -114,13 +102,11 @@ class Order extends WePay
 
     /**
      * Get QR code for payment rules
-     *
      * @param string $productId Merchant-defined product id or order number
      * @return string
      */
     public function qrcParams($productId)
     {
-
         $data = [
             'appid'      => $this->config->get('appid'),
             'mch_id'     => $this->config->get('mch_id'),
@@ -135,13 +121,11 @@ class Order extends WePay
 
     /**
      * Obtain WeChat App Payment Secret Parameters
-     *
      * @param string $prepayId Unified order prepayment code
      * @return array
      */
     public function appParams($prepayId)
     {
-
         $data = [
             'appid'     => $this->config->get('appid'),
             'partnerid' => $this->config->get('mch_id'),
@@ -157,7 +141,6 @@ class Order extends WePay
 
     /**
      * Credit card payment Cancel the order
-     *
      * @param array $options
      * @return array
      * @throws InvalidResponseException
@@ -165,7 +148,6 @@ class Order extends WePay
      */
     public function reverse(array $options)
     {
-
         $url = 'https://api.mch.weixin.qq.com/secapi/pay/reverse';
 
         return $this->callPostApi($url, $options, true);
@@ -180,7 +162,6 @@ class Order extends WePay
      */
     public function queryAuthCode($authCode)
     {
-
         $url = 'https://api.mch.weixin.qq.com/tools/authcodetoopenid';
 
         return $this->callPostApi($url, ['auth_code' => $authCode]);
@@ -195,10 +176,8 @@ class Order extends WePay
      */
     public function report(array $options)
     {
-
         $url = 'https://api.mch.weixin.qq.com/payitil/report';
 
         return $this->callPostApi($url, $options);
     }
-
 }

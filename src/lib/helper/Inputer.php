@@ -16,15 +16,13 @@ use sveil\lib\Helper;
 use sveil\Validate;
 
 /**
- * Input data assistant
- *
  * Class Inputer
+ * Input data assistant
  * @author Richard <richard@sveil.com>
- * @package sveil\helper
+ * @package sveil\lib\helper
  */
 class Inputer extends Helper
 {
-
     /**
      * Validator rules
      * @var array
@@ -45,14 +43,12 @@ class Inputer extends Helper
 
     /**
      * Parsing input data
-     *
      * @param array|string $data
      * @param array $result
      * @return array
      */
     private function parse($data, $result = [])
     {
-
         if (is_array($data)) {
             return $data;
         }
@@ -75,7 +71,6 @@ class Inputer extends Helper
 
     /**
      * Input validator
-     *
      * @param array $data
      * @param array $rule
      * @param array $info
@@ -83,7 +78,6 @@ class Inputer extends Helper
      */
     public function init($data, $rule, $info)
     {
-
         list($this->rule, $this->info) = [$rule, $info];
         $this->data                    = $this->parse($data);
         $validate                      = Validate::make($this->rule, $this->info);
@@ -93,7 +87,5 @@ class Inputer extends Helper
         } else {
             $this->controller->error($validate->getError());
         }
-
     }
-
 }

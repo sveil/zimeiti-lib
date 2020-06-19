@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WePay;
 
 /**
- * WeChat merchant vouchers
- *
  * Class Coupon
+ * WeChat merchant vouchers
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wepay
+ * @package sveil\lib\rep\wechat\wepay
  */
 class Coupon extends WePay
 {
-
     /**
      * Create vouchers
-     *
      * @param array $options
      * @return array
      * @throws InvalidResponseException
@@ -36,7 +33,6 @@ class Coupon extends WePay
      */
     public function create(array $options)
     {
-
         $url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon";
 
         return $this->callPostApi($url, $options, true);
@@ -44,7 +40,6 @@ class Coupon extends WePay
 
     /**
      * Query voucher batch
-     *
      * @param array $options
      * @return array
      * @throws InvalidResponseException
@@ -52,7 +47,6 @@ class Coupon extends WePay
      */
     public function queryStock(array $options)
     {
-
         $url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/query_coupon_stock";
 
         return $this->callPostApi($url, $options, false);
@@ -60,7 +54,6 @@ class Coupon extends WePay
 
     /**
      * Check voucher information
-     *
      * @param array $options
      * @return array
      * @throws InvalidResponseException
@@ -68,10 +61,8 @@ class Coupon extends WePay
      */
     public function queryInfo(array $options)
     {
-
         $url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/query_coupon_stock";
 
         return $this->callPostApi($url, $options, false);
     }
-
 }

@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * Applets Instant Delivery
- *
  * Class Delivery
+ * Applets Instant Delivery
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Delivery extends WeChat
 {
-
     /**
      * Abnormal parts are returned to the merchant to confirm the receipt interface
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -36,7 +33,6 @@ class Delivery extends WeChat
      */
     public function abnormalConfirm($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/local/business/order/confirm_return?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -45,7 +41,6 @@ class Delivery extends WeChat
 
     /**
      * Delivery order interface
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -53,7 +48,6 @@ class Delivery extends WeChat
      */
     public function addOrder($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/local/business/order/add?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -62,7 +56,6 @@ class Delivery extends WeChat
 
     /**
      * Tips can be added to orders received
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -70,7 +63,6 @@ class Delivery extends WeChat
      */
     public function addTip($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/local/business/order/addtips?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -79,7 +71,6 @@ class Delivery extends WeChat
 
     /**
      * Cancel distribution order interface
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -87,7 +78,6 @@ class Delivery extends WeChat
      */
     public function cancelOrder($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/local/business/order/cancel?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -96,7 +86,6 @@ class Delivery extends WeChat
 
     /**
      * Get the list of supported distribution companies
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -104,7 +93,6 @@ class Delivery extends WeChat
      */
     public function getAllImmeDelivery($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/local/business/delivery/getall?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -113,7 +101,6 @@ class Delivery extends WeChat
 
     /**
      * Pull the bound account
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -121,7 +108,6 @@ class Delivery extends WeChat
      */
     public function getBindAccount($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/local/business/shop/get?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -130,7 +116,6 @@ class Delivery extends WeChat
 
     /**
      * Pull delivery order information
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -138,7 +123,6 @@ class Delivery extends WeChat
      */
     public function getOrder($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/local/business/order/get?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -147,7 +131,6 @@ class Delivery extends WeChat
 
     /**
      * Simulate delivery company to update delivery order status
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -155,7 +138,6 @@ class Delivery extends WeChat
      */
     public function mockUpdateOrder($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/local/business/test_update_order?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -164,7 +146,6 @@ class Delivery extends WeChat
 
     /**
      * Pre-delivery order interface
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -172,7 +153,6 @@ class Delivery extends WeChat
      */
     public function preAddOrder($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/local/business/order/pre_add?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -181,7 +161,6 @@ class Delivery extends WeChat
 
     /**
      * Pre-cancel distribution order interface
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -189,7 +168,6 @@ class Delivery extends WeChat
      */
     public function preCancelOrder($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/local/business/order/precancel?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -198,7 +176,6 @@ class Delivery extends WeChat
 
     /**
      * Re-order
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -206,11 +183,9 @@ class Delivery extends WeChat
      */
     public function reOrder($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/express/local/business/order/readd?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->callPostApi($url, $data, true);
     }
-
 }

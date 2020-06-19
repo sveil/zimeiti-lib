@@ -21,7 +21,7 @@ use sveil\lib\exception\InvalidResponseException;
  *
  * Abstract Class PushEvent
  * @author Richard <richard@sveil.com>
- * @package sveil\rep
+ * @package sveil\lib\rep
  */
 abstract class PushEvent
 {

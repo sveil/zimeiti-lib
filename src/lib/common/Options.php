@@ -13,15 +13,13 @@
 namespace sveil\lib\common;
 
 /**
- * Data access object
- *
  * Class Object
+ * Data access object
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class Options implements \ArrayAccess
 {
-
     /**
      * Current data object
      * @var array
@@ -30,7 +28,6 @@ class Options implements \ArrayAccess
 
     /**
      * Object constructor
-     *
      * @param array $data
      */
     public function __construct(array $data = [])
@@ -40,7 +37,6 @@ class Options implements \ArrayAccess
 
     /**
      * Determine whether the data has been set
-     *
      * @param string $name
      * @return boolean
      */
@@ -51,7 +47,6 @@ class Options implements \ArrayAccess
 
     /**
      * Set Data Object
-     *
      * @param string $name
      * @param mixed $value
      */
@@ -62,13 +57,11 @@ class Options implements \ArrayAccess
 
     /**
      * Get data content
-     *
      * @param string|null $name
      * @return mixed|null
      */
     public function get($name = null)
     {
-
         if (is_null($name)) {
             return $this->data;
         }
@@ -78,7 +71,6 @@ class Options implements \ArrayAccess
 
     /**
      * Delete data content
-     *
      * @param string $name
      */
     public function del($name)
@@ -96,7 +88,6 @@ class Options implements \ArrayAccess
 
     /**
      * Add merged data
-     *
      * @param array $data
      * @param boolean $append
      * @return array
@@ -104,12 +95,12 @@ class Options implements \ArrayAccess
     public function merge($data, $append = false)
     {
         $result = array_merge($this->data, $data);
+
         return $append ? ($this->data = $result) : $result;
     }
 
     /**
      * Determine whether the data has been set
-     *
      * @param string $offset
      * @return boolean
      */
@@ -120,7 +111,6 @@ class Options implements \ArrayAccess
 
     /**
      * Get data content
-     *
      * @param string|null $offset
      * @return mixed|null
      */
@@ -131,7 +121,6 @@ class Options implements \ArrayAccess
 
     /**
      * Set Data Object
-     *
      * @param string $offset
      * @param mixed $value
      */
@@ -142,12 +131,10 @@ class Options implements \ArrayAccess
 
     /**
      * Delete data content
-     *
      * @param string $offset
      */
     public function offsetUnset($offset)
     {
         $this->del($offset);
     }
-
 }

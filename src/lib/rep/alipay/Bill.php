@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\AliPay;
 
 /**
- * Alipay bill download
- *
  * Class Bill
+ * Alipay bill download
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\alipay
+ * @package sveil\lib\rep\alipay
  */
 class Bill extends AliPay
 {
-
     /**
      * Bill constructor
-     *
      * @param array $options
      */
     public function __construct(array $options)
@@ -48,5 +45,4 @@ class Bill extends AliPay
     {
         return $this->getResult($options);
     }
-
 }

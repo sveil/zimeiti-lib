@@ -21,7 +21,7 @@ use sveil\lib\rep\WeChat;
  *
  * Class Wifi
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat
+ * @package sveil\lib\rep\wechat
  */
 class Wifi extends WeChat
 {

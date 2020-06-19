@@ -22,7 +22,7 @@ use sveil\lib\rep\WeChat;
  *
  * Class Shake
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat
+ * @package sveil\lib\rep\wechat
  */
 class Shake extends WeChat
 {

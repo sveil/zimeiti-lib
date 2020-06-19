@@ -23,18 +23,15 @@ use sveil\lib\rep\wechat\wepay\TransfersBank;
 use sveil\lib\rep\WePay;
 
 /**
- * WeChat payment merchants
- *
  * Class Pay
+ * WeChat payment merchants
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wepay
+ * @package sveil\lib\rep\wechat\wepay
  */
 class Pay extends WePay
 {
-
     /**
      * Unified order
-     *
      * @param array $options
      * @return array
      * @throws LocalCacheException
@@ -47,7 +44,6 @@ class Pay extends WePay
 
     /**
      * Credit card payment
-     *
      * @param array $options
      * @return array
      * @throws LocalCacheException
@@ -60,7 +56,6 @@ class Pay extends WePay
 
     /**
      * Create JsApi and H5 payment parameters
-     *
      * @param string $prepay_id Unified order prepayment code
      * @return array
      */
@@ -71,7 +66,6 @@ class Pay extends WePay
 
     /**
      * Get APP payment parameters
-     *
      * @param string $prepay_id Unified order prepayment code
      * @return array
      */
@@ -82,7 +76,6 @@ class Pay extends WePay
 
     /**
      * Get QR code for payment rules
-     *
      * @param string $product_id Merchant-defined product id Or order number
      * @return string
      */
@@ -93,7 +86,6 @@ class Pay extends WePay
 
     /**
      * checking order
-     *
      * @param array $options
      * @return array
      * @throws LocalCacheException
@@ -106,8 +98,7 @@ class Pay extends WePay
 
     /**
      * Close order
-     *
-     * @param string $out_trade_no 商户订单号
+     * @param string $out_trade_no Merchant order number
      * @return array
      * @throws LocalCacheException
      * @throws InvalidResponseException
@@ -119,7 +110,6 @@ class Pay extends WePay
 
     /**
      * Request a refund
-     *
      * @param array $options
      * @return array
      * @throws LocalCacheException
@@ -132,7 +122,6 @@ class Pay extends WePay
 
     /**
      * Check refund
-     *
      * @param array $options
      * @return array
      * @throws LocalCacheException
@@ -145,7 +134,6 @@ class Pay extends WePay
 
     /**
      * Transaction protection
-     *
      * @param array $options
      * @return array
      * @throws LocalCacheException
@@ -158,7 +146,6 @@ class Pay extends WePay
 
     /**
      * Authorization code query openid
-     *
      * @param string $authCode Scanning the payment authorization code, the device reads the barcode or QR code information in the user's WeChat
      * @return array
      * @throws LocalCacheException
@@ -171,7 +158,6 @@ class Pay extends WePay
 
     /**
      * Download statement
-     *
      * @param array $options Mute parameter
      * @param null|string $outType Output type
      * @return bool|string
@@ -185,7 +171,6 @@ class Pay extends WePay
 
     /**
      * Pull order evaluation data
-     *
      * @param array $options
      * @return array
      * @throws LocalCacheException
@@ -198,7 +183,6 @@ class Pay extends WePay
 
     /**
      * Enterprise payment to change
-     *
      * @param array $options
      * @return array
      * @throws LocalCacheException
@@ -211,7 +195,6 @@ class Pay extends WePay
 
     /**
      * Check the company's payment to change
-     *
      * @param string $partner_trade_no The merchant order number used by the merchant when calling the enterprise payment API
      * @return array
      * @throws LocalCacheException
@@ -224,7 +207,6 @@ class Pay extends WePay
 
     /**
      * Corporate payment to bank card
-     *
      * @param array $options
      * @return array
      * @throws LocalCacheException
@@ -238,7 +220,6 @@ class Pay extends WePay
 
     /**
      * Merchant enterprise payment to bank card operation for results query
-     *
      * @param string $partner_trade_no Merchant order number, need to be unique
      * @return array
      * @throws LocalCacheException
@@ -248,5 +229,4 @@ class Pay extends WePay
     {
         return TransfersBank::instance($this->config->get())->query($partner_trade_no);
     }
-
 }

@@ -21,7 +21,7 @@ use sveil\lib\rep\WeChat;
  *
  * Class User
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat
+ * @package sveil\lib\rep\wechat
  */
 class User extends WeChat
 {

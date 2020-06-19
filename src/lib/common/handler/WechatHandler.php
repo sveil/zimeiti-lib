@@ -12,23 +12,21 @@
 
 namespace sveil\lib\common\handler;
 
-use sveil\lib\exception\InvalidResponseException;
-use sveil\lib\exception\LocalCacheException;
-use sveil\lib\service\Wechat;
 use sveil\Db;
 use sveil\Exception;
 use sveil\exception\PDOException;
+use sveil\lib\exception\InvalidResponseException;
+use sveil\lib\exception\LocalCacheException;
+use sveil\lib\service\Wechat;
 
 /**
- * WeChat web page authorization interface
- *
  * Class WechatHandler
+ * WeChat web page authorization interface
  * @author Richard <richard@sveil.com>
- * @package app\common\handler
+ * @package sveil\lib\common\handler
  */
 class WechatHandler
 {
-
     /**
      * Current WeChat APPID
      * @var string
@@ -54,21 +52,17 @@ class WechatHandler
      */
     public function __construct($config = [])
     {
-
         $this->config = $config;
         $this->appid  = isset($config['authorizer_appid']) ? $config['authorizer_appid'] : '';
-
     }
 
     /**
      * Check WeChat configuration service initialization status
-     *
      * @return boolean
      * @throws Exception
      */
     private function checkInit()
     {
-
         if (!empty($this->config)) {
             return true;
         }
@@ -78,13 +72,11 @@ class WechatHandler
 
     /**
      * Get current Weopen configuration
-     *
      * @return array|boolean
      * @throws Exception
      */
     public function getConfig()
     {
-
         $this->checkInit();
         $info = Db::name('WechatServiceConfig')->where(['authorizer_appid' => $this->appid])->find();
 
@@ -101,7 +93,6 @@ class WechatHandler
 
     /**
      * Set the WeChat interface notification URL
-     *
      * @param string $notifyUri Connection notification URL
      * @return boolean
      * @throws Exception
@@ -109,7 +100,6 @@ class WechatHandler
      */
     public function setApiNotifyUri($notifyUri)
     {
-
         $this->checkInit();
 
         if (empty($notifyUri)) {
@@ -123,14 +113,12 @@ class WechatHandler
 
     /**
      * Update interface Appkey (return new Appkey successfully)
-     *
      * @return bool|string
      * @throws Exception
      * @throws PDOException
      */
     public function updateApiAppkey()
     {
-
         $this->checkInit();
         $data = ['appkey' => md5(uniqid())];
         Db::name('WechatServiceConfig')->where(['authorizer_appid' => $this->appid])->update($data);
@@ -140,7 +128,6 @@ class WechatHandler
 
     /**
      * Get the configuration parameters of WeOpen
-     *
      * @param string $name parameter name
      * @return array|string
      * @throws Exception
@@ -154,7 +141,6 @@ class WechatHandler
 
     /**
      * WeChat web authorization
-     *
      * @param string $sessid Current session id (available with session_id ())
      * @param string $selfUrl Current session URL (need to include the full URL)
      * @param int $fullMode Web authorization mode (0 silent mode, 1 advanced authorization)
@@ -182,7 +168,6 @@ class WechatHandler
 
     /**
      * WeChat web JS signature
-     *
      * @param string $url Current session URL (need to include the full URL)
      * @return array|boolean
      * @throws InvalidResponseException
@@ -195,5 +180,4 @@ class WechatHandler
 
         return Wechat::WeChatScript($this->appid)->getJsSign($url);
     }
-
 }

@@ -19,18 +19,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * Data encryption
- *
  * Class Crypt
+ * Data encryption
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Crypt extends WeChat
 {
-
     /**
      * Data signature verification
-     *
      * @param string $iv
      * @param string $sessionKey
      * @param string $encryptedData
@@ -38,7 +35,6 @@ class Crypt extends WeChat
      */
     public function decode($iv, $sessionKey, $encryptedData)
     {
-
         require_once dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'WxBizDataCrypt.php';
         $pc      = new \WXBizDataCrypt($this->config->get('appid'), $sessionKey);
         $errCode = $pc->decryptData($encryptedData, $iv, $data);
@@ -52,14 +48,12 @@ class Crypt extends WeChat
 
     /**
      * Login credential verification
-     *
      * @param string $code Code obtained during login
      * @return array
      * @throws LocalCacheException
      */
     public function session($code)
     {
-
         $appid  = $this->config->get('appid');
         $secret = $this->config->get('appsecret');
         $url    = "https://api.weixin.qq.com/sns/jscode2session?appid={$appid}&secret={$secret}&js_code={$code}&grant_type=authorization_code";
@@ -69,7 +63,6 @@ class Crypt extends WeChat
 
     /**
      * Exchange user information
-     *
      * @param string $code User login credentials (valid for five minutes)
      * @param string $iv Initial vector of encryption algorithm
      * @param string $encryptedData Encrypted data ( encryptedData )
@@ -80,7 +73,6 @@ class Crypt extends WeChat
      */
     public function userInfo($code, $iv, $encryptedData)
     {
-
         $result = $this->session($code);
 
         if (empty($result['session_key'])) {
@@ -98,7 +90,6 @@ class Crypt extends WeChat
 
     /**
      * After the user completes the payment, obtain the user's UnionId
-     *
      * @param string $openid Payment user unique identification
      * @param null|string $transaction_id WeChat payment order number
      * @param null|string $mch_id The merchant number assigned by WeChat Pay is used in conjunction with the merchant order number
@@ -109,7 +100,6 @@ class Crypt extends WeChat
      */
     public function getPaidUnionId($openid, $transaction_id = null, $mch_id = null, $out_trade_no = null)
     {
-
         $url = "https://api.weixin.qq.com/wxa/getpaidunionid?access_token=ACCESS_TOKEN&openid={$openid}";
 
         if (is_null($mch_id)) {
@@ -128,5 +118,4 @@ class Crypt extends WeChat
 
         return $this->callGetApi($url);
     }
-
 }

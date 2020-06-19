@@ -21,7 +21,7 @@ use sveil\lib\rep\WeChat;
  *
  * Class Template
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat
+ * @package sveil\lib\rep\wechat
  */
 class Template extends WeChat
 {

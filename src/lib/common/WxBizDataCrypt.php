@@ -13,36 +13,30 @@
 namespace sveil\lib\common;
 
 /**
- * Sample code for decrypting encrypted data of WeChat applet users
- *
  * Class WXBizDataCrypt
+ * Sample code for decrypting encrypted data of WeChat applet users
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class WXBizDataCrypt
 {
-
     private $appid;
     private $sessionKey;
 
     /**
      * Config constructor
-     *
      * @param $sessionKey string The session key obtained by the user after login in the applet
      * @param $appid string Applet appid
      */
     public function __construct($appid, $sessionKey)
     {
-
         $this->appid      = $appid;
         $this->sessionKey = $sessionKey;
         include_once __DIR__ . DIRECTORY_SEPARATOR . "errorCode.php";
-
     }
 
     /**
      * Verify the authenticity of the data and obtain the decrypted plaintext
-     *
      * @param $encryptedData string Encrypted user data
      * @param $iv string Initial vector returned with user data
      * @param $data string Decrypted original text
@@ -50,7 +44,6 @@ class WXBizDataCrypt
      */
     public function decryptData($encryptedData, $iv, &$data)
     {
-
         if (strlen($this->sessionKey) != 24) {
             return \ErrorCode::$IllegalAesKey;
         }
@@ -78,5 +71,4 @@ class WXBizDataCrypt
 
         return \ErrorCode::$OK;
     }
-
 }

@@ -18,18 +18,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\wechat\weopen\Usage;
 
 /**
- * Authorization support for WeOpen Applet
- *
  * Class MiniApp
+ * Authorization support for WeOpen Applet
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\weopen
+ * @package sveil\lib\rep\wechat\weopen
  */
 class MiniApp extends Usage
 {
-
     /**
      * code in exchange for session_key
-     *
      * @param string $appid AppID of the applet
      * @param string $code Code obtained at login
      * @return mixed
@@ -38,7 +35,6 @@ class MiniApp extends Usage
      */
     public function session($appid, $code)
     {
-
         $component_appid        = $this->config->get('component_appid');
         $component_access_token = $this->getComponentAccessToken();
         $url                    = "https://api.weixin.qq.com/sns/component/jscode2session?appid={$appid}&js_code={$code}&grant_type=authorization_code&component_appid={$component_appid}&component_access_token={$component_access_token}";
@@ -48,7 +44,6 @@ class MiniApp extends Usage
 
     /**
      * 1. Registration process and interface description
-     *
      * @param string $authorizerAppid WeOpen appid
      * @param integer $copyWxVerify Whether to reuse the qualification of WeOpen for WeChat authentication
      * (1: apply for multiplexing qualification for WeChat authentication 0: not apply)
@@ -59,7 +54,6 @@ class MiniApp extends Usage
      */
     public function getCopyRegisterMiniUrl($authorizerAppid, $copyWxVerify, $redirectUri)
     {
-
         $redirectUri    = urlencode($redirectUri);
         $componentAppid = $this->config->get('component_appid');
 
@@ -68,14 +62,12 @@ class MiniApp extends Usage
 
     /**
      * 2.7.1 Jump from the third-party platform to the WeChat public platform authorization registration page
-     *
      * @param string $authorizerAppid WeOpen appid
      * @param string $redirectUri After filling in the new administrator information and clicking submit, it will jump to this address
      * @return string
      */
     public function getComponentreBindAdmin($authorizerAppid, $redirectUri)
     {
-
         $redirectUri    = urlencode($redirectUri);
         $componentAppid = $this->config->get('component_appid');
 
@@ -84,14 +76,12 @@ class MiniApp extends Usage
 
     /**
      * 1、Get all temporary code drafts in the draft box
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getTemplateDraftList()
     {
-
         $component_access_token = $this->getComponentAccessToken();
         $url                    = "https://api.weixin.qq.com/wxa/gettemplatedraftlist?access_token={$component_access_token}";
 
@@ -100,14 +90,12 @@ class MiniApp extends Usage
 
     /**
      * 2、Get all applet code templates in the code template library
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getTemplateList()
     {
-
         $component_access_token = $this->getComponentAccessToken();
         $url                    = "https://api.weixin.qq.com/wxa/gettemplatelist?access_token={$component_access_token}";
 
@@ -116,7 +104,6 @@ class MiniApp extends Usage
 
     /**
      * 3、Select the draft of the draft box as the applet code template
-     *
      * @param integer $draft_id Template ID, this field can be obtained through the "Get all temporary code drafts in the draft box" interface
      * @return array
      * @throws InvalidResponseException
@@ -124,7 +111,6 @@ class MiniApp extends Usage
      */
     public function addToTemplate($draft_id)
     {
-
         $component_access_token = $this->getComponentAccessToken();
         $url                    = "https://api.weixin.qq.com/wxa/addtotemplate?access_token={$component_access_token}";
 
@@ -133,7 +119,6 @@ class MiniApp extends Usage
 
     /**
      * 4、Delete the specified applet code template
-     *
      * @param integer $template_id Template ID to be deleted
      * @return array
      * @throws InvalidResponseException
@@ -141,11 +126,9 @@ class MiniApp extends Usage
      */
     public function deleteTemplate($template_id)
     {
-
         $component_access_token = $this->getComponentAccessToken();
         $url                    = "https://api.weixin.qq.com/wxa/deletetemplate?access_token={$component_access_token}";
 
         return $this->httpPostForJson($url, ['template_id' => $template_id]);
     }
-
 }

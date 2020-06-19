@@ -12,34 +12,30 @@
 
 namespace sveil\lib\helper;
 
-use sveil\lib\Helper;
 use sveil\db\exception\DataNotFoundException;
 use sveil\db\exception\ModelNotFoundException;
 use sveil\db\Query;
 use sveil\Exception;
 use sveil\exception\DbException;
 use sveil\exception\PDOException;
+use sveil\lib\Helper;
 
 /**
- * Query data assistant
- *
  * Class Querier
+ * Query data assistant
  * @author Richard <richard@sveil.com>
- * @package sveil\helper
+ * @package sveil\lib\helper
  */
 class Querier extends Helper
 {
-
     /**
      * Query call
-     *
      * @param string $name Calling method name
      * @param array $args Call parameter content
      * @return Querier
      */
     public function __call($name, $args)
     {
-
         if (is_callable($callable = [$this->query, $name])) {
             call_user_func_array($callable, $args);
         }
@@ -49,13 +45,11 @@ class Querier extends Helper
 
     /**
      * Logic initialization
-     *
      * @param string|Query $dbQuery
      * @return $this
      */
     public function init($dbQuery)
     {
-
         $this->query = $this->buildQuery($dbQuery);
 
         return $this;
@@ -63,7 +57,6 @@ class Querier extends Helper
 
     /**
      * Get the current Db operation object
-     *
      * @return Query
      */
     public function db()
@@ -73,7 +66,6 @@ class Querier extends Helper
 
     /**
      * Set Like query conditions
-     *
      * @param string|array $fields Query field
      * @param string $input Input type get|post
      * @param string $alias Alias delimiter
@@ -81,14 +73,15 @@ class Querier extends Helper
      */
     public function like($fields, $input = 'request', $alias = '#')
     {
-
         $data = $this->app->request->$input();
 
         foreach (is_array($fields) ? $fields : explode(',', $fields) as $field) {
             list($dk, $qk) = [$field, $field];
+
             if (stripos($field, $alias) !== false) {
                 list($dk, $qk) = explode($alias, $field);
             }
+
             if (isset($data[$qk]) && $data[$qk] !== '') {
                 $this->query->whereLike($dk, "%{$data[$qk]}%");
             }
@@ -99,7 +92,6 @@ class Querier extends Helper
 
     /**
      * Set Equal query conditions
-     *
      * @param string|array $fields Query field
      * @param string $input Input type get|post
      * @param string $alias Alias delimiter
@@ -107,14 +99,15 @@ class Querier extends Helper
      */
     public function equal($fields, $input = 'request', $alias = '#')
     {
-
         $data = $this->app->request->$input();
 
         foreach (is_array($fields) ? $fields : explode(',', $fields) as $field) {
             list($dk, $qk) = [$field, $field];
+
             if (stripos($field, $alias) !== false) {
                 list($dk, $qk) = explode($alias, $field);
             }
+
             if (isset($data[$qk]) && $data[$qk] !== '') {
                 $this->query->where($dk, "{$data[$qk]}");
             }
@@ -125,7 +118,6 @@ class Querier extends Helper
 
     /**
      * Set IN interval query
-     *
      * @param string $fields Query field
      * @param string $split splitter
      * @param string $input Input type get|post
@@ -134,14 +126,15 @@ class Querier extends Helper
      */
     public function in($fields, $split = ',', $input = 'request', $alias = '#')
     {
-
         $data = $this->app->request->$input();
 
         foreach (is_array($fields) ? $fields : explode(',', $fields) as $field) {
             list($dk, $qk) = [$field, $field];
+
             if (stripos($field, $alias) !== false) {
                 list($dk, $qk) = explode($alias, $field);
             }
+
             if (isset($data[$qk]) && $data[$qk] !== '') {
                 $this->query->whereIn($dk, explode($split, $data[$qk]));
             }
@@ -152,7 +145,6 @@ class Querier extends Helper
 
     /**
      * Set content interval query
-     *
      * @param string|array $fields Query field
      * @param string $split splitter
      * @param string $input Input type get|post
@@ -166,7 +158,6 @@ class Querier extends Helper
 
     /**
      * Set date and time interval query
-     *
      * @param string|array $fields Query field
      * @param string $split splitter
      * @param string $input Input type
@@ -186,7 +177,6 @@ class Querier extends Helper
 
     /**
      * Set timestamp interval query
-     *
      * @param string|array $fields Query field
      * @param string $split splitter
      * @param string $input Input type
@@ -206,7 +196,6 @@ class Querier extends Helper
 
     /**
      * Set area query conditions
-     *
      * @param string|array $fields Query field
      * @param string $split splitter
      * @param string $input Input type
@@ -216,20 +205,23 @@ class Querier extends Helper
      */
     private function setBetweenWhere($fields, $split = ' ', $input = 'request', $alias = '#', $callback = null)
     {
-
         $data = $this->app->request->$input();
 
         foreach (is_array($fields) ? $fields : explode(',', $fields) as $field) {
             list($dk, $qk) = [$field, $field];
+
             if (stripos($field, $alias) !== false) {
                 list($dk, $qk) = explode($alias, $field);
             }
+
             if (isset($data[$qk]) && $data[$qk] !== '') {
                 list($begin, $after) = explode($split, $data[$qk]);
+
                 if (is_callable($callback)) {
                     $after = call_user_func($callback, $after, 'after');
                     $begin = call_user_func($callback, $begin, 'begin');
                 }
+
                 $this->query->whereBetween($dk, [$begin, $after]);
             }
         }
@@ -239,7 +231,6 @@ class Querier extends Helper
 
     /**
      * Instantiate the paging manager
-     *
      * @param boolean $page Whether to enable paging
      * @param boolean $display Whether to render the template
      * @param boolean $total Collection paging records
@@ -255,5 +246,4 @@ class Querier extends Helper
     {
         return Pager::instance()->init($this->query, $page, $display, $total, $limit);
     }
-
 }

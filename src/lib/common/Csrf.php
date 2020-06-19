@@ -15,18 +15,15 @@ namespace sveil\lib\common;
 use sveil\exception\HttpResponseException;
 
 /**
- * Form CSRF form token
- *
  * Class Csrf
+ * Form CSRF form token
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class Csrf
 {
-
     /**
      * Get current CSRF value
-     *
      * @return string
      */
     public static function getToken()
@@ -36,12 +33,10 @@ class Csrf
 
     /**
      * Check form CSRF verification
-     *
      * @return boolean
      */
     public static function checkFormToken()
     {
-
         $token = self::getToken();
         $cache = session($token, '', 'csrf');
 
@@ -74,7 +69,6 @@ class Csrf
 
     /**
      * Clean up form CSRF information
-     *
      * @param string $name
      */
     public static function clearFormToken($name = null)
@@ -84,13 +78,11 @@ class Csrf
 
     /**
      * Generate form CSRF information
-     *
      * @param null|string $node
      * @return array
      */
     public static function buildFormToken($node = null)
     {
-
         if (is_null($node)) {
             $node = Node::current();
         }
@@ -103,7 +95,6 @@ class Csrf
                 if ($item['time'] + 600 < $time) {
                     self::clearFormToken($key);
                 }
-
             }
         }
 
@@ -112,21 +103,17 @@ class Csrf
 
     /**
      * Back to view content
-     *
      * @param string $tpl template name
      * @param array $vars template variables
      * @param string $node CSRF authorized node
      */
     public static function fetchTemplate($tpl = '', $vars = [], $node = null)
     {
-
         throw new HttpResponseException(view($tpl, $vars, 200, function ($html) use ($node) {
             return preg_replace_callback('/<\/form>/i', function () use ($node) {
                 $csrf = self::buildFormToken($node);
                 return "<input type='hidden' name='_csrf_' value='{$csrf['token']}'></form>";
             }, $html);
         }));
-
     }
-
 }

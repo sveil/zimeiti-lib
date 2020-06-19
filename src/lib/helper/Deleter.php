@@ -12,21 +12,19 @@
 
 namespace sveil\lib\helper;
 
-use sveil\lib\Helper;
 use sveil\db\Query;
 use sveil\Exception;
 use sveil\exception\PDOException;
+use sveil\lib\Helper;
 
 /**
- * Delete Data Assistant
- *
  * Class Deleter
+ * Delete Data Assistant
  * @author Richard <richard@sveil.com>
- * @package sveil\helper
+ * @package sveil\lib\helper
  */
 class Deleter extends Helper
 {
-
     /**
      * Additional form update conditions
      * @var array
@@ -47,7 +45,6 @@ class Deleter extends Helper
 
     /**
      * Logic initialization
-     *
      * @param string|Query $dbQuery
      * @param string $field Operation data primary key
      * @param array $where Additional form update conditions
@@ -57,7 +54,6 @@ class Deleter extends Helper
      */
     public function init($dbQuery, $field = '', $where = [])
     {
-
         $this->where = $where;
         $this->query = $this->buildQuery($dbQuery);
         $this->field = empty($field) ? $this->query->getPk() : $field;
@@ -91,7 +87,5 @@ class Deleter extends Helper
         } else {
             $this->controller->error(lang('lib_delete_error'));
         }
-
     }
-
 }

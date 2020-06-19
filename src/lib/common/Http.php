@@ -13,18 +13,15 @@
 namespace sveil\lib\common;
 
 /**
- * CURL Data Request Manager
- *
  * Class Http
+ * CURL Data Request Manager
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class Http
 {
-
     /**
      * Simulate network requests with get
-     *
      * @param string $url HTTP request URL
      * @param array $query GET request parameters
      * @param array $options CURL parameters
@@ -33,12 +30,12 @@ class Http
     public static function get($url, $query = [], $options = [])
     {
         $options['query'] = $query;
+
         return self::request('get', $url, $options);
     }
 
     /**
      * Simulate network requests with post
-     *
      * @param string $url HTTP request URL
      * @param array $data POST request parameters
      * @param array $options CURL parameters
@@ -47,12 +44,12 @@ class Http
     public static function post($url, $data = [], $options = [])
     {
         $options['data'] = $data;
+
         return self::request('post', $url, $options);
     }
 
     /**
      * CURL simulate network request
-     *
      * @param string $method Request method
      * @param string $url Request URL
      * @param array $options Request parameters[headers,data]
@@ -113,7 +110,6 @@ class Http
 
     /**
      * POST data filtering
-     *
      * @param array $data Data to be processed
      * @param boolean $build Whether to compile data
      * @return array|string
@@ -139,7 +135,6 @@ class Http
 
     /**
      * Get browser proxy information
-     *
      * @return string
      */
     private static function getUserAgent()
@@ -162,5 +157,4 @@ class Http
 
         return $userAgents[array_rand($userAgents, 1)];
     }
-
 }

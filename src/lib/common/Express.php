@@ -13,25 +13,22 @@
 namespace sveil\lib\common;
 
 /**
- * Express 100 query interface
- *
  * Class Express
+ * Express 100 query interface
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class Express
 {
 
     /**
      * Query logistics information
-     *
      * @param string $code Express company editor
      * @param string $number Express logistics code number
      * @return array
      */
     public static function query($code, $number)
     {
-
         list($list, $cache) = [[], app()->cache->get($ckey = md5($code . $number))];
 
         if (!empty($cache)) {
@@ -58,12 +55,10 @@ class Express
 
     /**
      * Get a list of courier companies
-     *
      * @return array
      */
     public static function getExpressList()
     {
-
         $data = [];
 
         if (preg_match('/"currentData":.*?\[(.*?)\],/', self::getWapBaiduHtml(), $matches)) {
@@ -72,9 +67,11 @@ class Express
             }
 
             unset($data['_auto']);
+
             return $data;
         } else {
             app()->cache->delete('express_kuaidi_html');
+
             return self::getExpressList();
         }
 
@@ -82,14 +79,12 @@ class Express
 
     /**
      * Perform Baidu Express 100 application query request
-     *
      * @param string $code Courier company code number
      * @param string $number Courier code number
      * @return mixed
      */
     private static function doExpress($code, $number)
     {
-
         list($uniqid, $token) = [strtr(uniqid(), '.', ''), self::getExpressToken()];
         $url                  = "https://express.baidu.com/express/api/express?tokenV2={$token}&appid=4001&nu={$number}&com={$code}&qid={$uniqid}&new_need_di=1&source_xcx=0&vcode=&token=&sourceId=4155&cb=callback";
 
@@ -98,29 +93,24 @@ class Express
 
     /**
      * Get interface request token
-     *
      * @return string
      */
     private static function getExpressToken()
     {
-
         if (preg_match('/express\?tokenV2=(.*?)",/', self::getWapBaiduHtml(), $matches)) {
             return $matches[1];
         } else {
             app()->cache->delete('express_kuaidi_html');
             return self::getExpressToken();
         }
-
     }
 
     /**
      * Get Baidu WAP Express HTML
-     *
      * @return string
      */
     private static function getWapBaiduHtml()
     {
-
         $content = app()->cache->get('express_kuaidi_html');
 
         while (empty($content) || stristr($content, '百度安全验证') > -1 || stripos($content, 'tokenV2') === -1) {
@@ -134,17 +124,13 @@ class Express
 
     /**
      * Get HTTP request configuration
-     *
      * @return array
      */
     private static function getOption()
     {
-
         return [
             'cookie_file' => app()->getRuntimePath() . '_express_cookie.txt',
             'headers'     => ['Host' => 'express.baidu.com', 'X-FORWARDED-FOR' => request()->ip()],
         ];
-
     }
-
 }

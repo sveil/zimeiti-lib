@@ -21,7 +21,7 @@ use sveil\Request;
  *
  * Abstract Class Service
  * @author Richard <richard@sveil.com>
- * @package sveil
+ * @package sveil\lib
  */
 abstract class Service
 {

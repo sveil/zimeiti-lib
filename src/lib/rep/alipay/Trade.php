@@ -17,30 +17,27 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\AliPay;
 
 /**
- * Alipay standard interface
- *
  * Class Trade
+ * Alipay standard interface
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\alipay
+ * @package sveil\lib\rep\alipay
  */
 class Trade extends AliPay
 {
-
     /**
      * Set transaction interface address
-     *
      * @param string $method
      * @return $this
      */
     public function setMethod($method)
     {
         $this->options->set('method', $method);
+
         return $this;
     }
 
     /**
      * Get transaction interface address
-     *
      * @return string
      */
     public function getMethod()
@@ -50,7 +47,6 @@ class Trade extends AliPay
 
     /**
      * Set interface common parameters
-     *
      * @param array $option
      * @return Trade
      */
@@ -59,12 +55,12 @@ class Trade extends AliPay
         foreach ($option as $key => $vo) {
             $this->options->set($key, $vo);
         }
+
         return $this;
     }
 
     /**
      * Get interface common parameters
-     *
      * @return array|string|null
      */
     public function getOption()
@@ -74,7 +70,6 @@ class Trade extends AliPay
 
     /**
      * Execute via interface
-     *
      * @param array $options
      * @return array|boolean|mixed
      * @throws InvalidResponseException
@@ -84,5 +79,4 @@ class Trade extends AliPay
     {
         return $this->getResult($options);
     }
-
 }

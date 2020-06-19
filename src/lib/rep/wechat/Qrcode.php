@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * QR code management
- *
  * Class Qrcode
+ * QR code management
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat
+ * @package sveil\lib\rep\wechat
  */
 class Qrcode extends WeChat
 {
-
     /**
      * Create QR code ticket
-     *
      * @param string|integer $scene Scenes
      * @param int $expire_seconds Effective time
      * @return array
@@ -37,7 +34,6 @@ class Qrcode extends WeChat
      */
     public function create($scene, $expire_seconds = 0)
     {
-
         // QR code scene type
         if (is_integer($scene)) {
             $data = ['action_info' => ['scene' => ['scene_id' => $scene]]];
@@ -62,7 +58,6 @@ class Qrcode extends WeChat
 
     /**
      * Exchange ticket for QR code
-     *
      * @param string $ticket The obtained QR code ticket, With this ticket, you can exchange QR codes within the valid time.
      * @return string
      */
@@ -73,7 +68,6 @@ class Qrcode extends WeChat
 
     /**
      * Long link to short link interface
-     *
      * @param string $longUrl Long links that need to be converted
      * @return array
      * @throws InvalidResponseException
@@ -81,11 +75,9 @@ class Qrcode extends WeChat
      */
     public function shortUrl($longUrl)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/shorturl?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->httpPostForJson($url, ['action' => 'long2short', 'long_url' => $longUrl]);
     }
-
 }

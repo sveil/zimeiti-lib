@@ -17,7 +17,7 @@ namespace sveil\lib\exception;
  *
  * Class InvalidInstanceException
  * @author Richard <richard@sveil.com>
- * @package sveil\exception
+ * @package sveil\lib\exception
  */
 class InvalidInstanceException extends \Exception
 {

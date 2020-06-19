@@ -12,20 +12,19 @@
 
 namespace sveil\lib\rep\wechat\we;
 
+use sveil\Exception;
+use sveil\exception\PDOException;
 use sveil\lib\common\File;
 use sveil\lib\common\We;
 use sveil\lib\exception\InvalidResponseException;
 use sveil\lib\exception\LocalCacheException;
 use sveil\lib\service\JsonRpcClient;
-use sveil\Exception;
-use sveil\exception\PDOException;
 
 /**
- * WeChat processing management
- *
  * Class WechatService
+ * WeChat processing management
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\we
+ * @package sveil\lib\rep\wechat\we
  *
  * ----- WeOpen for Open -----
  * @method \weopen\login login() static Login with WeChat
@@ -44,10 +43,8 @@ use sveil\exception\PDOException;
  */
 class WechatWe extends We
 {
-
     /**
      * Get WeChat payment configuration
-     *
      * @param array|null $options
      * @return array
      * @throws Exception
@@ -55,7 +52,6 @@ class WechatWe extends We
      */
     public static function config($options = null)
     {
-
         if (empty($options)) {
             $options = [
                 // Required parameters of WeChat function
@@ -82,7 +78,6 @@ class WechatWe extends We
 
     /**
      * Parsing the certification path
-     *
      * @param string $path
      * @return mixed
      * @throws Exception
@@ -92,12 +87,12 @@ class WechatWe extends We
         if (preg_match('|^[a-z0-9]{16,16}\/[a-z0-9]{16,16}\.|i', $path)) {
             return File::instance('local')->path($path, true);
         }
+
         return $path;
     }
 
     /**
      * Static magic loading method
-     *
      * @param string $name Static class name
      * @param array $arguments Parameter set
      * @return mixed
@@ -106,7 +101,6 @@ class WechatWe extends We
      */
     public static function __callStatic($name, $arguments)
     {
-
         $config = [];
 
         if (is_array($arguments) && count($arguments) > 0) {
@@ -127,12 +121,10 @@ class WechatWe extends We
         } else {
             throw new Exception("class {$name} not found");
         }
-
     }
 
     /**
      * Interface object instantiation
-     *
      * @param string $name Interface name
      * @param string $type Interface Type
      * @param array $config WeChat configuration
@@ -142,7 +134,6 @@ class WechatWe extends We
      */
     public static function instance($name, $type = 'WeChat', $config = [])
     {
-
         if (self::getType() === 'api' || in_array($type, ['WePay', 'AliPay']) || "{$type}{$name}" === 'WeChatPay') {
             if (class_exists($class = "\\{$type}\\" . ucfirst(strtolower($name)))) {
                 return new $class(empty($config) ? self::config() : $config);
@@ -153,6 +144,7 @@ class WechatWe extends We
             set_time_limit(3600);
             list($appid, $appkey) = [sysconf('wechat_thr_appid'), sysconf('wechat_thr_appkey')];
             $token                = strtolower("{$name}-{$appid}-{$appkey}-{$type}");
+
             if (class_exists('Yar_Client')) {
                 return new \Yar_Client(config('wechat.service_url') . "/service/api.client/yar/{$token}");
             } else {
@@ -160,12 +152,10 @@ class WechatWe extends We
                 return JsonRpcClient::instance()->create($location);
             }
         }
-
     }
 
     /**
      * Get WeChat web page JSSDK
-     *
      * @param string $url JS signature address
      * @return array
      * @throws InvalidResponseException
@@ -175,7 +165,6 @@ class WechatWe extends We
      */
     public static function getWebJssdkSign($url = null)
     {
-
         $url = is_null($url) ? request()->url(true) : $url;
 
         if (self::getType() === 'api') {
@@ -183,12 +172,10 @@ class WechatWe extends We
         } else {
             return self::wechat()->jsSign($url);
         }
-
     }
 
     /**
      * Initial access authorization
-     *
      * @param string $url URL of authorization page
      * @param integer $isfull Authorized WeChat mode
      * @param boolean $isRedirect Whether to jump
@@ -200,21 +187,23 @@ class WechatWe extends We
      */
     public static function getWebOauthInfo($url, $isfull = 0, $isRedirect = true)
     {
-
         $appid                   = self::getAppid();
         list($openid, $fansinfo) = [session("{$appid}_openid"), session("{$appid}_fansinfo")];
 
         if ((empty($isfull) && !empty($openid)) || (!empty($isfull) && !empty($openid) && !empty($fansinfo))) {
             empty($fansinfo) || FansService::set($fansinfo);
+
             return ['openid' => $openid, 'fansinfo' => $fansinfo];
         }
 
         if (self::getType() === 'api') {
             $wechat = self::WeChatOauth();
+
             if (request()->get('state') !== $appid) {
                 $snsapi   = empty($isfull) ? 'snsapi_base' : 'snsapi_userinfo';
                 $param    = (strpos($url, '?') !== false ? '&' : '?') . 'rcode=' . encode($url);
                 $OauthUrl = $wechat->getOauthRedirect($url . $param, $appid, $snsapi);
+
                 if ($isRedirect) {
                     redirect($OauthUrl, [], 301)->send();
                 }
@@ -223,57 +212,57 @@ class WechatWe extends We
             }
             if (($token = $wechat->getOauthAccessToken()) && isset($token['openid'])) {
                 session("{$appid}_openid", $openid = $token['openid']);
+
                 if (empty($isfull) && request()->get('rcode')) {
                     redirect(decode(request()->get('rcode')), [], 301)->send();
                 }
+
                 session("{$appid}_fansinfo", $fansinfo = $wechat->getUserInfo($token['access_token'], $openid));
                 empty($fansinfo) || FansService::set($fansinfo);
             }
+
             redirect(decode(request()->get('rcode')), [], 301)->send();
         } else {
             $result = self::wechat()->oauth(session_id(), $url, $isfull);
             session("{$appid}_openid", $openid = $result['openid']);
             session("{$appid}_fansinfo", $fansinfo = $result['fans']);
+
             if ((empty($isfull) && !empty($openid)) || (!empty($isfull) && !empty($openid) && !empty($fansinfo))) {
                 empty($fansinfo) || FansService::set($fansinfo);
                 return ['openid' => $openid, 'fansinfo' => $fansinfo];
             }
+
             if ($isRedirect && !empty($result['url'])) {
                 redirect($result['url'], [], 301)->send();
             }
+
             exit("window.location.href='{$result['url']}'");
         }
-
     }
 
     /**
      * Get the current WeChat APPID
-     *
      * @return bool|string
      * @throws Exception
      * @throws PDOException
      */
     public static function getAppid()
     {
-
         if (self::getType() === 'api') {
             return sysconf('wechat_appid');
         } else {
             return sysconf('wechat_thr_appid');
         }
-
     }
 
     /**
      * Get interface authorization mode
-     *
      * @return string
      * @throws Exception
      * @throws PDOException
      */
     public static function getType()
     {
-
         $type = strtolower(sysconf('wechat_type'));
 
         if (in_array($type, ['api', 'thr'])) {
@@ -282,5 +271,4 @@ class WechatWe extends We
 
         throw new Exception('请在后台配置微信对接授权模式');
     }
-
 }

@@ -199,5 +199,4 @@ class AutoRun extends Command
 
         return date('Y-m-d H:i:s', strtotime("-{$minutes} minutes"));
     }
-
 }

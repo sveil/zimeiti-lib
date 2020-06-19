@@ -17,25 +17,21 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * WeChat open platform account management
- *
  * Class Bind
+ * WeChat open platform account management
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat
+ * @package sveil\lib\rep\wechat
  */
 class Bind extends WeChat
 {
-
     /**
      * Create an open platform account and bind WeOpen
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function create()
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/open/create?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -44,15 +40,13 @@ class Bind extends WeChat
 
     /**
      * Bind WeOpen to the open platform account
-     *
-     * @param string $openidAppid 开放平台帐号APPID
+     * @param string $openidAppid Open platform account APPID
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function link($openidAppid)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/open/bind?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -61,15 +55,13 @@ class Bind extends WeChat
 
     /**
      * Unbind WeOpen from the open platform account
-     *
-     * @param string $openidAppid 开放平台帐号APPID
+     * @param string $openidAppid Open platform account APPID
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function unlink($openidAppid)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/open/unbind?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -78,18 +70,15 @@ class Bind extends WeChat
 
     /**
      * Get the open platform account bound to WeOpen
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function get()
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/open/get?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->httpPostForJson($url, ['appid' => $this->config->get('appid')]);
     }
-
 }

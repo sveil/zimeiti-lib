@@ -12,27 +12,24 @@
 
 namespace sveil\lib\common\handler;
 
-use sveil\lib\service\Wechat;
 use sveil\Db;
 use sveil\db\exception\DataNotFoundException;
 use sveil\db\exception\ModelNotFoundException;
 use sveil\Exception;
 use sveil\exception\DbException;
 use sveil\facade\Log;
+use sveil\lib\service\Wechat;
 
 /**
- * WeChat push message processing
- *
  * Class ReceiveHandler
+ * WeChat push message processing
  * @author Richard <richard@sveil.com>
- * @package app\wechat\controller
+ * @package sveil\lib\common\handler
  */
 class ReceiveHandler
 {
-
     /**
      * Event initialization
-     *
      * @param string $appid
      * @return string
      * @throws DataNotFoundException
@@ -42,7 +39,6 @@ class ReceiveHandler
      */
     public static function handler($appid)
     {
-
         try {
             $wechat = Wechat::WeChatReceive($appid);
         } catch (\Exception $e) {
@@ -51,6 +47,7 @@ class ReceiveHandler
 
         // Verify WeChat configuration information
         $config = Db::name('WechatServiceConfig')->where(['authorizer_appid' => $appid])->find();
+
         if (empty($config) || empty($config['appuri'])) {
             Log::error(($message = "微信{$appid}授权配置验证无效"));
             return $message;
@@ -58,11 +55,13 @@ class ReceiveHandler
 
         try {
             list($data, $openid) = [$wechat->getReceive(), $wechat->getOpenid()];
+
             if (isset($data['EventKey']) && is_object($data['EventKey'])) {
                 $data['EventKey'] = (array) $data['EventKey'];
             }
 
             $input = ['openid' => $openid, 'appid' => $appid, 'receive' => serialize($data), 'encrypt' => intval($wechat->isEncrypt())];
+
             if (is_string($result = http_post($config['appuri'], $input, ['timeout' => 30]))) {
                 if (is_array($json = json_decode($result, true))) {
                     return $wechat->reply($json, true, $wechat->isEncrypt());
@@ -76,5 +75,4 @@ class ReceiveHandler
 
         return 'success';
     }
-
 }

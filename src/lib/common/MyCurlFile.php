@@ -15,15 +15,13 @@ namespace sveil\lib\common;
 use sveil\lib\exception\LocalCacheException;
 
 /**
- * Custom CURL file class
- *
  * Class MyCurlFile
+ * Custom CURL file class
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class MyCurlFile extends \stdClass
 {
-
     /**
      * Current data type
      * @var string
@@ -32,7 +30,6 @@ class MyCurlFile extends \stdClass
 
     /**
      * MyCurlFile constructor
-     *
      * @param string|array $filename
      * @param string $mimetype
      * @param string $postname
@@ -40,7 +37,6 @@ class MyCurlFile extends \stdClass
      */
     public function __construct($filename, $mimetype = '', $postname = '')
     {
-
         if (is_array($filename)) {
             foreach ($filename as $k => $v) {
                 $this->{$k} = $v;
@@ -65,7 +61,6 @@ class MyCurlFile extends \stdClass
             $this->content  = base64_encode(file_get_contents($filename));
             $this->tempname = md5($this->content) . ".{$this->extension}";
         }
-
     }
 
     /**
@@ -75,7 +70,6 @@ class MyCurlFile extends \stdClass
      */
     public function get()
     {
-
         $this->filename = Tools::pushFile($this->tempname, base64_decode($this->content));
 
         if (class_exists('CURLFile')) {
@@ -92,5 +86,4 @@ class MyCurlFile extends \stdClass
     {
         // Tools::delCache($this->tempname);
     }
-
 }

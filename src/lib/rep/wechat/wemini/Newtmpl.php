@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * WeOpen Applets subscription message support
- *
  * Class Mini
+ * WeOpen Applets subscription message support
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Newtmpl extends WeChat
 {
-
     /**
      * Get the category of the applet account
-     *
      * @param array $data Category information list
      * @return array
      * @throws InvalidResponseException
@@ -36,7 +33,6 @@ class Newtmpl extends WeChat
      */
     public function addCategory($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/wxopen/addcategory?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -45,14 +41,12 @@ class Newtmpl extends WeChat
 
     /**
      * Get the category of the applet account
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getCategory()
     {
-
         $url = 'https://api.weixin.qq.com/wxaapi/newtmpl/getcategory?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -61,14 +55,12 @@ class Newtmpl extends WeChat
 
     /**
      * Delete the category of the applet account
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function deleteCategory()
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/wxopen/deletecategory?access_token=TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -77,7 +69,6 @@ class Newtmpl extends WeChat
 
     /**
      * Get the public template title under the category of the account
-     *
      * @param string $ids Category id, multiple separated by commas
      * @return array
      * @throws InvalidResponseException
@@ -85,7 +76,6 @@ class Newtmpl extends WeChat
      */
     public function getPubTemplateTitleList($ids)
     {
-
         $url = 'https://api.weixin.qq.com/wxaapi/newtmpl/getpubtemplatetitles?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -94,7 +84,6 @@ class Newtmpl extends WeChat
 
     /**
      * Get the keyword list under the template title
-     *
      * @param string $tid Template title id, available through the interface
      * @return array
      * @throws InvalidResponseException
@@ -102,7 +91,6 @@ class Newtmpl extends WeChat
      */
     public function getPubTemplateKeyWordsById($tid)
     {
-
         $url = 'https://api.weixin.qq.com/wxaapi/newtmpl/getpubtemplatekeywords?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -111,7 +99,6 @@ class Newtmpl extends WeChat
 
     /**
      * Combine templates and add to personal template library under account
-     *
      * @param string $tid Template title id, which can be obtained through the interface, and can also be obtained by logging in
      * to the background of the applet
      * @param array $kidList A list of template keywords assembled by the developer himself. The keyword order can be freely
@@ -123,7 +110,6 @@ class Newtmpl extends WeChat
      */
     public function addTemplate($tid, array $kidList, $sceneDesc = '')
     {
-
         $url = 'https://api.weixin.qq.com/wxaapi/newtmpl/addtemplate?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -132,14 +118,12 @@ class Newtmpl extends WeChat
 
     /**
      * Get a list of personal templates under the current account
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getTemplateList()
     {
-
         $url = 'https://api.weixin.qq.com/wxaapi/newtmpl/gettemplate?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -148,7 +132,6 @@ class Newtmpl extends WeChat
 
     /**
      * Delete personal templates under account
-     *
      * @param string $priTmplId Template id to delete
      * @return array
      * @throws InvalidResponseException
@@ -156,7 +139,6 @@ class Newtmpl extends WeChat
      */
     public function delTemplate($priTmplId)
     {
-
         $url = 'https://api.weixin.qq.com/wxaapi/newtmpl/deltemplate?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -165,7 +147,6 @@ class Newtmpl extends WeChat
 
     /**
      * Send subscription message
-     *
      * @param array $data Array of message objects sent
      * @return array
      * @throws InvalidResponseException
@@ -173,11 +154,9 @@ class Newtmpl extends WeChat
      */
     public function send(array $data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->callPostApi($url, $data, true);
     }
-
 }

@@ -16,11 +16,10 @@ use sveil\lib\common\DataArray;
 use sveil\lib\exception\InvalidInstanceException;
 
 /**
- * Load buffer
- *
  * Class We
+ * Load buffer
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  *
  * ----- AliPay ----
  * @method \alipay\app AliPayApp($options) static Alipay App Payment Gateway
@@ -80,7 +79,6 @@ use sveil\lib\exception\InvalidInstanceException;
  */
 class We
 {
-
     /**
      * Define current version
      * @var string

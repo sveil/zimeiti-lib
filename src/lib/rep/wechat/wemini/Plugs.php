@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * WeChat Applet Plugin Management
- *
  * Class Plugs
+ * WeChat Applet Plugin Management
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Plugs extends WeChat
 {
-
     /**
      * 1. Apply to use the plugin
-     *
      * @param string $plugin_appid 插件appid
      * @return array
      * @throws InvalidResponseException
@@ -36,7 +33,6 @@ class Plugs extends WeChat
      */
     public function apply($plugin_appid)
     {
-
         $url = 'https://api.weixin.qq.com/wxa/plugin?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -45,14 +41,12 @@ class Plugs extends WeChat
 
     /**
      * 2. Query the added plugin
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getList()
     {
-
         $url = 'https://api.weixin.qq.com/wxa/plugin?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -61,7 +55,6 @@ class Plugs extends WeChat
 
     /**
      * 3. Delete the added plugin
-     *
      * @param string $plugin_appid Plugin appid
      * @return array
      * @throws InvalidResponseException
@@ -69,7 +62,6 @@ class Plugs extends WeChat
      */
     public function unbind($plugin_appid)
     {
-
         $url = 'https://api.weixin.qq.com/wxa/plugin?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -79,7 +71,6 @@ class Plugs extends WeChat
     /**
      * 4. Get all current plug-in users
      * Modify the status of the plug-in application
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -87,7 +78,6 @@ class Plugs extends WeChat
      */
     public function devplugin($data)
     {
-
         $url = 'https://api.weixin.qq.com/wxa/devplugin?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -104,7 +94,6 @@ class Plugs extends WeChat
      */
     public function devApplyList($page = 1, $num = 10)
     {
-
         $url = 'https://api.weixin.qq.com/wxa/plugin?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
         $data = ['action' => 'dev_apply_list', 'page' => $page, 'num' => $num];
@@ -121,11 +110,9 @@ class Plugs extends WeChat
      */
     public function devAgree($action = 'dev_agree')
     {
-
         $url = 'https://api.weixin.qq.com/wxa/plugin?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->callPostApi($url, ['action' => $action], true);
     }
-
 }

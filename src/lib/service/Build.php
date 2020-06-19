@@ -19,7 +19,7 @@ use sveil\lib\Service;
  *
  * Class Build
  * @author Richard <richard@sveil.com>
- * @package sveil\service
+ * @package sveil\lib\service
  */
 class Build extends Service
 {

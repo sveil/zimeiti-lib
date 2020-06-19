@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * Applet Biometrics
- *
  * Class Soter
+ * Applet Biometrics
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Soter extends WeChat
 {
-
     /**
      * SOTER biometric authentication key signature verification
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -36,11 +33,9 @@ class Soter extends WeChat
      */
     public function verifySignature($data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/soter/verify_signature?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->callPostApi($url, $data, true);
     }
-
 }

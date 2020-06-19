@@ -13,15 +13,13 @@
 namespace sveil\lib\exception;
 
 /**
- * Exception thrown if encryption and decryption
- *
  * Class InvalidResponseException
+ * Exception thrown if encryption and decryption
  * @author Richard <richard@sveil.com>
- * @package sveil\exception
+ * @package sveil\lib\exception
  */
 class InvalidDecryptException extends \Exception
 {
-
     /**
      * @var array
      */
@@ -38,5 +36,4 @@ class InvalidDecryptException extends \Exception
         parent::__construct($message, intval($code));
         $this->raw = $raw;
     }
-
 }

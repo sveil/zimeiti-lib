@@ -15,24 +15,21 @@ namespace sveil\lib\rep\storage;
 use Qiniu\Auth;
 use Qiniu\Storage\BucketManager;
 use Qiniu\Storage\UploadManager;
-use sveil\lib\File;
 use sveil\Exception;
 use sveil\facade\Log;
 use sveil\facade\Request;
+use sveil\lib\File;
 
 /**
- * Seven Niu Cloud File Storage
- *
  * Class Qiniu
+ * Seven Niu Cloud File Storage
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\storage
+ * @package sveil\lib\rep\storage
  */
 class Qiniu extends File
 {
-
     /**
      * Check if the file already exists
-     *
      * @param string $name file name
      * @return boolean
      * @throws Exception
@@ -44,7 +41,6 @@ class Qiniu extends File
 
     /**
      * Read file content from Key
-     *
      * @param string $name file name
      * @return string
      * @throws Exception
@@ -56,7 +52,6 @@ class Qiniu extends File
 
     /**
      * Get the current URL of a file
-     *
      * @param string $name file name
      * @return boolean|string|null
      * @throws Exception
@@ -68,7 +63,6 @@ class Qiniu extends File
 
     /**
      * Calculate the target address of the file upload of Seven Niuyun according to the request
-     *
      * @param boolean $client
      * @return string
      * @throws Exception
@@ -76,6 +70,7 @@ class Qiniu extends File
     public function upload($client = false)
     {
         $protocol = Request::isSsl() ? 'https' : 'http';
+
         switch (self::$config->get('storage_qiniu_region')) {
             case '华东':
                 return $client ? "{$protocol}://up.qiniup.com" : "{$protocol}://upload.qiniup.com";
@@ -94,7 +89,6 @@ class Qiniu extends File
 
     /**
      * Get Seven Niuyun URL prefix
-     *
      * @param string $name file name
      * @return string
      * @throws Exception
@@ -102,6 +96,7 @@ class Qiniu extends File
     public function base($name = '')
     {
         $domain = self::$config->get('storage_qiniu_domain');
+
         switch (strtolower(self::$config->get('storage_qiniu_is_https'))) {
             case 'https':
                 return "https://{$domain}/{$name}";
@@ -116,7 +111,6 @@ class Qiniu extends File
 
     /**
      * Seven Niu cloud storage file
-     *
      * @param string $name file name
      * @param string $content document content
      * @return array|null
@@ -124,7 +118,6 @@ class Qiniu extends File
      */
     public function save($name, $content)
     {
-
         $bucket          = self::$config->get('storage_qiniu_bucket');
         $token           = $this->getAuth()->uploadToken($bucket);
         list($ret, $err) = (new UploadManager())->put($token, $name, $content);
@@ -138,7 +131,6 @@ class Qiniu extends File
 
     /**
      * Get file path
-     *
      * @param string $name file name
      * @return string
      */
@@ -149,7 +141,6 @@ class Qiniu extends File
 
     /**
      * Get file information
-     *
      * @param string $name file name
      * @return array|null
      * @throws Exception
@@ -159,6 +150,7 @@ class Qiniu extends File
         $manager         = new BucketManager($this->getAuth());
         $bucket          = self::$config->get('storage_qiniu_bucket');
         list($ret, $err) = $manager->stat($bucket, $name);
+
         if ($err !== null) {
             return null;
         }
@@ -168,7 +160,6 @@ class Qiniu extends File
 
     /**
      * Delete Files
-     *
      * @param string $name file name
      * @return boolean
      */
@@ -176,18 +167,17 @@ class Qiniu extends File
     {
         $bucket = self::$config->get('storage_qiniu_bucket');
         $err    = (new BucketManager($this->getAuth()))->delete($bucket, $name);
+
         return empty($err);
     }
 
     /**
      * Get space list
-     *
      * @return string
      * @throws \Exception
      */
     public function getBucketList()
     {
-
         list($list, $err) = (new BucketManager($this->getAuth()))->buckets(true);
 
         if (!empty($err)) {
@@ -196,6 +186,7 @@ class Qiniu extends File
 
         foreach ($list as &$bucket) {
             list($domain, $err) = $this->getDomainList($bucket);
+
             if (empty($err)) {
                 $bucket = ['bucket' => $bucket, 'domain' => $domain];
             } else {
@@ -208,7 +199,6 @@ class Qiniu extends File
 
     /**
      * Get a list of domain names bound to the space
-     *
      * @param string $bucket Space name
      * @return array
      */
@@ -219,7 +209,6 @@ class Qiniu extends File
 
     /**
      * Get interface Auth object
-     *
      * @return Auth
      */
     private function getAuth()
@@ -232,7 +221,6 @@ class Qiniu extends File
 
     /**
      * Generate file upload TOKEN
-     *
      * @param null|string $key Specify save name
      * @param integer $expires Specify token validity time
      * @return string
@@ -240,12 +228,10 @@ class Qiniu extends File
      */
     public function buildUploadToken($key = null, $expires = 3600)
     {
-
         $location = $this->base();
         $bucket   = self::$config->get('storage_qiniu_bucket');
         $policy   = ['returnBody' => '{"uploaded":true,"filename":"$(key)","url":"' . $location . '$(key)"}'];
 
         return $this->getAuth()->uploadToken($bucket, $key, $expires, $policy, true);
     }
-
 }

@@ -17,25 +17,21 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * WeOpen applet template message support
- *
  * Class Template
+ * WeOpen applet template message support
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wemini
+ * @package sveil\lib\rep\wechat\wemini
  */
 class Template extends WeChat
 {
-
     /**
      * Get the title list of the applet template library
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getTemplateLibraryList()
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/wxopen/template/library/list?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -44,7 +40,6 @@ class Template extends WeChat
 
     /**
      * Get the keyword library under a template title in the template library
-     *
      * @param string $template_id The template title id can be obtained through the interface, or you can log in to
      * the background of the applet to view and obtain
      * @return array
@@ -53,7 +48,6 @@ class Template extends WeChat
      */
     public function getTemplateLibrary($template_id)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/wxopen/template/library/get?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -62,7 +56,6 @@ class Template extends WeChat
 
     /**
      * Combine templates and add to personal template library under account
-     *
      * @param string $template_id The template title id can be obtained through the interface, or you can log in to
      * the background of the applet to view and obtain
      * @param array $keyword_id_list A list of template keywords assembled by the developer himself. The keyword
@@ -73,7 +66,6 @@ class Template extends WeChat
      */
     public function addTemplate($template_id, array $keyword_id_list)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/wxopen/template/add?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -82,14 +74,12 @@ class Template extends WeChat
 
     /**
      * Get a list of templates that already exist in the account
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getTemplateList()
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/wxopen/template/list?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -98,7 +88,6 @@ class Template extends WeChat
 
     /**
      * Delete template message
-     *
      * @param string $template_id Template id to delete
      * @return array
      * @throws InvalidResponseException
@@ -106,7 +95,6 @@ class Template extends WeChat
      */
     public function delTemplate($template_id)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/wxopen/template/del?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -115,7 +103,6 @@ class Template extends WeChat
 
     /**
      * Send template message
-     *
      * @param array $data Array of message objects sent
      * @return array
      * @throws InvalidResponseException
@@ -123,11 +110,9 @@ class Template extends WeChat
      */
     public function send(array $data)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->callPostApi($url, $data, true);
     }
-
 }

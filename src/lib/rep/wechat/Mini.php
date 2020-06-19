@@ -17,15 +17,13 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * Applet management permission set
- *
  * Class Mini
+ * Applet management permission set
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat
+ * @package sveil\lib\rep\wechat
  */
 class Mini extends WeChat
 {
-
     /**
      * 1. Get Applet associated with WeOpen
      * @return array
@@ -34,7 +32,6 @@ class Mini extends WeChat
      */
     public function getLinkWxamp()
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/wxopen/wxamplinkget?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -43,7 +40,6 @@ class Mini extends WeChat
 
     /**
      * 2. Associated applets
-     *
      * @param string $miniAppid Applet appid
      * @param integer $notifyUsers Whether to send a template message to notify public fans
      * @param integer $showProfile Whether to display WeOpen homepage
@@ -53,7 +49,6 @@ class Mini extends WeChat
      */
     public function linkWxamp($miniAppid, $notifyUsers = 1, $showProfile = 1)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/wxopen/wxamplink?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -66,7 +61,6 @@ class Mini extends WeChat
 
     /**
      * 3. Remove the associated applet
-     *
      * @param string $miniAppid Applet appid
      * @return array
      * @throws InvalidResponseException
@@ -74,7 +68,6 @@ class Mini extends WeChat
      */
     public function unlinkWxamp($miniAppid)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/wxopen/wxampunlink?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -83,7 +76,6 @@ class Mini extends WeChat
 
     /**
      * Usage calls the quick registration API to complete the registration
-     *
      * @param string $ticket WeOpen scanning authorization certificate (Carry when the scan page of WeOpen jumps back to Usage)
      * @return array
      * @throws InvalidResponseException
@@ -91,11 +83,9 @@ class Mini extends WeChat
      */
     public function fastRegister($ticket)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/account/fastregister?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->httpPostForJson($url, ['ticket' => $ticket]);
     }
-
 }

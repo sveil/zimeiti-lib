@@ -12,17 +12,17 @@
 
 namespace sveil\lib\service;
 
-use sveil\lib\common\Http;
-use sveil\lib\Service;
 use sveil\Exception;
 use sveil\exception\PDOException;
+use sveil\lib\common\Http;
+use sveil\lib\Service;
 
 /**
  * Xiaomi Message Service
  *
  * Class Michat
  * @author Richard <richard@sveil.com>
- * @package sveil\service
+ * @package sveil\lib\service
  */
 class Michat extends Service
 {

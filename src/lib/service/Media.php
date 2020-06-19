@@ -12,23 +12,23 @@
 
 namespace sveil\lib\service;
 
-use sveil\lib\common\File;
-use sveil\lib\common\MyCurlFile;
-use sveil\lib\exception\InvalidResponseException;
-use sveil\lib\exception\LocalCacheException;
-use sveil\lib\Service;
 use sveil\Db;
 use sveil\db\exception\DataNotFoundException;
 use sveil\db\exception\ModelNotFoundException;
 use sveil\Exception;
 use sveil\exception\DbException;
 use sveil\exception\PDOException;
+use sveil\lib\common\File;
+use sveil\lib\common\MyCurlFile;
+use sveil\lib\exception\InvalidResponseException;
+use sveil\lib\exception\LocalCacheException;
+use sveil\lib\Service;
 
 /**
  * Class Media
  * WeChat material management
  * @author Richard <richard@sveil.com>
- * @package sveil\service
+ * @package sveil\lib\service
  */
 class Media extends Service
 {

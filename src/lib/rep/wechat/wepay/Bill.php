@@ -18,18 +18,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WePay;
 
 /**
- * WeChat merchant bills and comments
- *
  * Class Bill
+ * WeChat merchant bills and comments
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wepay
+ * @package sveil\lib\rep\wechat\wepay
  */
 class Bill extends WePay
 {
-
     /**
      * Download statement
-     *
      * @param array $options Mute parameter
      * @param null|string $outType Output type
      * @return bool|string
@@ -38,7 +35,6 @@ class Bill extends WePay
      */
     public function download(array $options, $outType = null)
     {
-
         $this->params->set('sign_type', 'MD5');
         $params         = $this->params->merge($options);
         $params['sign'] = $this->getPaySign($params, 'MD5');
@@ -55,7 +51,6 @@ class Bill extends WePay
 
     /**
      * Pull order evaluation data
-     *
      * @param array $options
      * @return array
      * @throws InvalidResponseException
@@ -63,10 +58,8 @@ class Bill extends WePay
      */
     public function comment(array $options)
     {
-
         $url = 'https://api.mch.weixin.qq.com/billcommentsp/batchquerycomment';
 
         return $this->callPostApi($url, $options, true);
     }
-
 }

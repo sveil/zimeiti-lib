@@ -12,24 +12,22 @@
 
 namespace sveil\lib\helper;
 
-use sveil\lib\Helper;
 use sveil\db\exception\DataNotFoundException;
 use sveil\db\exception\ModelNotFoundException;
 use sveil\db\Query;
 use sveil\Exception;
 use sveil\exception\DbException;
 use sveil\exception\PDOException;
+use sveil\lib\Helper;
 
 /**
- * Form management assistant
- *
  * Class Former
+ * Form management assistant
  * @author Richard <richard@sveil.com>
- * @package sveil\helper
+ * @package sveil\lib\helper
  */
 class Former extends Helper
 {
-
     /**
      * Additional form update conditions
      * @var array
@@ -61,7 +59,7 @@ class Former extends Helper
     protected $template;
 
     /**
-     * 逻辑器初始化
+     * Logic initialization
      * @param string|Query $dbQuery
      * @param string $template Template name
      * @param string $field Operation data primary key
@@ -76,7 +74,6 @@ class Former extends Helper
      */
     public function init($dbQuery, $template = '', $field = '', $where = [], $data = [])
     {
-
         $this->query                                     = $this->buildQuery($dbQuery);
         list($this->template, $this->where, $this->data) = [$template, $where, $data];
         $this->field                                     = empty($field) ? ($this->query->getPk() ? $this->query->getPk() : 'id') : $field;
@@ -88,7 +85,9 @@ class Former extends Helper
                 $where = [$this->field => $this->value];
                 $data  = (array) $this->query->where($where)->where($this->where)->find();
             }
+
             $data = array_merge($data, $this->data);
+
             if (false !== $this->controller->callback('_form_filter', $data)) {
                 return $this->controller->fetch($this->template, ['vo' => $data]);
             } else {
@@ -99,8 +98,10 @@ class Former extends Helper
         // POST request automatic data storage processing
         if ($this->app->request->isPost()) {
             $data = array_merge($this->app->request->post(), $this->data);
+
             if (false !== $this->controller->callback('_form_filter', $data, $this->where)) {
                 $result = data_save($this->query, $data, $this->field, $this->where);
+
                 if (false !== $this->controller->callback('_form_result', $result, $data)) {
                     if ($result !== false) {
                         $this->controller->success(lang('lib_form_success'), '');
@@ -108,10 +109,9 @@ class Former extends Helper
                         $this->controller->error(lang('lib_form_error'));
                     }
                 }
+
                 return $result;
             }
         }
-
     }
-
 }

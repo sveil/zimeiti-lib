@@ -16,15 +16,13 @@ use sveil\lib\Helper;
 use sveil\Validate;
 
 /**
- * Validator assistant
- *
  * Class Validater
+ * Validator assistant
  * @author Richard <richard@sveil.com>
- * @package sveil\helper
+ * @package sveil\lib\helper
  */
 class Validater extends Helper
 {
-
     /**
      * Quick input and verification (support rule # alias)
      * @param array $rules Verification rules (verification information array)
@@ -34,17 +32,21 @@ class Validater extends Helper
     public function init(array $rules, $type = '')
     {
         list($data, $rule, $info) = [[], [], []];
+
         foreach ($rules as $name => $message) {
             if (stripos($name, '#') !== false) {
                 list($name, $alias) = explode('#', $name);
             }
+
             if (stripos($name, '.') === false) {
                 if (is_numeric($name)) {
                     $keys = $message;
+
                     if (is_string($message) && stripos($message, '#') !== false) {
                         list($name, $alias) = explode('#', $message);
                         $keys               = empty($alias) ? $name : $alias;
                     }
+
                     $data[$name] = input("{$type}{$keys}");
                 } else {
                     $data[$name] = $message;
@@ -58,12 +60,13 @@ class Validater extends Helper
                 $rule[$_key]        = empty($rule[$_key]) ? $_rule : "{$rule[$_key]}|{$_rule}";
             }
         }
+
         $validate = new Validate();
+
         if ($validate->rule($rule)->message($info)->check($data)) {
             return $data;
         } else {
             $this->controller->error($validate->getError());
         }
     }
-
 }

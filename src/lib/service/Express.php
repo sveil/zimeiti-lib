@@ -12,18 +12,18 @@
 
 namespace sveil\lib\service;
 
-use sveil\lib\Service;
 use sveil\Db;
 use sveil\db\exception\DataNotFoundException;
 use sveil\db\exception\ModelNotFoundException;
 use sveil\exception\DbException;
+use sveil\lib\Service;
 
 /**
  * Mall postage service
  *
  * Class Express
  * @author Richard <richard@sveil.com>
- * @package sveil\service
+ * @package sveil\lib\service
  */
 class Express extends Service
 {

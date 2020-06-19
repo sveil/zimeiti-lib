@@ -13,18 +13,15 @@
 namespace sveil\lib\common;
 
 /**
- * Error message handling
- *
  * Class DataError
+ * Error message handling
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class DataError
 {
-
     /**
      * Interface code error
-     *
      * @var array
      */
     static $message = [
@@ -185,7 +182,6 @@ class DataError
 
     /**
      * Exception code parse description
-     *
      * @param string $code
      * @return string
      */
@@ -193,5 +189,4 @@ class DataError
     {
         return isset(self::$message[$code]) ? self::$message[$code] : $code;
     }
-
 }

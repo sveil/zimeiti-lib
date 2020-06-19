@@ -19,7 +19,7 @@ use sveil\lib\Service;
  *
  * Class Captcha
  * @author Richard <richard@sveil.com>
- * @package sveil\service
+ * @package sveil\lib\service
  */
 class Captcha extends Service
 {

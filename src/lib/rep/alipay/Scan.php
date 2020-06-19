@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\AliPay;
 
 /**
- * Alipay scan code payment
- *
  * Class Scan
+ * Alipay scan code payment
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\alipay
+ * @package sveil\lib\rep\alipay
  */
 class Scan extends AliPay
 {
-
     /**
      * Scan constructor
-     *
      * @param array $options
      */
     public function __construct(array $options)
@@ -39,7 +36,6 @@ class Scan extends AliPay
 
     /**
      * Create data operation
-     *
      * @param array $options
      * @return mixed
      * @throws InvalidResponseException
@@ -49,5 +45,4 @@ class Scan extends AliPay
     {
         return $this->getResult($options);
     }
-
 }

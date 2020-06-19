@@ -21,7 +21,7 @@ use sveil\lib\exception\LocalCacheException;
  *
  * Abstract Class WePay
  * @author Richard <richard@sveil.com>
- * @package sveil\rep
+ * @package sveil\lib\rep
  */
 abstract class WePay
 {

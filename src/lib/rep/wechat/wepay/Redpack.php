@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WePay;
 
 /**
- * Wechat Red package support
- *
  * Class Redpack
+ * Wechat Red package support
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat\wepay
+ * @package sveil\lib\rep\wechat\wepay
  */
 class Redpack extends WePay
 {
-
     /**
      * create common red package
-     *
      * @param array $options
      * @return array
      * @throws InvalidResponseException
@@ -36,7 +33,6 @@ class Redpack extends WePay
      */
     public function create(array $options)
     {
-
         $this->params->offsetUnset('appid');
         $this->params->set('wxappid', $this->config->get('appid'));
         $url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
@@ -46,7 +42,6 @@ class Redpack extends WePay
 
     /**
      * create fission red package
-     *
      * @param array $options
      * @return array
      * @throws InvalidResponseException
@@ -54,7 +49,6 @@ class Redpack extends WePay
      */
     public function groups(array $options)
     {
-
         $this->params->offsetUnset('appid');
         $this->params->set('wxappid', $this->config->get('appid'));
         $url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendgroupredpack";
@@ -64,7 +58,6 @@ class Redpack extends WePay
 
     /**
      * Query red package records
-     *
      * @param string $mchBillno Merchant order number created by the merchant
      * @return array
      * @throws InvalidResponseException
@@ -72,12 +65,10 @@ class Redpack extends WePay
      */
     public function query($mchBillno)
     {
-
         $this->params->offsetUnset('wxappid');
         $this->params->set('appid', $this->config->get('appid'));
         $url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/gethbinfo";
 
         return $this->callPostApi($url, ['mch_billno' => $mchBillno, 'bill_type' => 'MCHT'], true, 'MD5', false);
     }
-
 }

@@ -17,25 +17,21 @@ use sveil\lib\exception\InvalidResponseException;
 use sveil\lib\exception\LocalCacheException;
 
 /**
- * Network request support
- *
  * Class Tools
+ * Network request support
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class Tools
 {
-
     /**
      * Cache path
-     *
      * @var null
      */
     public static $cache_path = null;
 
     /**
      * Cache write operation
-     *
      * @var array
      */
     public static $cache_callable = [
@@ -47,14 +43,12 @@ class Tools
 
     /**
      * Network cache
-     *
      * @var array
      */
     private static $cache_curl = [];
 
     /**
      * Generate random strings
-     *
      * @param int $length Specify character length
      * @param string $str String prefix
      * @return string
@@ -72,7 +66,6 @@ class Tools
 
     /**
      * Get file type from file suffix
-     *
      * @param string|array $ext File extension
      * @param array $mine File suffix MINE information
      * @return string
@@ -80,7 +73,6 @@ class Tools
      */
     public static function getExtMine($ext, $mine = [])
     {
-
         $mines = self::getMines();
 
         foreach (is_string($ext) ? explode(',', $ext) : $ext as $e) {
@@ -92,23 +84,23 @@ class Tools
 
     /**
      * Get all file extension types
-     *
      * @return array
      * @throws LocalCacheException
      */
     private static function getMines()
     {
-
         $mines = self::getCache('all_ext_mine');
 
         if (empty($mines)) {
             $content = file_get_contents('http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types');
             preg_match_all('#^([^\s]{2,}?)\s+(.+?)$#ism', $content, $matches, PREG_SET_ORDER);
+
             foreach ($matches as $match) {
                 foreach (explode(" ", $match[2]) as $ext) {
                     $mines[$ext] = $match[1];
                 }
             }
+
             self::setCache('all_ext_mine', $mines);
         }
 
@@ -117,7 +109,6 @@ class Tools
 
     /**
      * Create CURL file object
-     *
      * @param $filename
      * @param string $mimetype
      * @param string $postname
@@ -126,17 +117,19 @@ class Tools
      */
     public static function createCurlFile($filename, $mimetype = null, $postname = null)
     {
-
         if (is_string($filename) && file_exists($filename)) {
             if (is_null($postname)) {
                 $postname = basename($filename);
             }
+
             if (is_null($mimetype)) {
                 $mimetype = self::getExtMine(pathinfo($filename, 4));
             }
+
             if (function_exists('curl_file_create')) {
                 return curl_file_create($filename, $mimetype, $postname);
             }
+
             return "@{$filename};filename={$postname};type={$mimetype}";
         }
 
@@ -145,7 +138,6 @@ class Tools
 
     /**
      * Array to XML content
-     *
      * @param array $data
      * @return string
      */
@@ -156,17 +148,16 @@ class Tools
 
     /**
      * XML content generation
-     *
      * @param array $data data
      * @param string $content
      * @return string
      */
     private static function _arr2xml($data, $content = '')
     {
-
         foreach ($data as $key => $val) {
             is_numeric($key) && $key = 'item';
             $content .= "<{$key}>";
+
             if (is_array($val) || is_object($val)) {
                 $content .= self::_arr2xml($val);
             } elseif (is_string($val)) {
@@ -174,6 +165,7 @@ class Tools
             } else {
                 $content .= $val;
             }
+
             $content .= "</{$key}>";
         }
 
@@ -182,13 +174,11 @@ class Tools
 
     /**
      * Parsing XML content into array
-     *
      * @param string $xml
      * @return array
      */
     public static function xml2arr($xml)
     {
-
         $entity = libxml_disable_entity_loader(true);
         $data   = (array) simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         libxml_disable_entity_loader($entity);
@@ -198,13 +188,11 @@ class Tools
 
     /**
      * Array to XML content
-     *
      * @param array $data
      * @return null|string|string
      */
     public static function arr2json($data)
     {
-
         $json = json_encode(self::buildEnEmojiData($data), JSON_UNESCAPED_UNICODE);
 
         return $json === '[]' ? '{}' : $json;
@@ -212,13 +200,11 @@ class Tools
 
     /**
      * Array object Emoji compilation processing
-     *
      * @param array $data
      * @return array
      */
     public static function buildEnEmojiData(array $data)
     {
-
         foreach ($data as $key => $value) {
             if (is_array($value)) {
                 $data[$key] = self::buildEnEmojiData($value);
@@ -234,13 +220,11 @@ class Tools
 
     /**
      * Array object Emoji reverse analysis processing
-     *
      * @param array $data
      * @return array
      */
     public static function buildDeEmojiData(array $data)
     {
-
         foreach ($data as $key => $value) {
             if (is_array($value)) {
                 $data[$key] = self::buildDeEmojiData($value);
@@ -256,44 +240,36 @@ class Tools
 
     /**
      * Convert Emoji to String
-     *
      * @param string $content
      * @return string
      */
     public static function emojiEncode($content)
     {
-
         return json_decode(preg_replace_callback("/(\\\u[ed][0-9a-f]{3})/i", function ($string) {
             return addslashes($string[0]);
         }, json_encode($content)));
-
     }
 
     /**
      * Emoji string to graphics
-     *
      * @param string $content
      * @return string
      */
     public static function emojiDecode($content)
     {
-
         return json_decode(preg_replace_callback('/\\\\\\\\/i', function () {
             return '\\';
         }, json_encode($content)));
-
     }
 
     /**
      * Parsing JSON content to array
-     *
      * @param string $json
      * @return array
      * @throws InvalidResponseException
      */
     public static function json2arr($json)
     {
-
         $result = json_decode($json, true);
 
         if (empty($result)) {
@@ -309,7 +285,6 @@ class Tools
 
     /**
      * Simulate access with get method
-     *
      * @param string $url Access URL
      * @param array $query GET number
      * @param array $options
@@ -318,7 +293,6 @@ class Tools
      */
     public static function get($url, $query = [], $options = [])
     {
-
         $options['query'] = $query;
 
         return self::doRequest('get', $url, $options);
@@ -326,7 +300,6 @@ class Tools
 
     /**
      * Simulate access with post method
-     *
      * @param string $url Access URL
      * @param array $data POST data
      * @param array $options
@@ -335,7 +308,6 @@ class Tools
      */
     public static function post($url, $data = [], $options = [])
     {
-
         $options['data'] = $data;
 
         return self::doRequest('post', $url, $options);
@@ -343,7 +315,6 @@ class Tools
 
     /**
      * CURL simulate network requests
-     *
      * @param string $method request method
      * @param string $url request URL
      * @param array $options Request parameters[headers,data,ssl_cer,ssl_key]
@@ -352,7 +323,6 @@ class Tools
      */
     public static function doRequest($method, $url, $options = [])
     {
-
         $curl = curl_init();
 
         // GET parameter setting
@@ -412,7 +382,6 @@ class Tools
 
     /**
      * POST data filtering
-     *
      * @param array $data Data to be processed
      * @param boolean $build Whether to compile data
      * @return array|string
@@ -420,7 +389,6 @@ class Tools
      */
     private static function _buildHttpData($data, $build = true)
     {
-
         if (!is_array($data)) {
             return $data;
         }
@@ -446,7 +414,6 @@ class Tools
 
     /**
      * Write file
-     *
      * @param string $name file name
      * @param string $content file content
      * @return string
@@ -454,7 +421,6 @@ class Tools
      */
     public static function pushFile($name, $content)
     {
-
         if (is_callable(self::$cache_callable['put'])) {
             return call_user_func_array(self::$cache_callable['put'], func_get_args());
         }
@@ -470,7 +436,6 @@ class Tools
 
     /**
      * Cache configuration and storage
-     *
      * @param string $name Cache name
      * @param string $value Cache content
      * @param int $expired Cache time (0 permanent cache)
@@ -479,7 +444,6 @@ class Tools
      */
     public static function setCache($name, $value = '', $expired = 3600)
     {
-
         if (is_callable(self::$cache_callable['set'])) {
             return call_user_func_array(self::$cache_callable['set'], func_get_args());
         }
@@ -496,13 +460,11 @@ class Tools
 
     /**
      * Get cached content
-     *
      * @param string $name Cache name
      * @return null|mixed
      */
     public static function getCache($name)
     {
-
         if (is_callable(self::$cache_callable['get'])) {
             return call_user_func_array(self::$cache_callable['get'], func_get_args());
         }
@@ -511,9 +473,11 @@ class Tools
 
         if (file_exists($file) && ($content = file_get_contents($file))) {
             $data = unserialize($content);
+
             if (isset($data['expired']) && (intval($data['expired']) === 0 || intval($data['expired']) >= time())) {
                 return $data['value'];
             }
+
             self::delCache($name);
         }
 
@@ -522,13 +486,11 @@ class Tools
 
     /**
      * Remove cache file
-     *
      * @param string $name cache file
      * @return boolean
      */
     public static function delCache($name)
     {
-
         if (is_callable(self::$cache_callable['del'])) {
             return call_user_func_array(self::$cache_callable['del'], func_get_args());
         }
@@ -540,13 +502,11 @@ class Tools
 
     /**
      * Application cache directory
-     *
      * @param string $name
      * @return string
      */
     private static function _getCacheName($name)
     {
-
         if (empty(self::$cache_path)) {
             self::$cache_path = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'Cache' . DIRECTORY_SEPARATOR;
         }
@@ -556,5 +516,4 @@ class Tools
 
         return self::$cache_path . $name;
     }
-
 }

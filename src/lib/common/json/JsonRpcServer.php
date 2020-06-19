@@ -17,15 +17,13 @@ use sveil\Container;
 use sveil\exception\HttpResponseException;
 
 /**
- * JsonRpc Server
- *
  * Class JsonRpcServer
+ * JsonRpc Server
  * @author Richard <richard@sveil.com>
- * @package sveil\common\json
+ * @package sveil\lib\common\json
  */
 class JsonRpcServer
 {
-
     /**
      * Current App object
      * @var App
@@ -56,19 +54,19 @@ class JsonRpcServer
      */
     public function handle($object)
     {
-
         // Checks if a JSON-RCP request has been received
         if ($this->app->request->method() !== "POST" || $this->app->request->contentType() != 'application/json') {
             echo "<h2>" . get_class($object) . "</h2>";
+
             foreach (get_class_methods($object) as $method) {
                 if ($method[0] !== '_') {
                     echo "<p>method {$method}()</p>";
                 }
-
             }
         } else {
             // Reads the input data
             $request = json_decode(file_get_contents('php://input'), true);
+
             if (empty($request)) {
                 $error    = ['code' => '-32700', 'message' => '语法解析错误', 'meaning' => '服务端接收到无效的JSON'];
                 $response = ['jsonrpc' => '2.0', 'id' => $request['id'], 'result' => null, 'error' => $error];
@@ -92,7 +90,5 @@ class JsonRpcServer
             // Output the response
             throw new HttpResponseException(json($response)->contentType('text/javascript'));
         }
-
     }
-
 }

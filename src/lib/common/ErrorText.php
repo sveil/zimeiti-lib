@@ -13,15 +13,13 @@
 namespace sveil\lib\common;
 
 /**
- * For internal use only, ErrCode not used for official API interface
- *
  * Class ErrorText
+ * For internal use only, ErrCode not used for official API interface
  * @author Richard <richard@sveil.com>
- * @package sveil\common
+ * @package sveil\lib\common
  */
 class ErrorText
 {
-
     public static $OK                     = 0;
     public static $ParseXmlError          = 40002;
     public static $IllegalAesKey          = 40004;
@@ -61,5 +59,4 @@ class ErrorText
         }
         return false;
     }
-
 }

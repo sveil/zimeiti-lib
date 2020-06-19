@@ -12,29 +12,25 @@
 
 namespace sveil\lib\helper;
 
+use sveil\exception\HttpResponseException;
 use sveil\lib\Helper;
 use sveil\lib\service\Token;
-use sveil\exception\HttpResponseException;
 
 /**
- * Token assistant
- *
  * Class Tokener
+ * Token assistant
  * @author Richard <richard@sveil.com>
- * @package sveil\helper
+ * @package sveil\lib\helper
  */
 class Tokener extends Helper
 {
-
     /**
      * Initialize the verification code
-     *
      * @param boolean $return
      * @return boolean
      */
     public function init($return = false)
     {
-
         $this->controller->csrf_state = true;
 
         if ($this->app->request->isPost() && !Token::instance()->checkFormToken()) {
@@ -46,7 +42,6 @@ class Tokener extends Helper
         } else {
             return true;
         }
-
     }
 
     /**
@@ -65,14 +60,11 @@ class Tokener extends Helper
      */
     public function fetchTemplate($tpl = '', $vars = [], $node = null)
     {
-
         throw new HttpResponseException(view($tpl, $vars, 200, function ($html) use ($node) {
             return preg_replace_callback('/<\/form>/i', function () use ($node) {
                 $csrf = TokenService::instance()->buildFormToken($node);
                 return "<input type='hidden' name='_token_' value='{$csrf['token']}'></form>";
             }, $html);
         }));
-
     }
-
 }

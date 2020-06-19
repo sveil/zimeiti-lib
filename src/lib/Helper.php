@@ -22,7 +22,7 @@ use sveil\db\Query;
  *
  * Abstract Class Helper
  * @author Richard <richard@sveil.com>
- * @package sveil
+ * @package sveil\lib
  */
 abstract class Helper
 {

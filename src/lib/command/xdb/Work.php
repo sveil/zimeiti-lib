@@ -79,7 +79,7 @@ class Work extends Command
 
                     // Set Process Title
                     if (($process = Process::instance())->iswin() && function_exists('cli_set_process_title')) {
-                        cli_set_process_title("ThinkAdmin {$process->version()} Queue - {$queue['title']}");
+                        cli_set_process_title("Database {$process->version()} Queue - {$queue['title']}");
                     }
 
                     // Content of task

@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * WeChat web authorization
- *
  * Class Oauth
+ * WeChat web authorization
  * @author Richard <richard@sveil.com>
- * @package sveil\rep\wechat
+ * @package sveil\lib\rep\wechat
  */
 class Oauth extends WeChat
 {
-
     /**
      * Oauth authorization jump interface
-     *
      * @param string $redirect_url Authorized bounce address
      * @param string $state It will bring the state parameter after the redirect（Fill in the parameter value of a-zA-Z0-9, up to 128 bytes）
      * @param string $scope Authorization class type(Optional snsapi_base|snsapi_userinfo)
@@ -36,7 +33,6 @@ class Oauth extends WeChat
      */
     public function getOauthRedirect($redirect_url, $state = '', $scope = 'snsapi_base')
     {
-
         $appid        = $this->config->get('appid');
         $redirect_uri = urlencode($redirect_url);
 
@@ -45,14 +41,12 @@ class Oauth extends WeChat
 
     /**
      * Get AccessToken and openid through code
-     *
      * @return bool|array
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getOauthAccessToken()
     {
-
         $appid     = $this->config->get('appid');
         $appsecret = $this->config->get('appsecret');
         $code      = isset($_GET['code']) ? $_GET['code'] : '';
@@ -63,7 +57,6 @@ class Oauth extends WeChat
 
     /**
      * Refresh AccessToken and renew
-     *
      * @param string $refresh_token
      * @return bool|array
      * @throws InvalidResponseException
@@ -71,7 +64,6 @@ class Oauth extends WeChat
      */
     public function getOauthRefreshToken($refresh_token)
     {
-
         $appid = $this->config->get('appid');
         $url   = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid={$appid}&grant_type=refresh_token&refresh_token={$refresh_token}";
 
@@ -80,7 +72,6 @@ class Oauth extends WeChat
 
     /**
      * Inspection authorization certificate（access_token）is it effective
-     *
      * @param string $access_token Web page authorization interface calling credential,Note: This access_token is different from the basic supported access_token
      * @param string $openid User's unique ID
      * @return array
@@ -89,14 +80,13 @@ class Oauth extends WeChat
      */
     public function checkOauthAccessToken($access_token, $openid)
     {
-
         $url = "https://api.weixin.qq.com/sns/auth?access_token={$access_token}&openid={$openid}";
 
         return $this->httpGetForJson($url);
     }
 
     /**
-     * 拉取用户信息(需scope为 snsapi_userinfo)
+     * Pull user information(scope is snsapi_userinfo)
      * @param string $access_token Web page authorization interface calling credential,Note: This access_token is different from the basic supported access_token
      * @param string $openid User's unique ID
      * @param string $lang Back to country language, zh_CN, zh_TW, en
@@ -106,10 +96,8 @@ class Oauth extends WeChat
      */
     public function getUserInfo($access_token, $openid, $lang = 'zh_CN')
     {
-
         $url = "https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$openid}&lang={$lang}";
 
         return $this->httpGetForJson($url);
     }
-
 }
