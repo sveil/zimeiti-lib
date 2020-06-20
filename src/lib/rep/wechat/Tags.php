@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * User label management
- *
  * Class Tags
+ * User label management
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\rep\wechat
  */
 class Tags extends WeChat
 {
-
     /**
      * Get fan tag list
-     *
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
@@ -36,12 +33,12 @@ class Tags extends WeChat
     {
         $url = "https://api.weixin.qq.com/cgi-bin/tags/get?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
+
         return $this->httpGetForJson($url);
     }
 
     /**
      * Create a fan tag
-     *
      * @param string $name
      * @return array
      * @throws InvalidResponseException
@@ -51,12 +48,12 @@ class Tags extends WeChat
     {
         $url = "https://api.weixin.qq.com/cgi-bin/tags/create?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
+
         return $this->httpPostForJson($url, ['tag' => ['name' => $name]]);
     }
 
     /**
      * Update fans tags
-     *
      * @param integer $id Tag ID
      * @param string $name Label name
      * @return array
@@ -65,7 +62,6 @@ class Tags extends WeChat
      */
     public function updateTags($id, $name)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/tags/update?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -74,7 +70,6 @@ class Tags extends WeChat
 
     /**
      * Remove fans tag
-     *
      * @param int $tagId
      * @return array
      * @throws InvalidResponseException
@@ -82,7 +77,6 @@ class Tags extends WeChat
      */
     public function deleteTags($tagId)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/tags/delete?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -91,7 +85,6 @@ class Tags extends WeChat
 
     /**
      * Set labels for users in batches
-     *
      * @param array $openids
      * @param integer $tagId
      * @return array
@@ -100,7 +93,6 @@ class Tags extends WeChat
      */
     public function batchTagging(array $openids, $tagId)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -109,7 +101,6 @@ class Tags extends WeChat
 
     /**
      * Unlabel users in batches
-     *
      * @param array $openids
      * @param integer $tagId
      * @return array
@@ -118,7 +109,6 @@ class Tags extends WeChat
      */
     public function batchUntagging(array $openids, $tagId)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -127,7 +117,6 @@ class Tags extends WeChat
 
     /**
      * Get a list of tags on the user
-     *
      * @param string $openid
      * @return array
      * @throws InvalidResponseException
@@ -135,11 +124,9 @@ class Tags extends WeChat
      */
     public function getUserTagId($openid)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->httpPostForJson($url, ['openid' => $openid]);
     }
-
 }

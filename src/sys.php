@@ -25,7 +25,6 @@ use sveil\lib\service\System;
 if (!function_exists('isRead')) {
     /**
      * Check the directory readable or create directory
-     *
      * @param string $dir Directory to be checked
      * @return boolean
      */
@@ -38,7 +37,6 @@ if (!function_exists('isRead')) {
 if (!function_exists('isWrite')) {
     /**
      * Check that the directory can be written or created
-     *
      * @param string $dir Directory to be checked
      * @return boolean
      */
@@ -51,7 +49,6 @@ if (!function_exists('isWrite')) {
 if (!function_exists('readFiles')) {
     /**
      * Read the entire file into a string
-     *
      * @param string $filename
      * @return string|false
      */
@@ -64,7 +61,6 @@ if (!function_exists('readFiles')) {
 if (!function_exists('arrFiles')) {
     /**
      * Save array to file
-     *
      * @param string $filename
      * @param string $arr
      * @return number|false
@@ -78,7 +74,6 @@ if (!function_exists('arrFiles')) {
 if (!function_exists('mysqlClientVersion')) {
     /**
      * Get the mysql client version
-     *
      * @return string
      */
     function mysqlClientVersion()
@@ -90,7 +85,6 @@ if (!function_exists('mysqlClientVersion')) {
 if (!function_exists('auth')) {
     /**
      * Node access permission check
-     *
      * @param string $node Node to check
      * @return boolean
      * @throws ReflectionException
@@ -115,20 +109,17 @@ if (!function_exists('sysdata')) {
      */
     function sysdata($name, $value = null)
     {
-
         if (is_null($value)) {
             return System::instance()->getData($name);
         } else {
             return System::instance()->setData($name, $value);
         }
-
     }
 }
 
 if (!function_exists('sysoplog')) {
     /**
      * Write to system log
-     *
      * @param string $action Log behavior
      * @param string $content Log content
      * @return boolean
@@ -152,7 +143,6 @@ if (!function_exists('sysqueue')) {
      */
     function sysqueue($title, $loade, $later = 0, $data = [], $double = 1)
     {
-
         $map = [['title', 'eq', $title], ['status', 'in', [1, 2]]];
 
         if (empty($double) && Db::name('SystemQueue')->where($map)->count() > 0) {
@@ -173,7 +163,6 @@ if (!function_exists('sysqueue')) {
 if (!function_exists('local_image')) {
     /**
      * Download remote file to local
-     *
      * @param string $url remote image URL
      * @param boolean $force Whether to force re-download
      * @param integer $expire force local storage time
@@ -181,7 +170,6 @@ if (!function_exists('local_image')) {
      */
     function localImage($url, $force = false, $expire = 0)
     {
-
         $result = File::down($url, $force, $expire);
 
         if (isset($result['url'])) {
@@ -189,7 +177,6 @@ if (!function_exists('local_image')) {
         } else {
             return $url;
         }
-
     }
 }
 
@@ -202,7 +189,6 @@ if (!function_exists('base64_image')) {
      */
     function base64Image($content, $dirname = 'base64/')
     {
-
         try {
             if (preg_match('|^data:image/(.*?);base64,|i', $content)) {
                 list($ext, $base) = explode('|||', preg_replace('|^data:image/(.*?);base64,|i', '$1|||', $content));
@@ -214,19 +200,16 @@ if (!function_exists('base64_image')) {
         } catch (\Exception $e) {
             return $content;
         }
-
     }
 }
 
 if (!function_exists('getNodes')) {
     /**
      * Get all node path
-     *
      * @return string
      */
     function getNodes()
     {
-
         $arr = [];
 
         foreach (Node::instance()->getMethods() as $node => $method) {
@@ -240,7 +223,6 @@ if (!function_exists('getNodes')) {
 if (!function_exists('getPaths')) {
     /**
      * Get what is not in the database node path
-     *
      * @return string
      */
     function getPaths()
@@ -252,14 +234,12 @@ if (!function_exists('getPaths')) {
 if (!function_exists('fixArr')) {
     /**
      * Recursively traverse according to ID and update array
-     *
      * @param array $arr Array
      * @param int $id Node ID
      * @return array
      */
     function fixArr($arr, $id = 0)
     {
-
         foreach ($arr as $key => $value) {
             if (!is_array($value)) {
                 echo "Key: $key; Value: $value<br />\n";
@@ -275,13 +255,11 @@ if (!function_exists('fixArr')) {
 if (!function_exists('getAuths')) {
     /**
      * Get all lists of permission tables
-     *
      * @param int $id Node ID
      * @return string
      */
     function getAuths($id = 0)
     {
-
         $arr = Db::name('Auths')->column('id, pid, title');
 
         return Data::id2arr($arr, $id);

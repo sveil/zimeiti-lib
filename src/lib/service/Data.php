@@ -15,24 +15,20 @@ namespace sveil\lib\service;
 use sveil\lib\Service;
 
 /**
- * Enterprise data processing services
- *
  * Class Data
+ * Enterprise data processing services
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  */
 class Data extends Service
 {
-
     /**
      * Format MAC address information
-     *
      * @param string $mac
      * @return string
      */
     public static function applyMacValue(&$mac)
     {
-
         $mac = strtoupper(str_replace('-', ':', $mac));
 
         if (preg_match('/([A-F0-9]{2}:){5}[A-F0-9]{2}/', $mac)) {
@@ -40,7 +36,5 @@ class Data extends Service
         } else {
             return false;
         }
-
     }
-
 }

@@ -24,7 +24,6 @@ class Node extends Service
 {
     /**
      * Hump ​​to underline rule
-     *
      * @param string $name
      * @return string
      */

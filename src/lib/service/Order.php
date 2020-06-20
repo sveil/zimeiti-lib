@@ -30,7 +30,6 @@ class Order extends Service
 {
     /**
      * Upgrade membership level based on order number
-     *
      * @param string $order_no Order number
      * @return boolean
      * @throws DataNotFoundException
@@ -44,7 +43,6 @@ class Order extends Service
 
     /**
      * Synchronize inventory sales based on orders
-     *
      * @param string $order_no
      * @return boolean
      * @throws Exception
@@ -70,7 +68,6 @@ class Order extends Service
 
     /**
      * Order profit calculation
-     *
      * @param string $order_no
      * @return boolean
      */
@@ -78,5 +75,4 @@ class Order extends Service
     {
         // @todo Calculate order rebate
     }
-
 }

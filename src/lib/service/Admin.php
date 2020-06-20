@@ -21,17 +21,14 @@ use sveil\lib\Service;
 use sveil\lib\service\Node;
 
 /**
- * System authority management service
- *
  * Class Admin
+ * System authority management service
  * @package sveil\lib\service
  */
 class Admin extends Service
 {
-
     /**
      * Determine if you are already logged in
-     *
      * @return boolean
      */
     public function isLogin()
@@ -41,14 +38,12 @@ class Admin extends Service
 
     /**
      * Check the specified node authorization, Need to read cache or scan all nodes
-     *
      * @param string $node
      * @return boolean
      * @throws \ReflectionException
      */
     public function check($node = '')
     {
-
         $service = Node::instance();
 
         if ($this->app->session->get('user.rid') === 0) {
@@ -62,25 +57,23 @@ class Admin extends Service
         } else {
             return in_array($real, (array) $this->app->session->get('user.nodes'));
         }
-
     }
 
     /**
      * Get a list of authorized nodes
-     *
      * @param array $checkeds
      * @return array
      * @throws \ReflectionException
      */
     public function getTree($checkeds = [])
     {
-
         list($nodes, $pnodes) = [[], []];
         $methods              = array_reverse(Node::instance()->getMethods());
 
         foreach ($methods as $node => $method) {
             $count = substr_count($node, '/');
             $pnode = substr($node, 0, strripos($node, '/'));
+
             if ($count === 2 && !empty($method['isauth'])) {
                 in_array($pnode, $pnodes) or array_push($pnodes, $pnode);
                 $nodes[$node] = ['node' => $node, 'title' => $method['title'], 'pnode' => $pnode, 'checked' => in_array($node, $checkeds)];
@@ -104,7 +97,6 @@ class Admin extends Service
 
     /**
      * Initialize user permissions
-     *
      * @param boolean $force Mandatory permissions
      * @return AdminService
      * @throws DataNotFoundException
@@ -113,13 +105,13 @@ class Admin extends Service
      */
     public function apply($force = false)
     {
-
         if ($force) {
             $this->app->cache->rm('system_auth_node');
         }
 
         if (($uid = $this->app->session->get('user.id'))) {
             $user = Db::name('Users')->where(['id' => $uid])->find();
+
             if (($aids = $user['rid'])) {
                 $where         = [['status', 'eq', '1'], ['id', 'in', explode(',', $aids)]];
                 $subsql        = Db::name('SystemAuth')->field('id')->where($where)->buildSql();
@@ -127,11 +119,11 @@ class Admin extends Service
             } else {
                 $user['nodes'] = [];
             }
+
             unset($user['password']);
             $this->app->session->set('user', $user);
         }
 
         return $this;
     }
-
 }

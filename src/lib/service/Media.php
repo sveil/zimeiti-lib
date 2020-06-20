@@ -73,7 +73,6 @@ class Media extends Service
      */
     public static function upload($url, $type = 'image', $videoInfo = [])
     {
-
         $where = ['md5' => md5($url), 'appid' => WechatService::getAppid()];
 
         if (($mediaId = Db::name('WechatMedia')->where($where)->value('media_id'))) {
@@ -91,20 +90,16 @@ class Media extends Service
 
     /**
      * File location handling
-     *
      * @param string $local
      * @return string
      * @throws LocalCacheException
      */
     private static function getServerPath($local)
     {
-
         if (file_exists($local)) {
             return new MyCurlFile($local);
         } else {
             return new MyCurlFile(File::down($local)['file']);
         }
-
     }
-
 }

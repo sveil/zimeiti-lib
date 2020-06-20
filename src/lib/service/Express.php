@@ -19,18 +19,15 @@ use sveil\exception\DbException;
 use sveil\lib\Service;
 
 /**
- * Mall postage service
- *
  * Class Express
+ * Mall postage service
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  */
 class Express extends Service
 {
-
     /**
      * Order postage calculation
-     *
      * @param string $province Delivery province
      * @param string $number Billed quantity
      * @param string $amount order amount
@@ -41,7 +38,6 @@ class Express extends Service
      */
     public static function price($province, $number, $amount)
     {
-
         // Read the corresponding template rules
         $map  = [['is_default', 'eq', '0'], ['rule', 'like', "%{$province}%"]];
         $rule = Db::name('StoreExpressTemplate')->where($map)->find();
@@ -58,7 +54,6 @@ class Express extends Service
 
     /**
      * Generate postage data
-     *
      * @param array $rule Template rules
      * @param string $type Template type
      * @param integer $number Count pieces
@@ -67,7 +62,6 @@ class Express extends Service
      */
     protected static function buildData($rule, $type, $number, $amount)
     {
-
         // Exception rule
         if (empty($rule)) {
             return [
@@ -102,7 +96,5 @@ class Express extends Service
             'express_price' => $price1 + $price2, 'express_type' => $type,
             'express_desc'  => "续件计费，超出{$rule['first_number']}件，首件费用{$rule['first_price']}元 + 续件费用{$price2}元",
         ];
-
     }
-
 }

@@ -17,15 +17,13 @@ use sveil\lib\exception\InvalidResponseException;
 use sveil\lib\exception\LocalCacheException;
 
 /**
- * Alipay payment base class
- *
  * Abstract Class AliPay
+ * Alipay payment base class
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\rep
  */
 abstract class AliPay
 {
-
     /**
      * Support configuration
      * @var DataArray
@@ -63,7 +61,6 @@ abstract class AliPay
      */
     public function __construct($options)
     {
-
         $this->params = new DataArray([]);
         $this->config = new DataArray($options);
 
@@ -103,18 +100,15 @@ abstract class AliPay
         if (isset($options['app_auth_token']) && $options['app_auth_token'] !== '') {
             $this->options->set('app_auth_token', $options['app_auth_token']);
         }
-
     }
 
     /**
      * Statically create objects
-     *
      * @param array $config
      * @return static
      */
     public static function instance(array $config)
     {
-
         $key = md5(get_called_class() . serialize($config));
 
         if (isset(self::$cache[$key])) {
@@ -126,7 +120,6 @@ abstract class AliPay
 
     /**
      * Check Alipay order status
-     *
      * @param string $out_trade_no
      * @return array|boolean
      * @throws InvalidResponseException
@@ -134,7 +127,6 @@ abstract class AliPay
      */
     public function query($out_trade_no = '')
     {
-
         $this->options->set('method', 'alipay.trade.query');
 
         return $this->getResult(['out_trade_no' => $out_trade_no]);
@@ -142,7 +134,6 @@ abstract class AliPay
 
     /**
      * Alipay order refund operation
-     *
      * @param array|string $options Refund parameters or refund merchant order number
      * @param null $refund_amount Refund amount
      * @return array|boolean
@@ -151,7 +142,6 @@ abstract class AliPay
      */
     public function refund($options, $refund_amount = null)
     {
-
         if (!is_array($options)) {
             $options = ['out_trade_no' => $options, 'refund_amount' => $refund_amount];
         }
@@ -163,7 +153,6 @@ abstract class AliPay
 
     /**
      * Close Alipay order in progress
-     *
      * @param array|string $options
      * @return array|boolean
      * @throws InvalidResponseException
@@ -171,7 +160,6 @@ abstract class AliPay
      */
     public function close($options)
     {
-
         if (!is_array($options)) {
             $options = ['out_trade_no' => $options];
         }
@@ -183,14 +171,12 @@ abstract class AliPay
 
     /**
      * Get notification data
-     *
      * @param boolean $needSignType Whether the sign_type field is required
      * @return boolean|array
      * @throws InvalidResponseException
      */
     public function notify($needSignType = false)
     {
-
         $data = $_POST;
 
         if (empty($data) || empty($data['sign'])) {
@@ -210,7 +196,6 @@ abstract class AliPay
 
     /**
      * Verify the data signature returned by the interface
-     *
      * @param array $data Notification data
      * @param null|string $sign Data signature
      * @return array|boolean
@@ -218,7 +203,6 @@ abstract class AliPay
      */
     protected function verify($data, $sign)
     {
-
         $content = wordwrap($this->config->get('public_key'), 64, "\n", true);
         $res     = "-----BEGIN PUBLIC KEY-----\n{$content}\n-----END PUBLIC KEY-----";
 
@@ -237,12 +221,10 @@ abstract class AliPay
 
     /**
      * Get data signature
-     *
      * @return string
      */
     protected function getSign()
     {
-
         $content = wordwrap($this->trimCert($this->config->get('private_key')), 64, "\n", true);
         $string  = "-----BEGIN RSA PRIVATE KEY-----\n{$content}\n-----END RSA PRIVATE KEY-----";
 
@@ -257,7 +239,6 @@ abstract class AliPay
 
     /**
      * Remove the content and blanks before and after the certificate
-     *
      * @param string $sign
      * @return string
      */
@@ -269,7 +250,6 @@ abstract class AliPay
 
     /**
      * Data signature processing
-     *
      * @param array $data Need to sign data
      * @param boolean $needSignType Whether the sign_type field is required
      * @return bool|string
@@ -298,20 +278,16 @@ abstract class AliPay
 
     /**
      * Data packet generation and data signature
-     *
      * @param array $options
      */
     protected function applyData($options)
     {
-
         $this->options->set('biz_content', json_encode($this->params->merge($options), 256));
         $this->options->set('sign', $this->getSign());
-
     }
 
     /**
      * Request interface and verify access data
-     *
      * @param array $options
      * @return array|boolean
      * @throws InvalidResponseException
@@ -319,7 +295,6 @@ abstract class AliPay
      */
     protected function getResult($options)
     {
-
         $this->applyData($options);
         $method = str_replace('.', '_', $this->options['method']) . '_response';
         $data   = json_decode(Tools::get($this->gateway, $this->options->get()), true);
@@ -340,12 +315,10 @@ abstract class AliPay
 
     /**
      * Generate payment HTML code
-     *
      * @return string
      */
     protected function buildPayHtml()
     {
-
         $html = "<form id='alipaysubmit' name='alipaysubmit' action='{$this->gateway}' method='post'>";
 
         foreach ($this->options->get() as $key => $value) {
@@ -360,7 +333,6 @@ abstract class AliPay
 
     /**
      * New: Extract the serial number from the certificate
-     *
      * @param string $sign
      * @return string
      */
@@ -374,19 +346,18 @@ abstract class AliPay
 
     /**
      * New: Extract the root certificate serial number
-     *
      * @param string $sign
      * @return string|null
      */
     public function getRootCertSN($sign)
     {
-
         $sn = null;
         // if (file_exists($sign)) $sign = file_get_contents($sign);
         $array = explode("-----END CERTIFICATE-----", $sign);
 
         for ($i = 0; $i < count($array) - 1; $i++) {
             $ssl[$i] = openssl_x509_parse($array[$i] . "-----END CERTIFICATE-----");
+
             if (strpos($ssl[$i]['serialNumber'], '0x') === 0) {
                 $ssl[$i]['serialNumber'] = $this->_hex2dec($ssl[$i]['serialNumber']);
             }
@@ -404,13 +375,11 @@ abstract class AliPay
 
     /**
      * New: Array to string
-     *
      * @param array $array
      * @return string
      */
     private function _arr2str($array)
     {
-
         $string = [];
 
         if ($array && is_array($array)) {
@@ -424,13 +393,11 @@ abstract class AliPay
 
     /**
      * New: 0x to high precision digital
-     *
      * @param string $hex
      * @return int|string
      */
     private function _hex2dec($hex)
     {
-
         list($dec, $len) = [0, strlen($hex)];
 
         for ($i = 1; $i <= $len; $i++) {
@@ -442,10 +409,8 @@ abstract class AliPay
 
     /**
      * Application data manipulation
-     *
      * @param array $options
      * @return mixed
      */
     abstract public function apply($options);
-
 }

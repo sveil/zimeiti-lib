@@ -21,18 +21,15 @@ use sveil\exception\PDOException;
 use sveil\lib\Service;
 
 /**
- * Commodity data management
- *
  * Class Goods
+ * Commodity data management
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  */
 class Goods extends Service
 {
-
     /**
      * Synchronize product inventory information
-     *
      * @param integer $goodsId
      * @return boolean
      * @throws Exception
@@ -43,7 +40,6 @@ class Goods extends Service
      */
     public static function syncStock($goodsId)
     {
-
         // Commodity storage statistics
         $fields    = "goods_id,goods_spec,ifnull(sum(number_stock),0) number_stock";
         $stockList = Db::name('StoreGoodsStock')->field($fields)->where(['goods_id' => $goodsId])->group('goods_id,goods_spec')->select();
@@ -57,9 +53,11 @@ class Goods extends Service
         foreach (array_merge($stockList, $salesList) as $vo) {
             $key            = "{$vo['goods_id']}@@{$vo['goods_spec']}";
             $dataList[$key] = isset($dataList[$key]) ? array_merge($dataList[$key], $vo) : $vo;
+
             if (empty($dataList[$key]['number_sales'])) {
                 $dataList[$key]['number_sales'] = '0';
             }
+
             if (empty($dataList[$key]['number_stock'])) {
                 $dataList[$key]['number_stock'] = '0';
             }
@@ -86,5 +84,4 @@ class Goods extends Service
 
         return true;
     }
-
 }

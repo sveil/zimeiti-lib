@@ -38,7 +38,6 @@ class System extends Service
 
     /**
      * Data incremental storage
-     *
      * @param Query|string $dbQuery Data query object
      * @param array $data Data to be saved or updated
      * @param string $key Primary key restrictions by condition

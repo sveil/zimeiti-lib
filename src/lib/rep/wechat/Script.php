@@ -18,25 +18,21 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * WeChat front-end support
- *
  * Class Script
+ * WeChat front-end support
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\rep\wechat
  */
 class Script extends WeChat
 {
-
     /**
      * Remove JSAPI authorization TICKET
-     *
      * @param string $type TICKET type(wx_card|jsapi)
      * @param string $appid Force to specify a valid APPID
      * @return void
      */
     public function delTicket($type = 'jsapi', $appid = null)
     {
-
         is_null($appid) && $appid = $this->config->get('appid');
         $cache_name               = "{$appid}_ticket_{$type}";
 
@@ -45,7 +41,6 @@ class Script extends WeChat
 
     /**
      * Get JSAPI_TICKET interface
-     *
      * @param string $type TICKET type(wx_card|jsapi)
      * @param string $appid Force to specify a valid APPID
      * @return string
@@ -54,7 +49,6 @@ class Script extends WeChat
      */
     public function getTicket($type = 'jsapi', $appid = null)
     {
-
         is_null($appid) && $appid = $this->config->get('appid');
         $cache_name               = "{$appid}_ticket_{$type}";
         $ticket                   = Tools::getCache($cache_name);
@@ -63,9 +57,11 @@ class Script extends WeChat
             $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type={$type}";
             $this->registerApi($url, __FUNCTION__, func_get_args());
             $result = $this->httpGetForJson($url);
+
             if (empty($result['ticket'])) {
                 throw new InvalidResponseException('Invalid Resoponse Ticket.', '0');
             }
+
             $ticket = $result['ticket'];
             Tools::setCache($cache_name, $ticket, 5000);
         }
@@ -75,7 +71,6 @@ class Script extends WeChat
 
     /**
      * Get JsApi usage signature
-     *
      * @param string $url URL of web page
      * @param string $appid Used for multiple appid(Nullable)
      * @param string $ticket Mandatory designation ticket
@@ -85,7 +80,6 @@ class Script extends WeChat
      */
     public function getJsSign($url, $appid = null, $ticket = null)
     {
-
         list($url)                  = explode('#', $url);
         is_null($ticket) && $ticket = $this->getTicket('jsapi');
         is_null($appid) && $appid   = $this->config->get('appid');
@@ -109,7 +103,6 @@ class Script extends WeChat
 
     /**
      * Data generation signature
-     *
      * @param array $data Signature array
      * @param string $method Signature method
      * @param array $params Signature parameters
@@ -117,7 +110,6 @@ class Script extends WeChat
      */
     protected function getSignature($data, $method = "sha1", $params = [])
     {
-
         ksort($data);
 
         if (!function_exists($method)) {
@@ -130,5 +122,4 @@ class Script extends WeChat
 
         return $method(join('&', $params));
     }
-
 }

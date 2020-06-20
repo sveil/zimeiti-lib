@@ -17,15 +17,13 @@ use sveil\Container;
 use sveil\Request;
 
 /**
- * Service base class
- *
  * Abstract Class Service
+ * Service base class
  * @author Richard <richard@sveil.com>
  * @package sveil\lib
  */
 abstract class Service
 {
-
     /**
      * Current example application
      * @var App
@@ -40,22 +38,18 @@ abstract class Service
 
     /**
      * Service constructor
-     *
      * @param App $app
      * @param Request $request
      */
     public function __construct(App $app, Request $request)
     {
-
         $this->app     = $app;
         $this->request = $request;
         $this->initialize();
-
     }
 
     /**
      * Initialize the service
-     *
      * @return $this
      */
     protected function initialize()
@@ -65,12 +59,10 @@ abstract class Service
 
     /**
      * Static instance object
-     *
      * @return static
      */
     public static function instance()
     {
         return Container::getInstance()->make(static::class);
     }
-
 }

@@ -18,15 +18,13 @@ use sveil\Db;
 use sveil\db\Query;
 
 /**
- * Assistant base class
- *
  * Abstract Class Helper
+ * Assistant base class
  * @author Richard <richard@sveil.com>
  * @package sveil\lib
  */
 abstract class Helper
 {
-
     /**
      * Current application container
      * @var App
@@ -58,7 +56,6 @@ abstract class Helper
 
     /**
      * Get database objects
-     *
      * @param string|Query $dbQuery
      * @return Query
      */
@@ -69,12 +66,10 @@ abstract class Helper
 
     /**
      * Instance object reflection
-     *
      * @return static
      */
     public static function instance()
     {
         return Container::getInstance()->invokeClass(static::class);
     }
-
 }

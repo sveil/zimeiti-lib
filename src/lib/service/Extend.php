@@ -19,9 +19,8 @@ use sveil\Exception;
 use sveil\exception\PDOException;
 
 /**
- * SMS service extension service
- *
  * Class Extend
+ * SMS service extension service
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  * =================================
@@ -41,10 +40,8 @@ use sveil\exception\PDOException;
  */
 class Extend extends Service
 {
-
     /**
      * Error message handling
-     *
      * @var array
      */
     private static $globeMessageMap = [
@@ -61,7 +58,6 @@ class Extend extends Service
 
     /**
      * Send domestic SMS verification code
-     *
      * @param string $mid Member ID
      * @param string $phone phone number
      * @param string $content text message content
@@ -72,7 +68,6 @@ class Extend extends Service
      */
     public static function sendChinaSms($mid, $phone, $content, $productid = '676767')
     {
-
         $tkey = date("YmdHis");
         $result = Http::post('http://www.ztsms.cn/sendNSms.do', [
             'tkey'     => $tkey, 'mobile' => $phone, 'content' => $content,
@@ -89,7 +84,6 @@ class Extend extends Service
 
     /**
      * Send domestic SMS verification code
-     *
      * @param string $mid Member ID
      * @param string $phone Target phone
      * @param integer $wait Waiting time
@@ -100,11 +94,11 @@ class Extend extends Service
      */
     public static function sendChinaSmsByCode($mid, $phone, $wait = 120, $type = 'sms_reg_template')
     {
-
         $cache = cache($ckey = "{$type}_{$phone}");
 
         if (is_array($cache) && isset($cache['time']) && $cache['time'] > time() - $wait) {
             $dtime = ($cache['time'] + $wait < time()) ? 0 : ($wait - time() + $cache['time']);
+
             return [1, '短信验证码已经发送！', ['time' => $dtime]];
         }
 
@@ -122,12 +116,10 @@ class Extend extends Service
         } else {
             return [0, '短信发送失败，请稍候再试！', []];
         }
-
     }
 
     /**
      * Verify mobile phone SMS verification code
-     *
      * @param string $phone Target phone
      * @param string $code SMS verification code
      * @param string $type SMS template
@@ -136,19 +128,18 @@ class Extend extends Service
     public static function checkChinaSmsByCode($phone, $code, $type = 'sms_reg_template')
     {
         $cache = cache($cachekey = "{$type}_{$phone}");
+
         return is_array($cache) && isset($cache['code']) && $cache['code'] == $code;
     }
 
     /**
      * Check domestic SMS balance
-     *
      * @return array
      * @throws Exception
      * @throws PDOException
      */
     public static function queryChinaSmsBalance()
     {
-
         $tkey = date("YmdHis");
         $result = Http::post('http://www.ztsms.cn/balanceN.do', [
             'username' => sysconf('sms_zt_username'), 'tkey' => $tkey,
@@ -164,12 +155,10 @@ class Extend extends Service
         } elseif ($result > -4) {
             return ['code' => 0, 'num' => '0', 'msg' => '用户不存在或用户停用！'];
         }
-
     }
 
     /**
      * Send international SMS content
-     *
      * @param string $mid Member ID
      * @param string $code country code
      * @param string $mobile mobile number
@@ -180,7 +169,6 @@ class Extend extends Service
      */
     public static function sendGlobeSms($mid, $code, $mobile, $content)
     {
-
         $tkey = date("YmdHis");
         $result = Http::post('http://intl.zthysms.com/intSendSms.do', [
             'tkey'     => $tkey, 'code' => $code, 'mobile' => $mobile,
@@ -196,14 +184,12 @@ class Extend extends Service
 
     /**
      * Query globe SMS balance
-     *
      * @return array
      * @throws Exception
      * @throws PDOException
      */
     public static function queryGlobeSmsBalance()
     {
-
         $tkey = date("YmdHis");
         $result = Http::post('http://intl.zthysms.com/intBalance.do', [
             'username' => sysconf('sms_zt_username2'), 'tkey' => $tkey,
@@ -215,12 +201,10 @@ class Extend extends Service
         } else {
             return ['code' => 1, 'num' => $result, 'msg' => '查询成功'];
         }
-
     }
 
     /**
      * Get the international geographic number
-     *
      * @return array
      */
     public static function getGlobeRegionMap()
@@ -446,5 +430,4 @@ class Extend extends Service
             ['title' => '黑山共和国', 'english' => 'The Republic of Montenegro', 'code' => 382],
         ];
     }
-
 }

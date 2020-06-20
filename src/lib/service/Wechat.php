@@ -90,7 +90,6 @@ class Wechat extends Service
 
     /**
      * Instance WeChat object
-     *
      * @param string $name
      * @param string $appid Authorized WeOpen APPID
      * @param string $type SDK type
@@ -100,7 +99,6 @@ class Wechat extends Service
      */
     public static function instance($name, $appid = '', $type = null)
     {
-
         $config = [
             'cache_path'               => env('runtime_path') . 'wechat',
             'component_appid'          => sysconf('component_appid'),
@@ -140,7 +138,6 @@ class Wechat extends Service
 
     /**
      * Static initialization object
-     *
      * @param string $name
      * @param array $arguments
      * @return mixed
@@ -149,7 +146,6 @@ class Wechat extends Service
      */
     public static function __callStatic($name, $arguments)
     {
-
         if (substr($name, 0, 6) === 'WeMini') {
             self::$type = 'WeMini';
             $name       = substr($name, 6);
@@ -163,5 +159,4 @@ class Wechat extends Service
 
         return self::instance($name, isset($arguments[0]) ? $arguments[0] : '', self::$type);
     }
-
 }

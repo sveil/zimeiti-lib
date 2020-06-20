@@ -32,15 +32,13 @@ use sveil\lib\helper\Validater;
 use sveil\Response;
 
 /**
- * Standard controller base class
- *
  * Abstract Class Controller
+ * Standard controller base class
  * @author Richard <richard@sveil.com>
  * @package sveil\lib
  */
 abstract class Controller extends \stdClass
 {
-
     /**
      * Current application examples
      * @var App
@@ -75,7 +73,6 @@ abstract class Controller extends \stdClass
 
         $this->app     = $app;
         $this->request = $app->request;
-
         // Controller injection container
         Container::set('sveil\Controller', $this);
 
@@ -104,20 +101,18 @@ abstract class Controller extends \stdClass
                 }
             });
         }
-
     }
 
     /**
      * Merge request object
-     *
      * @param Response $response Target response object
      * @param Response $source Data source response object
      * @return Response
      */
     private function __mergeResponse(Response $response, Response $source)
     {
-
         $response->code($source->getCode())->content($response->getContent() . $source->getContent());
+
         foreach ($source->getHeader() as $name => $value) {
             if (!empty($name) && is_string($name)) {
                 $response->header($name, $value);
@@ -132,38 +127,32 @@ abstract class Controller extends \stdClass
      */
     protected function initialize()
     {
-
         if (empty($this->csrf_message)) {
             $this->csrf_message = lang('lib_csrf_error');
         }
-
     }
 
     /**
      * Return failed operation
-     *
      * @param mixed $info Message content
      * @param array $data Return data
      * @param integer $code Return code
      */
     public function error($info, $data = [], $code = 0)
     {
-
         $result = ['code' => $code, 'info' => $info, 'data' => $data];
-        throw new HttpResponseException(json($result));
 
+        throw new HttpResponseException(json($result));
     }
 
     /**
      * Return successful operation
-     *
      * @param mixed $info Message content
      * @param array $data Return data
      * @param integer $code Return code
      */
     public function success($info, $data = [], $code = 1)
     {
-
         if ($this->csrf_state) {
             Tokener::instance()->clear();
         }
@@ -171,12 +160,10 @@ abstract class Controller extends \stdClass
         throw new HttpResponseException(json([
             'code' => $code, 'info' => $info, 'data' => $data,
         ]));
-
     }
 
     /**
      * URL redirect
-     *
      * @param string $url Jump link
      * @param array $vars Jump parameters
      * @param integer $code Jump code
@@ -188,14 +175,12 @@ abstract class Controller extends \stdClass
 
     /**
      * Back to view content
-     *
      * @param string $tpl Template name
      * @param array $vars Template variables
      * @param string $node CSRF authorized node
      */
     public function fetch($tpl = '', $vars = [], $node = null)
     {
-
         foreach ($this as $name => $value) {
             $vars[$name] = $value;
         }
@@ -205,7 +190,6 @@ abstract class Controller extends \stdClass
         } else {
             throw new HttpResponseException(view($tpl, $vars));
         }
-
     }
 
     /**
@@ -216,7 +200,6 @@ abstract class Controller extends \stdClass
      */
     public function assign($name, $value = '')
     {
-
         if (is_string($name)) {
             $this->$name = $value;
         } elseif (is_array($name)) {
@@ -232,7 +215,6 @@ abstract class Controller extends \stdClass
 
     /**
      * Data callback processing mechanism
-     *
      * @param string $name Callback method name
      * @param mixed $one Callback reference parameter one
      * @param mixed $two Callback reference parameter two
@@ -240,7 +222,6 @@ abstract class Controller extends \stdClass
      */
     public function callback($name, &$one = [], &$two = [])
     {
-
         if (is_callable($name)) {
             return call_user_func($name, $this, $one, $two);
         }
@@ -251,7 +232,6 @@ abstract class Controller extends \stdClass
                     return false;
                 }
             }
-
         }
 
         return true;
@@ -259,7 +239,6 @@ abstract class Controller extends \stdClass
 
     /**
      * Check form token verification
-     *
      * @param boolean $return Whether to return the result
      * @return boolean
      */
@@ -270,7 +249,6 @@ abstract class Controller extends \stdClass
 
     /**
      * Quick query logic
-     *
      * @param string|Query $dbQuery
      * @return Querier
      */
@@ -281,7 +259,6 @@ abstract class Controller extends \stdClass
 
     /**
      * Quick paging logic
-     *
      * @param string|Query $dbQuery
      * @param boolean $page Whether to enable paging
      * @param boolean $display Whether to render the template
@@ -320,7 +297,6 @@ abstract class Controller extends \stdClass
 
     /**
      * Quick update logic
-     *
      * @param string|Query $dbQuery
      * @param array $data Form extension data
      * @param string $field Specify the primary key of the data object
@@ -347,7 +323,6 @@ abstract class Controller extends \stdClass
 
     /**
      * Quick input logic
-     *
      * @param array|string $data verify the data
      * @param array $rule Validation rules
      * @param array $info verification message
@@ -360,7 +335,6 @@ abstract class Controller extends \stdClass
 
     /**
      * Quick delete logic
-     *
      * @param string|Query $dbQuery
      * @param string $field Specify the primary key of the data object
      * @param array $where Additional update conditions
@@ -373,5 +347,4 @@ abstract class Controller extends \stdClass
     {
         return Deleter::instance()->init($dbQuery, $field, $where);
     }
-
 }

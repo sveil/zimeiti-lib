@@ -18,9 +18,8 @@ use sveil\lib\common\Http;
 use sveil\lib\Service;
 
 /**
- * Xiaomi Message Service
- *
  * Class Michat
+ * Xiaomi Message Service
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  */

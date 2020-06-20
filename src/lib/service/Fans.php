@@ -21,18 +21,15 @@ use sveil\exception\PDOException;
 use sveil\lib\Service;
 
 /**
- * WeChat fans information
- *
  * Class Fans
+ * WeChat fans information
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  */
 class Fans extends Service
 {
-
     /**
      * Add or update fan information
-     *
      * @param array $user Fans information
      * @param string $appid Wechat APPID
      * @return boolean
@@ -41,7 +38,6 @@ class Fans extends Service
      */
     public static function set(array $user, $appid = '')
     {
-
         if (!empty($user['subscribe_time'])) {
             $user['subscribe_at'] = date('Y-m-d H:i:s', $user['subscribe_time']);
         }
@@ -61,7 +57,6 @@ class Fans extends Service
 
     /**
      * Get fans information
-     *
      * @param string $openid
      * @return array|null
      * @throws DataNotFoundException
@@ -72,5 +67,4 @@ class Fans extends Service
     {
         return Db::name('WechatFans')->where(['openid' => $openid])->find();
     }
-
 }

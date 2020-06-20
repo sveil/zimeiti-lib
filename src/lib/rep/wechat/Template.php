@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * Template message
- *
  * Class Template
+ * Template message
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\rep\wechat
  */
 class Template extends WeChat
 {
-
     /**
      * Set industry
-     *
      * @param string $industry_id1 Industry ID one of WeOpen template message
      * @param string $industry_id2 Industry ID two of WeOpen template message
      * @return array
@@ -39,12 +36,12 @@ class Template extends WeChat
     {
         $url = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
+
         return $this->httpPostForJson($url, ['industry_id1' => $industry_id1, 'industry_id2' => $industry_id2]);
     }
 
     /**
      * Get set industry information
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
@@ -53,12 +50,12 @@ class Template extends WeChat
     {
         $url = "https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
+
         return $this->httpGetForJson($url);
     }
 
     /**
      * Get template ID
-     *
      * @param string $tpl_id Template ID, available in "TM **" and "OPENTMTM **" forms
      * @return array
      * @throws InvalidResponseException
@@ -68,12 +65,12 @@ class Template extends WeChat
     {
         $url = "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
+
         return $this->httpPostForJson($url, ['template_id_short' => $tpl_id]);
     }
 
     /**
      * Get a list of templates
-     *
      * @return array
      * @throws InvalidResponseException
      * @throws LocalCacheException
@@ -82,12 +79,12 @@ class Template extends WeChat
     {
         $url = "https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
+
         return $this->httpGetForJson($url);
     }
 
     /**
      * Delete template ID
-     *
      * @param string $tpl_id Template message ID under WeOpen
      * @return array
      * @throws InvalidResponseException
@@ -97,12 +94,12 @@ class Template extends WeChat
     {
         $url = "https://api.weixin.qq.com/cgi-bin/template/del_private_template?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
+
         return $this->httpPostForJson($url, ['template_id' => $tpl_id]);
     }
 
     /**
      * Send template message
-     *
      * @param array $data
      * @return array
      * @throws InvalidResponseException
@@ -112,7 +109,7 @@ class Template extends WeChat
     {
         $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
+
         return $this->httpPostForJson($url, $data);
     }
-
 }

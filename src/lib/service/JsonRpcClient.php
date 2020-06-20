@@ -37,7 +37,6 @@ class JsonRpcClient extends Service
 
     /**
      * Create connection object
-     *
      * @param string $proxy
      * @return $this
      */
@@ -51,7 +50,6 @@ class JsonRpcClient extends Service
 
     /**
      * Execution JsonRpc request
-     *
      * @param string $method
      * @param array $params
      * @return mixed
@@ -72,6 +70,7 @@ class JsonRpcClient extends Service
 
         if ($fp = fopen($this->proxy, 'r', false, stream_context_create($options))) {
             $response = '';
+
             while ($row = fgets($fp)) {
                 $response .= trim($row) . "\n";
             }

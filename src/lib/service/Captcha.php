@@ -15,15 +15,13 @@ namespace sveil\lib\service;
 use sveil\lib\Service;
 
 /**
- * Graphic verification code service
- *
  * Class Captcha
+ * Graphic verification code service
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  */
 class Captcha extends Service
 {
-
     private $code; // Captcha
     private $uniqid; // Unique serial number
     private $charset = 'ABCDEFGHKMNPRSTUVWXYZ23456789'; // Random factor
@@ -37,13 +35,11 @@ class Captcha extends Service
 
     /**
      * Service initialization
-     *
      * @param array $config
      * @return static
      */
     public function initialize($config = [])
     {
-
         // Dynamic configuration properties
         foreach ($config as $k => $v) {
             if (isset($this->$k)) {
@@ -71,7 +67,6 @@ class Captcha extends Service
 
     /**
      * Get verification code value
-     *
      * @return string
      */
     public function getCode()
@@ -81,7 +76,6 @@ class Captcha extends Service
 
     /**
      * Get picture content
-     *
      * @return string
      */
     public function getData()
@@ -91,7 +85,6 @@ class Captcha extends Service
 
     /**
      * Get verification code number
-     *
      * @return string
      */
     public function getUniqid()
@@ -101,7 +94,6 @@ class Captcha extends Service
 
     /**
      * Get verification code data
-     *
      * @return array
      */
     public function getAttrs()
@@ -115,19 +107,18 @@ class Captcha extends Service
 
     /**
      * Check the verification code is correct
-     *
      * @param string $code Value to be verified
      * @param string $uniqid Verification code number
      * @return boolean
      */
     public function check($code, $uniqid = null)
     {
-
         $_uni = is_string($uniqid) ? $uniqid : input('uniqid', '-');
         $_val = $this->app->cache->get($_uni, '');
 
         if (is_string($_val) && strtolower($_val) === strtolower($code)) {
             $this->app->cache->rm($_uni);
+
             return true;
         } else {
             return false;
@@ -137,7 +128,6 @@ class Captcha extends Service
 
     /**
      * Output graphic verification code
-     *
      * @return string
      */
     public function __toString()
@@ -147,12 +137,10 @@ class Captcha extends Service
 
     /**
      * Create captcha image
-     *
      * @return string
      */
     private function createImage()
     {
-
         // Generate background
         $this->img = imagecreatetruecolor($this->width, $this->height);
         $color     = imagecolorallocate($this->img, mt_rand(220, 255), mt_rand(220, 255), mt_rand(220, 255));
@@ -175,6 +163,7 @@ class Captcha extends Service
 
         for ($i = 0; $i < $this->codelen; $i++) {
             $this->fontcolor = imagecolorallocate($this->img, mt_rand(0, 156), mt_rand(0, 156), mt_rand(0, 156));
+
             if (function_exists('imagettftext')) {
                 imagettftext($this->img, $this->fontsize, mt_rand(-30, 30), $_x * $i + mt_rand(1, 5), $this->height / 1.4, $this->fontcolor, $this->font, $this->code[$i]);
             } else {
@@ -190,5 +179,4 @@ class Captcha extends Service
 
         return base64_encode($data);
     }
-
 }

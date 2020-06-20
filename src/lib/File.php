@@ -307,6 +307,7 @@ class File
         if (is_dir($dir)) {
             if (is_writable($dir)) {
                 $objects = scandir($dir);
+
                 foreach ($objects as $object) {
                     if ($object != "." && $object != "..") {
                         if (!self::isWrite($dir . "/" . $object)) {
@@ -316,6 +317,7 @@ class File
                         }
                     }
                 }
+
                 return true;
             } else {
                 return false;
@@ -336,6 +338,7 @@ class File
             return @file_get_contents($filename, false, null, -1);
         } else {
             Log::error(__METHOD__ . " Function @file_get_contents is not exists!");
+
             return false;
         }
     }
@@ -358,6 +361,7 @@ class File
             return @file_put_contents($filename, $data);
         } else {
             Log::error(__METHOD__ . " Function @file_put_contents is not exists!");
+
             return false;
         }
     }

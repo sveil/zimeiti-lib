@@ -17,15 +17,13 @@ use sveil\lib\exception\InvalidResponseException;
 use sveil\lib\exception\LocalCacheException;
 
 /**
- * WeChat Basic
- *
  * Abstract Class WeChat
+ * WeChat Basic
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\rep
  */
 abstract class WeChat
 {
-
     /**
      * Current WeChat configuration
      * @var DataArray
@@ -68,7 +66,6 @@ abstract class WeChat
      */
     public function __construct(array $options)
     {
-
         if (empty($options['appid'])) {
             throw new InvalidArgumentException("Missing Config -- [appid]");
         }
@@ -90,13 +87,11 @@ abstract class WeChat
 
     /**
      * Statically create objects
-     *
      * @param array $config
      * @return static
      */
     public static function instance(array $config)
     {
-
         $key = md5(get_called_class() . serialize($config));
 
         if (isset(self::$cache[$key])) {
@@ -108,14 +103,12 @@ abstract class WeChat
 
     /**
      * Get access accessToken
-     *
      * @return string
      * @throws InvalidResponseException
      * @throws LocalCacheException
      */
     public function getAccessToken()
     {
-
         if (!empty($this->access_token)) {
             return $this->access_token;
         }
@@ -130,9 +123,11 @@ abstract class WeChat
         // Handle open platform authorized public account acquisition AccessToken
         if (!empty($this->GetAccessTokenCallback) && is_callable($this->GetAccessTokenCallback)) {
             $this->access_token = call_user_func_array($this->GetAccessTokenCallback, [$this->config->get('appid'), $this]);
+
             if (!empty($this->access_token)) {
                 Tools::setCache($cache, $this->access_token, 7000);
             }
+
             return $this->access_token;
         }
 
@@ -149,35 +144,28 @@ abstract class WeChat
 
     /**
      * Set the external interface AccessToken
-     *
      * @param string $access_token
      * @throws LocalCacheException
-     *
      * When users use their own cache driver, you can directly set AccessToekn after instantiating the object directly
      * - Maintain AccessToken uniformity when used in distributed projects
      * - After using this method, the user will ensure that the incoming AccessToekn is valid AccessToekn
      */
     public function setAccessToken($access_token)
     {
-
         if (!is_string($access_token)) {
             throw new InvalidArgumentException("Invalid AccessToken type, need string.");
         }
 
         $cache = $this->config->get('appid') . '_access_token';
-
         Tools::setCache($cache, $this->access_token = $access_token);
-
     }
 
     /**
      * Clean and delete AccessToken
-     *
      * @return bool
      */
     public function delAccessToken()
     {
-
         $this->access_token = '';
 
         return Tools::delCache($this->config->get('appid') . '_access_token');
@@ -185,7 +173,6 @@ abstract class WeChat
 
     /**
      * Get interface data with GET and convert to array
-     *
      * @param string $url interface address
      * @return array
      * @throws InvalidResponseException
@@ -193,7 +180,6 @@ abstract class WeChat
      */
     protected function httpGetForJson($url)
     {
-
         try {
             return Tools::json2arr(Tools::get($url));
         } catch (InvalidResponseException $e) {
@@ -201,9 +187,11 @@ abstract class WeChat
                 if (in_array($e->getCode(), ['40014', '40001', '41001', '42001'])) {
                     $this->delAccessToken();
                     $this->isTry = true;
+
                     return call_user_func_array([$this, $this->currentMethod['method']], $this->currentMethod['arguments']);
                 }
             }
+
             throw new InvalidResponseException($e->getMessage(), $e->getCode());
         }
 
@@ -211,7 +199,6 @@ abstract class WeChat
 
     /**
      * Get interface data with POST and convert to array
-     *
      * @param string $url interface address
      * @param array $data Request data
      * @param bool $buildToJson
@@ -221,7 +208,6 @@ abstract class WeChat
      */
     protected function httpPostForJson($url, array $data, $buildToJson = true)
     {
-
         try {
             return Tools::json2arr(Tools::post($url, $buildToJson ? Tools::arr2json($data) : $data));
         } catch (InvalidResponseException $e) {
@@ -229,6 +215,7 @@ abstract class WeChat
                 [$this->delAccessToken(), $this->isTry = true];
                 return call_user_func_array([$this, $this->currentMethod['method']], $this->currentMethod['arguments']);
             }
+
             throw new InvalidResponseException($e->getMessage(), $e->getCode());
         }
 
@@ -236,7 +223,6 @@ abstract class WeChat
 
     /**
      * Register the current request interface
-     *
      * @param string $url interface address
      * @param string $method Current interface method
      * @param array $arguments Request parameters
@@ -246,7 +232,6 @@ abstract class WeChat
      */
     protected function registerApi(&$url, $method, $arguments = [])
     {
-
         $this->currentMethod = ['method' => $method, 'arguments' => $arguments];
 
         if (empty($this->access_token)) {
@@ -258,7 +243,6 @@ abstract class WeChat
 
     /**
      * Interface general POST request method
-     *
      * @param string $url Interface URL
      * @param array $data POST submit interface parameters
      * @param bool $isBuildJson
@@ -268,7 +252,6 @@ abstract class WeChat
      */
     public function callPostApi($url, array $data, $isBuildJson = true)
     {
-
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->httpPostForJson($url, $data, $isBuildJson);
@@ -276,7 +259,6 @@ abstract class WeChat
 
     /**
      * Interface general GET request method
-     *
      * @param string $url Interface URL
      * @return array
      * @throws InvalidResponseException
@@ -284,10 +266,8 @@ abstract class WeChat
      */
     public function callGetApi($url)
     {
-
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->httpGetForJson($url);
     }
-
 }

@@ -17,18 +17,15 @@ use sveil\lib\exception\LocalCacheException;
 use sveil\lib\rep\WeChat;
 
 /**
- * WeChat fans management
- *
  * Class User
+ * WeChat fans management
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\rep\wechat
  */
 class User extends WeChat
 {
-
     /**
      * Set user note name
-     *
      * @param string $openid
      * @param string $remark
      * @return array
@@ -37,7 +34,6 @@ class User extends WeChat
      */
     public function updateMark($openid, $remark)
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -46,7 +42,6 @@ class User extends WeChat
 
     /**
      * Get basic user information (Includes UnionID mechanism)
-     *
      * @param string $openid
      * @param string $lang
      * @return array
@@ -55,7 +50,6 @@ class User extends WeChat
      */
     public function getUserInfo($openid, $lang = 'zh_CN')
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid={$openid}&lang={$lang}";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -64,7 +58,6 @@ class User extends WeChat
 
     /**
      * Get basic user information in batches
-     *
      * @param array $openids
      * @param string $lang
      * @return array
@@ -73,12 +66,13 @@ class User extends WeChat
      */
     public function getBatchUserInfo(array $openids, $lang = 'zh_CN')
     {
-
         $url  = 'https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=ACCESS_TOKEN';
         $data = ['user_list' => []];
+
         foreach ($openids as $openid) {
             $data['user_list'][] = ['openid' => $openid, 'lang' => $lang];
         }
+
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->httpPostForJson($url, $data);
@@ -86,7 +80,6 @@ class User extends WeChat
 
     /**
      * Get user list
-     *
      * @param string $next_openid
      * @return array
      * @throws InvalidResponseException
@@ -94,7 +87,6 @@ class User extends WeChat
      */
     public function getUserList($next_openid = '')
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=ACCESS_TOKEN&next_openid={$next_openid}";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -103,7 +95,6 @@ class User extends WeChat
 
     /**
      * Get the list of fans under the label
-     *
      * @param integer $tagid Tag ID
      * @param string $next_openid The first pull OPENID
      * @return array
@@ -112,7 +103,6 @@ class User extends WeChat
      */
     public function getUserListByTag($tagid, $next_openid = '')
     {
-
         $url = 'https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -121,7 +111,6 @@ class User extends WeChat
 
     /**
      * Obtain the blacklist of public accounts
-     *
      * @param string $begin_openid
      * @return array
      * @throws InvalidResponseException
@@ -129,7 +118,6 @@ class User extends WeChat
      */
     public function getBlackList($begin_openid = '')
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/tags/members/getblacklist?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -138,7 +126,6 @@ class User extends WeChat
 
     /**
      * Blacklist users in batches
-     *
      * @param array $openids
      * @return array
      * @throws InvalidResponseException
@@ -146,7 +133,6 @@ class User extends WeChat
      */
     public function batchBlackList(array $openids)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/tags/members/batchblacklist?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
@@ -155,7 +141,6 @@ class User extends WeChat
 
     /**
      * Bulk cancel black users
-     *
      * @param array $openids
      * @return array
      * @throws InvalidResponseException
@@ -163,11 +148,9 @@ class User extends WeChat
      */
     public function batchUnblackList(array $openids)
     {
-
         $url = "https://api.weixin.qq.com/cgi-bin/tags/members/batchunblacklist?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
 
         return $this->httpPostForJson($url, ['openid_list' => $openids]);
     }
-
 }

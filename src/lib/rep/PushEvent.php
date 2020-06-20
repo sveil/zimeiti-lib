@@ -17,15 +17,13 @@ use sveil\lib\exception\InvalidDecryptException;
 use sveil\lib\exception\InvalidResponseException;
 
 /**
- * WeChat notification processing basic class
- *
  * Abstract Class PushEvent
+ * WeChat notification processing basic class
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\rep
  */
 abstract class PushEvent
 {
-
     /**
      * WeOpen APPID
      * @var string
@@ -70,7 +68,6 @@ abstract class PushEvent
 
     /**
      * BasicPushEvent constructor
-     *
      * @param array $options
      * @throws InvalidResponseException
      */
@@ -97,21 +94,27 @@ abstract class PushEvent
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $this->postxml     = file_get_contents("php://input");
             $this->encryptType = $this->input->get('encrypt_type');
+
             if ($this->isEncrypt()) {
                 if (empty($options['encodingaeskey'])) {
                     throw new InvalidArgumentException("Missing Config -- [encodingaeskey]");
                 }
+
                 if (!class_exists('Prpcrypt', false)) {
                     require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'Prpcrypt.php';
                 }
+
                 $prpcrypt = new \Prpcrypt($this->config->get('encodingaeskey'));
                 $result   = Tools::xml2arr($this->postxml);
                 $array    = $prpcrypt->decrypt($result['Encrypt']);
+
                 if (intval($array[0]) > 0) {
                     throw new InvalidResponseException($array[1], $array[0]);
                 }
+
                 list($this->postxml, $this->appid) = [$array[1], $array[2]];
             }
+
             $this->receive = new DataArray(Tools::xml2arr($this->postxml));
         } elseif ($_SERVER['REQUEST_METHOD'] == "GET" && $this->checkSignature()) {
             @ob_clean();
@@ -119,12 +122,10 @@ abstract class PushEvent
         } else {
             throw new InvalidResponseException('Invalid interface request.', '0');
         }
-
     }
 
     /**
      * Does the message need to be encrypted
-     *
      * @return boolean
      */
     public function isEncrypt()
@@ -134,7 +135,6 @@ abstract class PushEvent
 
     /**
      * Reply message
-     *
      * @param array $data Message content
      * @param boolean $return Whether to return XML content
      * @param boolean $isEncrypt Whether to encrypt content
@@ -143,21 +143,23 @@ abstract class PushEvent
      */
     public function reply(array $data = [], $return = false, $isEncrypt = false)
     {
-
         $xml = Tools::arr2xml(empty($data) ? $this->message : $data);
 
         if ($this->isEncrypt() || $isEncrypt) {
             if (!class_exists('Prpcrypt', false)) {
                 require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'Prpcrypt.php';
             }
+
             $prpcrypt = new \Prpcrypt($this->config->get('encodingaeskey'));
             // If it is Usage, use component_appid for encryption
             $component_appid = $this->config->get('component_appid');
             $appid           = empty($component_appid) ? $this->appid : $component_appid;
             $array           = $prpcrypt->encrypt($xml, $appid);
+
             if ($array[0] > 0) {
                 throw new InvalidDecryptException('Encrypt Error.', '0');
             }
+
             list($timestamp, $encrypt) = [time(), $array[1]];
             $nonce                     = rand(77, 999) * rand(605, 888) * rand(11, 99);
             $tmpArr                    = [$this->config->get('token'), $timestamp, $nonce, $encrypt];
@@ -178,13 +180,11 @@ abstract class PushEvent
 
     /**
      * Verification comes from WeChat server
-     *
      * @param string $str
      * @return bool
      */
     private function checkSignature($str = '')
     {
-
         $nonce         = $this->input->get('nonce');
         $timestamp     = $this->input->get('timestamp');
         $msg_signature = $this->input->get('msg_signature');
@@ -197,7 +197,6 @@ abstract class PushEvent
 
     /**
      * Get WeOpen push object
-     *
      * @param null|string $field Specified get field
      * @return array
      */
@@ -208,7 +207,6 @@ abstract class PushEvent
 
     /**
      * Get the current WeChat OPENID
-     *
      * @return string
      */
     public function getOpenid()
@@ -218,7 +216,6 @@ abstract class PushEvent
 
     /**
      * Get the current push message type
-     *
      * @return string
      */
     public function getMsgType()
@@ -228,7 +225,6 @@ abstract class PushEvent
 
     /**
      * Get the current push message ID
-     *
      * @return string
      */
     public function getMsgId()
@@ -238,7 +234,6 @@ abstract class PushEvent
 
     /**
      * Get the current push time
-     *
      * @return integer
      */
     public function getMsgTime()
@@ -248,12 +243,10 @@ abstract class PushEvent
 
     /**
      * Get the current push WeOpen
-     *
      * @return string
      */
     public function getToOpenid()
     {
         return $this->receive->get('ToUserName');
     }
-
 }
