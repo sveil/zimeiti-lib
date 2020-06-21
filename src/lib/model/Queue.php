@@ -14,21 +14,25 @@ namespace sveil\lib\model;
 
 use sveil\lib\Model;
 
-class User extends Model
+class Queue extends Model
 {
     // 类型转换
     protected $type = [
-        'status'   => 'integer',
-        'score'    => 'float',
-        'birthday' => 'timestamp:Y-m-d H:i:s',
+        'percent' => 'integer',
     ];
 
-    // 注册用户事件观察者
-    protected $observerClass = 'sveil\lib\model\event\User';
+    // 注册队列事件观察者
+    protected $observerClass = 'sveil\lib\model\event\Queue';
 
-    // 一对一UUID
-    public function uuid()
+    // 对应一对一状态选项
+    public function qstatus()
     {
-        return $this->hasOne('Uuid', 'id')->bind('is_disabled');
+        return $this->hasOne('Option', 'qstatus_option_id')->bind('title,key,value');
+    }
+
+    // 对应一对一触发条件选项
+    public function qitem()
+    {
+        return $this->hasOne('Option', 'qitem_option_id')->bind('title,key,value');
     }
 }

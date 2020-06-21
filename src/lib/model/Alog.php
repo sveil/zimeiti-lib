@@ -16,27 +16,24 @@ use sveil\lib\Model;
 
 class Alog extends Model
 {
-    // 类型转换
-    protected $type = [
-        'status'   => 'integer',
-        'score'    => 'float',
-        'birthday' => 'timestamp:Y-m-d H:i:s',
-    ];
-
-    // 自动完成
-    protected $auto   = [];
-    protected $insert = ['is_disabled' => 0];
-    protected $update = [];
-
-    // 对应一对多用户
-    public function user()
-    {
-        return $this->belongsTo('User');
-    }
+    // 注册日志事件观察者
+    protected $observerClass = 'sveil\lib\model\event\Alog';
 
     // 一对一UUID
     public function uuid()
     {
         return $this->hasOne('Uuid', 'id')->bind('is_disabled');
+    }
+
+    // 多对一用户
+    public function user()
+    {
+        return $this->belongsTo('User', 'user_id')->bind('name,email,mobile');
+    }
+
+    // 一对一方法选项
+    public function option()
+    {
+        return $this->hasOne('Option', 'method_option_id')->bind('title,key,value');
     }
 }

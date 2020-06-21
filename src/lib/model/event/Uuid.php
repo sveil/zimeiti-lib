@@ -10,25 +10,12 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\model;
+namespace sveil\lib\model\event;
 
-use sveil\lib\Model;
-
-class User extends Model
+class Uuid
 {
-    // 类型转换
-    protected $type = [
-        'status'   => 'integer',
-        'score'    => 'float',
-        'birthday' => 'timestamp:Y-m-d H:i:s',
-    ];
-
-    // 注册用户事件观察者
-    protected $observerClass = 'sveil\lib\model\event\User';
-
-    // 一对一UUID
-    public function uuid()
+    public function afterInsert($uuid)
     {
-        return $this->hasOne('Uuid', 'id')->bind('is_disabled');
+        $isOver = findOne('SELECT is_over($uuid->tb_name, $uuid->tb_no)');
     }
 }

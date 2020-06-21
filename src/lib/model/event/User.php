@@ -19,16 +19,14 @@ class User
     public function beforeInsert($user)
     {
         if (empty($user->id)) {
-            $rows = Db::query("SELECT UNHEX(REPLACE(UUID(), '-', '')) as uuid");
-
-            foreach ($rows as $row) {}
-
-            $user->id = $row['uuid'];
+            $uuid     = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no       = findOne("SELECT current_serial(table_prefix('user'))");
+            $user->id = $uuid;
 
             Uuid::create([
-                'id'      => $row['uuid'],
+                'id'      => $uuid,
                 'tb_name' => config('database.prefix') . 'user',
-                'tb_no'   => 0,
+                'tb_no'   => $no,
             ]);
         }
     }

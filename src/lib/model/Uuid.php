@@ -16,27 +16,6 @@ use sveil\lib\Model;
 
 class Uuid extends Model
 {
-    // 类型转换
-    protected $type = [
-        'status'   => 'integer',
-        'score'    => 'float',
-        'birthday' => 'timestamp:Y-m-d H:i:s',
-    ];
-
-    // 自动完成
-    protected $auto   = [];
-    protected $insert = ['is_disabled' => 0];
-    protected $update = [];
-
-    // 对应一对一日志
-    public function alog()
-    {
-        return $this->belongsTo('Alog');
-    }
-
-    // 对应一对一用户
-    public function user()
-    {
-        return $this->belongsTo('User');
-    }
+    // 注册Uuid事件观察者
+    protected $observerClass = 'sveil\lib\model\event\Uuid';
 }

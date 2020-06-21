@@ -31,7 +31,7 @@ class Model extends Models
     protected $defaultSoftDelete = 2;
 
     // 定义全局的查询范围
-    protected $globalScope = ['is_disabled'];
+    protected $globalScope = ['create_at', 'is_disabled'];
 
     public function scopeIsDisabled($query)
     {

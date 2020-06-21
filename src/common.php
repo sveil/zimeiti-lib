@@ -354,3 +354,18 @@ if (!function_exists('goBack')) {
         ]);
     }
 }
+
+if (!function_exists('findOne')) {
+    /**
+     * Jump history back
+     * @return string
+     */
+    function findOne($sql)
+    {
+        $list = Db::query($sql);
+
+        foreach ($list as $row) {
+            return $row[0];
+        }
+    }
+}

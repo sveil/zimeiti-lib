@@ -14,17 +14,10 @@ namespace sveil\lib\model;
 
 use sveil\lib\Model;
 
-class User extends Model
+class Option extends Model
 {
-    // 类型转换
-    protected $type = [
-        'status'   => 'integer',
-        'score'    => 'float',
-        'birthday' => 'timestamp:Y-m-d H:i:s',
-    ];
-
-    // 注册用户事件观察者
-    protected $observerClass = 'sveil\lib\model\event\User';
+    // 注册选项事件观察者
+    protected $observerClass = 'sveil\lib\model\event\Option';
 
     // 一对一UUID
     public function uuid()

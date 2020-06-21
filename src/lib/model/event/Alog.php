@@ -10,25 +10,24 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\model;
+namespace sveil\lib\model\event;
 
-use sveil\lib\Model;
+use sveil\lib\model\Uuid;
 
-class User extends Model
+class Alog
 {
-    // 类型转换
-    protected $type = [
-        'status'   => 'integer',
-        'score'    => 'float',
-        'birthday' => 'timestamp:Y-m-d H:i:s',
-    ];
-
-    // 注册用户事件观察者
-    protected $observerClass = 'sveil\lib\model\event\User';
-
-    // 一对一UUID
-    public function uuid()
+    public function beforeInsert($alog)
     {
-        return $this->hasOne('Uuid', 'id')->bind('is_disabled');
+        if (empty($alog->id)) {
+            $uuid     = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no       = findOne("SELECT current_serial(table_prefix('alog'))");
+            $alog->id = $uuid;
+
+            Uuid::create([
+                'id'      => $uuid,
+                'tb_name' => config('database.prefix') . 'alog',
+                'tb_no'   => $no,
+            ]);
+        }
     }
 }
