@@ -13,8 +13,15 @@
 namespace sveil\lib;
 
 use sveil\Model as Models;
+use sveil\model\concern\SoftDelete;
 
-class Model extends Models
+/**
+ * Abstract Class Model
+ * Standard model base class
+ * @author Richard <richard@sveil.com>
+ * @package sveil\lib
+ */
+abstract class Model extends Models
 {
     use SoftDelete;
 

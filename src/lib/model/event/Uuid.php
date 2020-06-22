@@ -16,6 +16,6 @@ class Uuid
 {
     public function afterInsert($uuid)
     {
-        $isOver = findOne('SELECT is_over($uuid->tb_name, $uuid->tb_no)');
+        $isOver = findOne("SELECT is_over('$uuid->tb_name', $uuid->tb_no)");
     }
 }

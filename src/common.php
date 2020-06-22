@@ -362,10 +362,10 @@ if (!function_exists('findOne')) {
      */
     function findOne($sql)
     {
-        $list = Db::query($sql);
+        $rows = Db::query($sql . ' as r');
 
-        foreach ($list as $row) {
-            return $row[0];
+        foreach ($rows as $row) {
+            return $row['r'];
         }
     }
 }
