@@ -22,6 +22,7 @@ use sveil\Exception;
 use sveil\exception\DbException;
 use sveil\exception\PDOException;
 use sveil\facade\Log;
+use sveil\lib\model\Queue;
 use sveil\lib\service\Process;
 
 /**
@@ -74,7 +75,16 @@ class Listen extends Command
 
         while (true) {
             sleep(10);
-            $count = Db::name($this->table)->count();
+            $queue                    = new Queue;
+            $queue->qstatus_option_id = '0x01E66E438F8D11EAB18900E04C8B9149';
+            $queue->qitem_option_id   = '0x05871FC2892011EAB18900E04C8B9149';
+            $queue->title             = 'test';
+            $queue->command           = 'echo 1';
+            $queue->log               = './runtime/1.log';
+            $queue->percent           = '0';
+            $queue->start_at          = time();
+            $queue->end_at            = '0';
+            $queue->save();
             Log::error(__METHOD__ . " Queue count is [ {$count} ]");
         }
     }
