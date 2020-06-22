@@ -34,7 +34,7 @@ class Article extends Model
         'make_at'      => 'integer',
     ];
 
-    // 注册日志事件观察者
+    // 注册文章事件观察者
     protected $observerClass = 'sveil\lib\model\event\Article';
 
     // 一对一UUID
