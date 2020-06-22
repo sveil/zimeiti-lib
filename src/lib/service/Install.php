@@ -190,7 +190,7 @@ class Install extends Service
                 $moConfig = require $configMo;
 
                 if (sizeof($moConfig) <= 26) {
-                    $moConfig = Data::uniqidRandom($moConfig, 4);
+                    $moConfig = Data::uniqidRandom($moConfig, 2);
                 }
 
                 arrFiles($configMo, $moConfig);
