@@ -13,7 +13,8 @@
 namespace sveil\lib;
 
 use sveil\Model as Models;
-use sveil\model\concern\SoftDelete;
+
+// use sveil\model\concern\SoftDelete;
 
 /**
  * Abstract Class Model
@@ -23,7 +24,7 @@ use sveil\model\concern\SoftDelete;
  */
 abstract class Model extends Models
 {
-    use SoftDelete;
+    // use SoftDelete;
 
     // 定义时间戳字段名
     protected $createTime = 'create_at';
@@ -32,16 +33,16 @@ abstract class Model extends Models
     protected $updateTime = false;
 
     // 软删除标记字段
-    protected $deleteTime = 'is_disabled';
+    // protected $deleteTime = 'is_disabled';
 
     // 软删除字段的默认值
-    protected $defaultSoftDelete = 2;
+    // protected $defaultSoftDelete = 2;
 
     // 定义全局的查询范围
-    protected $globalScope = ['create_at', 'is_disabled'];
+    // protected $globalScope = ['create_at', 'is_disabled'];
 
-    public function scopeIsDisabled($query)
-    {
-        $query->where('is_disabled', 0);
-    }
+    // public function scopeIsDisabled($query)
+    // {
+    //     $query->where('is_disabled', 0);
+    // }
 }

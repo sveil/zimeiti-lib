@@ -19,8 +19,8 @@ class Article
     public function beforeInsert($article)
     {
         if (empty($article->id)) {
-            $uuid        = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no          = findOne("SELECT current_serial(table_prefix('article'))");
+            $uuid        = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no          = findRes("SELECT current_serial(table_prefix('article'))");
             $article->id = $uuid;
 
             Uuid::create([

@@ -19,8 +19,8 @@ class GbookData
     public function beforeInsert($gbookData)
     {
         if (empty($gbookData->id)) {
-            $uuid          = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no            = findOne("SELECT current_serial(table_prefix('gbook_data'))");
+            $uuid          = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no            = findRes("SELECT current_serial(table_prefix('gbook_data'))");
             $gbookData->id = $uuid;
 
             Uuid::create([

@@ -19,8 +19,8 @@ class CommentData
     public function beforeInsert($commentData)
     {
         if (empty($commentData->id)) {
-            $uuid            = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no              = findOne("SELECT current_serial(table_prefix('comment_data'))");
+            $uuid            = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no              = findRes("SELECT current_serial(table_prefix('comment_data'))");
             $commentData->id = $uuid;
 
             Uuid::create([

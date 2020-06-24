@@ -19,8 +19,8 @@ class UserData
     public function beforeInsert($userData)
     {
         if (empty($userData->id)) {
-            $uuid         = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no           = findOne("SELECT current_serial(table_prefix('user_data'))");
+            $uuid         = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no           = findRes("SELECT current_serial(table_prefix('user_data'))");
             $userData->id = $uuid;
 
             Uuid::create([

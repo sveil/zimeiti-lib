@@ -45,14 +45,14 @@ if (!function_exists('p')) {
     }
 }
 
-if (!function_exists('format_datetime')) {
+if (!function_exists('formatDatetime')) {
     /**
      * Date format standard output
      * @param string $datetime Enter date
      * @param string $format Output format
      * @return false|string
      */
-    function formatDatetime($datetime, $format = 'Y年m月d日 H:i:s')
+    function formatDatetime($datetime, $format = 'Y-m-d\TH:i:s.u\Z')
     {
         if (empty($datetime)) {
             return '-';
@@ -355,17 +355,17 @@ if (!function_exists('goBack')) {
     }
 }
 
-if (!function_exists('findOne')) {
+if (!function_exists('findRes')) {
     /**
-     * Jump history back
+     * Just find one result
      * @return string
      */
-    function findOne($sql)
+    function findRes($sql)
     {
-        $rows = Db::query($sql . ' as r');
+        $rows = Db::query($sql . ' as res');
 
         foreach ($rows as $row) {
-            return $row['r'];
+            return $row['res'];
         }
     }
 }

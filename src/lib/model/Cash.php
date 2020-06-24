@@ -22,12 +22,12 @@ class Cash extends Model
     // 一对一UUID
     public function uuid()
     {
-        return $this->hasOne('Uuid', 'id')->bind('is_disabled');
+        return $this->belongsTo('Uuid', 'id');
     }
 
     // 多对一文章
     public function article()
     {
-        return $this->belongsTo('Article', 'article_id')->bind('title,score');
+        return $this->belongsTo('Article', 'article_id');
     }
 }

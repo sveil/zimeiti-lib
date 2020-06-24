@@ -19,8 +19,8 @@ class Comment
     public function beforeInsert($comment)
     {
         if (empty($comment->id)) {
-            $uuid        = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no          = findOne("SELECT current_serial(table_prefix('comment'))");
+            $uuid        = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no          = findRes("SELECT current_serial(table_prefix('comment'))");
             $comment->id = $uuid;
 
             Uuid::create([

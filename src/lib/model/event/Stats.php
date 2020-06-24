@@ -19,8 +19,8 @@ class Stats
     public function beforeInsert($stats)
     {
         if (empty($stats->id)) {
-            $uuid      = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no        = findOne("SELECT current_serial(table_prefix('stats'))");
+            $uuid      = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no        = findRes("SELECT current_serial(table_prefix('stats'))");
             $stats->id = $uuid;
 
             Uuid::create([

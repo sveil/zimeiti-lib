@@ -19,8 +19,8 @@ class Link
     public function beforeInsert($link)
     {
         if (empty($link->id)) {
-            $uuid     = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no       = findOne("SELECT current_serial(table_prefix('link'))");
+            $uuid     = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no       = findRes("SELECT current_serial(table_prefix('link'))");
             $link->id = $uuid;
 
             Uuid::create([

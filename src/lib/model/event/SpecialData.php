@@ -19,8 +19,8 @@ class SpecialData
     public function beforeInsert($specialData)
     {
         if (empty($specialData->id)) {
-            $uuid            = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no              = findOne("SELECT current_serial(table_prefix('special_data'))");
+            $uuid            = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no              = findRes("SELECT current_serial(table_prefix('special_data'))");
             $specialData->id = $uuid;
 
             Uuid::create([

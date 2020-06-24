@@ -22,7 +22,7 @@ use sveil\Exception;
 use sveil\exception\DbException;
 use sveil\exception\PDOException;
 use sveil\facade\Log;
-use sveil\lib\model\Queue;
+use sveil\lib\service\db\Queue;
 use sveil\lib\service\Process;
 
 /**
@@ -38,12 +38,6 @@ class Listen extends Command
      * @var ProcessService
      */
     protected $process;
-
-    /**
-     * Binding data table
-     * @var string
-     */
-    protected $table = 'Queue';
 
     /**
      * Configuration specific information
@@ -76,18 +70,29 @@ class Listen extends Command
         while (true) {
             sleep(10);
 
-            $queue = Queue::create([
-                'qstatus_option_id' => hex2bin('01E66E438F8D11EAB18900E04C8B9149'),
-                'qitem_option_id'   => hex2bin('05871FC2892011EAB18900E04C8B9149'),
-                'title'             => 'test',
-                'command'           => 'echo 1',
-                'log'               => './runtime/1.log',
-                'percent'           => '0',
-                'start_at'          => time(),
-                'end_at'            => '0',
-            ]);
+            $queues = Queue::addAll([[
+                'qstatus' => '未执行',
+                'qitem'   => 'at once',
+                'title'   => '测试1',
+                'command' => 'echo 1',
+                'log'     => './runtime/1.log',
+            ], [
+                'qstatus' => '未执行',
+                'qitem'   => 'at once',
+                'title'   => '测试2',
+                'command' => 'echo 2',
+                'log'     => './runtime/2.log',
+            ], [
+                'qstatus' => '未执行',
+                'qitem'   => 'at once',
+                'title'   => '测试3',
+                'command' => 'echo 3',
+                'log'     => './runtime/3.log',
+            ]]);
 
-            Log::error(__METHOD__ . " Queue is is [ " . bin2hex($queue->id) . " ]");
+            dump($queues);
+
+            Log::error(__METHOD__ . " Queue id is [ 0 ]");
         }
     }
 }

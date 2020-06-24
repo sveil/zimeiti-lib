@@ -19,8 +19,8 @@ class OrderData
     public function beforeInsert($orderData)
     {
         if (empty($orderData->id)) {
-            $uuid          = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no            = findOne("SELECT current_serial(table_prefix('order_data'))");
+            $uuid          = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no            = findRes("SELECT current_serial(table_prefix('order_data'))");
             $orderData->id = $uuid;
 
             Uuid::create([

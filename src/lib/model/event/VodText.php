@@ -19,8 +19,8 @@ class VodText
     public function beforeInsert($vodText)
     {
         if (empty($vodText->id)) {
-            $uuid        = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no          = findOne("SELECT current_serial(table_prefix('vod_text'))");
+            $uuid        = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no          = findRes("SELECT current_serial(table_prefix('vod_text'))");
             $vodText->id = $uuid;
 
             Uuid::create([

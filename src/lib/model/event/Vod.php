@@ -19,8 +19,8 @@ class Vod
     public function beforeInsert($vod)
     {
         if (empty($vod->id)) {
-            $uuid    = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no      = findOne("SELECT current_serial(table_prefix('vod'))");
+            $uuid    = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no      = findRes("SELECT current_serial(table_prefix('vod'))");
             $vod->id = $uuid;
 
             Uuid::create([

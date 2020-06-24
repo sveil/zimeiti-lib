@@ -29,6 +29,6 @@ class User extends Model
     // 一对一UUID
     public function uuid()
     {
-        return $this->hasOne('Uuid', 'id')->bind('is_disabled');
+        return $this->belongsTo('Uuid', 'id');
     }
 }

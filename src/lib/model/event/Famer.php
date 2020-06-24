@@ -19,8 +19,8 @@ class Famer
     public function beforeInsert($famer)
     {
         if (empty($famer->id)) {
-            $uuid      = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no        = findOne("SELECT current_serial(table_prefix('famer'))");
+            $uuid      = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no        = findRes("SELECT current_serial(table_prefix('famer'))");
             $famer->id = $uuid;
 
             Uuid::create([

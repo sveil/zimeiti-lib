@@ -19,21 +19,21 @@ class Alog extends Model
     // 注册日志事件观察者
     protected $observerClass = 'sveil\lib\model\event\Alog';
 
-    // 一对一UUID
+    // 对应一对一UUID
     public function uuid()
     {
-        return $this->hasOne('Uuid', 'id')->bind('is_disabled');
+        return $this->belongsTo('Uuid', 'id');
     }
 
-    // 多对一用户
+    // 对应多对一用户
     public function user()
     {
-        return $this->belongsTo('User', 'user_id')->bind('name,email,mobile');
+        return $this->belongsTo('User', 'user_id');
     }
 
-    // 一对一方法选项
-    public function option()
+    // 对应一对一方法选项
+    public function method()
     {
-        return $this->hasOne('Option', 'method_option_id')->bind('title,key,value');
+        return $this->belongsTo('Option', 'method_option_id');
     }
 }

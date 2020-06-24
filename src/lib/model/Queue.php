@@ -24,15 +24,21 @@ class Queue extends Model
     // 注册队列事件观察者
     protected $observerClass = 'sveil\lib\model\event\Queue';
 
+    // 对应一对一UUID
+    public function uuid()
+    {
+        return $this->belongsTo('Uuid', 'id');
+    }
+
     // 对应一对一状态选项
     public function qstatus()
     {
-        return $this->hasOne('Option', 'qstatus_option_id')->bind('title,key,value');
+        return $this->belongsTo('Option', 'qstatus_option_id');
     }
 
     // 对应一对一触发条件选项
     public function qitem()
     {
-        return $this->hasOne('Option', 'qitem_option_id')->bind('title,key,value');
+        return $this->belongsTo('Option', 'qitem_option_id');
     }
 }

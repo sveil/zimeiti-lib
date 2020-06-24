@@ -22,6 +22,18 @@ class Option extends Model
     // 一对一UUID
     public function uuid()
     {
-        return $this->hasOne('Uuid', 'id')->bind('is_disabled');
+        return $this->belongsTo('Uuid', 'id');
+    }
+
+    // 查询队列状态的选项表ID
+    public function scopeQstatus($query, $value)
+    {
+        $query->where('title', 'qstatus')->where('value', $value)->field('id');
+    }
+
+    // 查询队列条件的选项表ID
+    public function scopeQitem($query, $value)
+    {
+        $query->where('title', 'qitem')->where('value', $value)->field('id');
     }
 }

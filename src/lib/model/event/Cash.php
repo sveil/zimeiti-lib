@@ -19,8 +19,8 @@ class Cash
     public function beforeInsert($card)
     {
         if (empty($card->id)) {
-            $uuid     = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no       = findOne("SELECT current_serial(table_prefix('card'))");
+            $uuid     = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no       = findRes("SELECT current_serial(table_prefix('card'))");
             $card->id = $uuid;
 
             Uuid::create([

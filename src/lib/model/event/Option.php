@@ -19,8 +19,8 @@ class Option
     public function beforeInsert($option)
     {
         if (empty($option->id)) {
-            $uuid       = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no         = findOne("SELECT current_serial(table_prefix('option'))");
+            $uuid       = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no         = findRes("SELECT current_serial(table_prefix('option'))");
             $option->id = $uuid;
 
             Uuid::create([

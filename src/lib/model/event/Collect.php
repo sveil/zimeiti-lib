@@ -19,8 +19,8 @@ class Collect
     public function beforeInsert($collect)
     {
         if (empty($collect->id)) {
-            $uuid        = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no          = findOne("SELECT current_serial(table_prefix('collect'))");
+            $uuid        = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no          = findRes("SELECT current_serial(table_prefix('collect'))");
             $collect->id = $uuid;
 
             Uuid::create([

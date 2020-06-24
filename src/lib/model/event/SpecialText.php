@@ -19,8 +19,8 @@ class SpecialText
     public function beforeInsert($specialText)
     {
         if (empty($specialText->id)) {
-            $uuid            = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no              = findOne("SELECT current_serial(table_prefix('special_text'))");
+            $uuid            = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no              = findRes("SELECT current_serial(table_prefix('special_text'))");
             $specialText->id = $uuid;
 
             Uuid::create([

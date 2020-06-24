@@ -19,8 +19,8 @@ class Alog
     public function beforeInsert($alog)
     {
         if (empty($alog->id)) {
-            $uuid     = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no       = findOne("SELECT current_serial(table_prefix('alog'))");
+            $uuid     = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no       = findRes("SELECT current_serial(table_prefix('alog'))");
             $alog->id = $uuid;
 
             Uuid::create([

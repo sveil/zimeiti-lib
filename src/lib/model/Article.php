@@ -40,12 +40,12 @@ class Article extends Model
     // 一对一UUID
     public function uuid()
     {
-        return $this->hasOne('Uuid', 'id')->bind('is_disabled');
+        return $this->belongsTo('Uuid', 'id');
     }
 
     // 多对一用户
     public function user()
     {
-        return $this->belongsTo('User', 'user_id')->bind('name,email,mobile');
+        return $this->belongsTo('User', 'user_id');
     }
 }

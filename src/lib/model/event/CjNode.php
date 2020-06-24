@@ -19,8 +19,8 @@ class CjNode
     public function beforeInsert($cjNode)
     {
         if (empty($cjNode->id)) {
-            $uuid       = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no         = findOne("SELECT current_serial(table_prefix('cj_node'))");
+            $uuid       = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no         = findRes("SELECT current_serial(table_prefix('cj_node'))");
             $cjNode->id = $uuid;
 
             Uuid::create([

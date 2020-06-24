@@ -19,8 +19,8 @@ class Msg
     public function beforeInsert($msg)
     {
         if (empty($msg->id)) {
-            $uuid    = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no      = findOne("SELECT current_serial(table_prefix('msg'))");
+            $uuid    = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no      = findRes("SELECT current_serial(table_prefix('msg'))");
             $msg->id = $uuid;
 
             Uuid::create([

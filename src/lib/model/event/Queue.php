@@ -19,8 +19,8 @@ class Queue
     public function beforeInsert($queue)
     {
         if (empty($queue->id)) {
-            $uuid      = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no        = findOne("SELECT current_serial(table_prefix('queue'))");
+            $uuid      = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no        = findRes("SELECT current_serial(table_prefix('queue'))");
             $queue->id = $uuid;
 
             Uuid::create([

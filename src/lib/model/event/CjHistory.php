@@ -19,8 +19,8 @@ class CjHistory
     public function beforeInsert($cjHistory)
     {
         if (empty($cjHistory->id)) {
-            $uuid          = findOne("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
-            $no            = findOne("SELECT current_serial(table_prefix('cj_history'))");
+            $uuid          = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no            = findRes("SELECT current_serial(table_prefix('cj_history'))");
             $cjHistory->id = $uuid;
 
             Uuid::create([
