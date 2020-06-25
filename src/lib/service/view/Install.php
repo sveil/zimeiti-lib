@@ -10,7 +10,7 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\service;
+namespace sveil\lib\service\view;
 
 use sveil\App;
 use sveil\Exception;
@@ -21,7 +21,7 @@ use sveil\lib\Service;
 
 /**
  * Class Install
- * Install data service
+ * Install view data service
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  */

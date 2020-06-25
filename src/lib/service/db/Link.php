@@ -14,18 +14,16 @@ namespace sveil\lib\service\db;
 
 use sveil\Exception;
 use sveil\exception\PDOException;
-use sveil\lib\model\Queue as QueueModel;
-use sveil\lib\model\Uuid as UuidModel;
+use sveil\lib\model\Link as LinkModel;
 use sveil\lib\Service;
-use sveil\lib\service\db\Option;
 
 /**
- * Class Queue
- * Queue db data service
+ * Class Link
+ * Link db data service
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  */
-class Queue extends Service
+class Link extends Service
 {
     /**
      * all object
@@ -35,10 +33,8 @@ class Queue extends Service
      */
     public static function all()
     {
-        $arr = QueueModel::withJoin([
-            'uuid'    => ['create_at', 'is_disabled'],
-            'qstatus' => ['title', 'key', 'value'],
-            'qitem'   => ['title', 'key', 'value'],
+        $arr = LinkModel::withJoin([
+            'uuid' => ['create_at', 'is_disabled'],
         ])->select();
 
         foreach ($arr as $k => $v) {
@@ -57,10 +53,8 @@ class Queue extends Service
      */
     public static function select()
     {
-        $arr = QueueModel::withJoin([
-            'uuid'    => ['create_at', 'is_disabled'],
-            'qstatus' => ['title', 'key', 'value'],
-            'qitem'   => ['title', 'key', 'value'],
+        $arr = LinkModel::withJoin([
+            'uuid' => ['create_at', 'is_disabled'],
         ])->where('uuid.is_disabled', 0)->select();
 
         foreach ($arr as $k => $v) {
@@ -79,7 +73,7 @@ class Queue extends Service
      */
     public static function count()
     {
-        return QueueModel::withJoin([
+        return LinkModel::withJoin([
             'uuid' => ['is_disabled'],
         ])->where('uuid.is_disabled', 0)->count();
     }
@@ -92,12 +86,10 @@ class Queue extends Service
      */
     public static function add($row, $replace = false)
     {
-        return QueueModel::create([
-            'qstatus_option_id' => Option::getIdByQstatus($row['qstatus']),
-            'qitem_option_id'   => Option::getIdByQitem($row['qitem']),
-            'title'             => $row['title'],
-            'command'           => $row['command'],
-            'log'               => $row['log'],
+        return LinkModel::create([
+            'title' => $row['title'],
+            'url'   => $row['url'],
+            'logo'  => $row['logo'],
         ], true, $replace);
     }
 
@@ -109,18 +101,16 @@ class Queue extends Service
      */
     public static function addAll($rows)
     {
-        $queue = new QueueModel;
-        $arr   = [];
+        $link = new LinkModel;
+        $arr  = [];
 
         foreach ($rows as $k => $v) {
-            $arr[$k]['qstatus_option_id'] = Option::getIdByQstatus($v['qstatus']);
-            $arr[$k]['qitem_option_id']   = Option::getIdByQitem($v['qitem']);
-            $arr[$k]['title']             = $v['title'];
-            $arr[$k]['command']           = $v['command'];
-            $arr[$k]['log']               = $v['log'];
+            $arr[$k]['title'] = $v['user'];
+            $arr[$k]['url']   = $v['url'];
+            $arr[$k]['logo']  = $v['logo'];
         }
 
-        return $queue->saveAll($arr);
+        return $link->saveAll($arr);
     }
 
     /**
@@ -142,6 +132,6 @@ class Queue extends Service
      */
     public static function clear()
     {
-        return UuidModel::where('tb_name', 'queue')->update(['is_disabled' => 2]);
+        return UuidModel::where('tb_name', 'link')->update(['is_disabled' => 2]);
     }
 }

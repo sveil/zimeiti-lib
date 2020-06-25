@@ -14,18 +14,16 @@ namespace sveil\lib\service\db;
 
 use sveil\Exception;
 use sveil\exception\PDOException;
-use sveil\lib\model\Queue as QueueModel;
-use sveil\lib\model\Uuid as UuidModel;
+use sveil\lib\model\Alog as AlogModel;
 use sveil\lib\Service;
-use sveil\lib\service\db\Option;
 
 /**
- * Class Queue
- * Queue db data service
+ * Class Alog
+ * Alog db data service
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  */
-class Queue extends Service
+class Alog extends Service
 {
     /**
      * all object
@@ -35,10 +33,10 @@ class Queue extends Service
      */
     public static function all()
     {
-        $arr = QueueModel::withJoin([
-            'uuid'    => ['create_at', 'is_disabled'],
-            'qstatus' => ['title', 'key', 'value'],
-            'qitem'   => ['title', 'key', 'value'],
+        $arr = AlogModel::withJoin([
+            'uuid'   => ['create_at', 'is_disabled'],
+            'user'   => ['id', 'name'],
+            'method' => ['title', 'key', 'value'],
         ])->select();
 
         foreach ($arr as $k => $v) {
@@ -57,10 +55,10 @@ class Queue extends Service
      */
     public static function select()
     {
-        $arr = QueueModel::withJoin([
-            'uuid'    => ['create_at', 'is_disabled'],
-            'qstatus' => ['title', 'key', 'value'],
-            'qitem'   => ['title', 'key', 'value'],
+        $arr = AlogModel::withJoin([
+            'uuid'   => ['create_at', 'is_disabled'],
+            'user'   => ['id', 'name'],
+            'method' => ['title', 'key', 'value'],
         ])->where('uuid.is_disabled', 0)->select();
 
         foreach ($arr as $k => $v) {
@@ -79,7 +77,7 @@ class Queue extends Service
      */
     public static function count()
     {
-        return QueueModel::withJoin([
+        return AlogModel::withJoin([
             'uuid' => ['is_disabled'],
         ])->where('uuid.is_disabled', 0)->count();
     }
@@ -92,12 +90,9 @@ class Queue extends Service
      */
     public static function add($row, $replace = false)
     {
-        return QueueModel::create([
-            'qstatus_option_id' => Option::getIdByQstatus($row['qstatus']),
-            'qitem_option_id'   => Option::getIdByQitem($row['qitem']),
-            'title'             => $row['title'],
-            'command'           => $row['command'],
-            'log'               => $row['log'],
+        return AlogModel::create([
+            'user_id'          => User::getIdByName($row['user']),
+            'action_option_id' => Option::getIdByAction($row['action']),
         ], true, $replace);
     }
 
@@ -109,18 +104,15 @@ class Queue extends Service
      */
     public static function addAll($rows)
     {
-        $queue = new QueueModel;
-        $arr   = [];
+        $alog = new AlogModel;
+        $arr  = [];
 
         foreach ($rows as $k => $v) {
-            $arr[$k]['qstatus_option_id'] = Option::getIdByQstatus($v['qstatus']);
-            $arr[$k]['qitem_option_id']   = Option::getIdByQitem($v['qitem']);
-            $arr[$k]['title']             = $v['title'];
-            $arr[$k]['command']           = $v['command'];
-            $arr[$k]['log']               = $v['log'];
+            $arr[$k]['user_id']          = User::getIdByName($v['user']);
+            $arr[$k]['action_option_id'] = Option::getIdByAction($v['action']);
         }
 
-        return $queue->saveAll($arr);
+        return $alog->saveAll($arr);
     }
 
     /**
@@ -142,6 +134,6 @@ class Queue extends Service
      */
     public static function clear()
     {
-        return UuidModel::where('tb_name', 'queue')->update(['is_disabled' => 2]);
+        return UuidModel::where('tb_name', 'alog')->update(['is_disabled' => 2]);
     }
 }

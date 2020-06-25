@@ -14,18 +14,16 @@ namespace sveil\lib\service\db;
 
 use sveil\Exception;
 use sveil\exception\PDOException;
-use sveil\lib\model\Queue as QueueModel;
-use sveil\lib\model\Uuid as UuidModel;
+use sveil\lib\model\Msg as MsgModel;
 use sveil\lib\Service;
-use sveil\lib\service\db\Option;
 
 /**
- * Class Queue
- * Queue db data service
+ * Class Msg
+ * Msg db data service
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  */
-class Queue extends Service
+class Msg extends Service
 {
     /**
      * all object
@@ -35,10 +33,10 @@ class Queue extends Service
      */
     public static function all()
     {
-        $arr = QueueModel::withJoin([
-            'uuid'    => ['create_at', 'is_disabled'],
-            'qstatus' => ['title', 'key', 'value'],
-            'qitem'   => ['title', 'key', 'value'],
+        $arr = MsgModel::withJoin([
+            'uuid'   => ['create_at', 'is_disabled'],
+            'user'   => ['id', 'name'],
+            'mclass' => ['title', 'key', 'value'],
         ])->select();
 
         foreach ($arr as $k => $v) {
@@ -57,10 +55,10 @@ class Queue extends Service
      */
     public static function select()
     {
-        $arr = QueueModel::withJoin([
-            'uuid'    => ['create_at', 'is_disabled'],
-            'qstatus' => ['title', 'key', 'value'],
-            'qitem'   => ['title', 'key', 'value'],
+        $arr = MsgModel::withJoin([
+            'uuid'   => ['create_at', 'is_disabled'],
+            'user'   => ['id', 'name'],
+            'mclass' => ['title', 'key', 'value'],
         ])->where('uuid.is_disabled', 0)->select();
 
         foreach ($arr as $k => $v) {
@@ -79,7 +77,7 @@ class Queue extends Service
      */
     public static function count()
     {
-        return QueueModel::withJoin([
+        return MsgModel::withJoin([
             'uuid' => ['is_disabled'],
         ])->where('uuid.is_disabled', 0)->count();
     }
@@ -92,12 +90,10 @@ class Queue extends Service
      */
     public static function add($row, $replace = false)
     {
-        return QueueModel::create([
-            'qstatus_option_id' => Option::getIdByQstatus($row['qstatus']),
-            'qitem_option_id'   => Option::getIdByQitem($row['qitem']),
-            'title'             => $row['title'],
-            'command'           => $row['command'],
-            'log'               => $row['log'],
+        return MsgModel::create([
+            'user_id'          => User::getIdByName($row['user']),
+            'mclass_option_id' => Option::getIdByMclass($row['mclass']),
+            'send_at'          => $row['send_at'],
         ], true, $replace);
     }
 
@@ -109,18 +105,16 @@ class Queue extends Service
      */
     public static function addAll($rows)
     {
-        $queue = new QueueModel;
-        $arr   = [];
+        $msg = new MsgModel;
+        $arr = [];
 
         foreach ($rows as $k => $v) {
-            $arr[$k]['qstatus_option_id'] = Option::getIdByQstatus($v['qstatus']);
-            $arr[$k]['qitem_option_id']   = Option::getIdByQitem($v['qitem']);
-            $arr[$k]['title']             = $v['title'];
-            $arr[$k]['command']           = $v['command'];
-            $arr[$k]['log']               = $v['log'];
+            $arr[$k]['user_id']          = User::getIdByName($v['user']);
+            $arr[$k]['mclass_option_id'] = Option::getIdByMclass($v['mclass']);
+            $arr[$k]['send_at']          = $v['send_at'];
         }
 
-        return $queue->saveAll($arr);
+        return $msg->saveAll($arr);
     }
 
     /**
@@ -142,6 +136,6 @@ class Queue extends Service
      */
     public static function clear()
     {
-        return UuidModel::where('tb_name', 'queue')->update(['is_disabled' => 2]);
+        return UuidModel::where('tb_name', 'msg')->update(['is_disabled' => 2]);
     }
 }

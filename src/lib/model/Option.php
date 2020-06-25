@@ -36,4 +36,10 @@ class Option extends Model
     {
         $query->where('title', 'qitem')->where('value', $value)->field('id');
     }
+
+    // 查询操作的选项表ID
+    public function scopeAction($query, $value)
+    {
+        $query->where('title', 'action')->where('value', $value)->field('id');
+    }
 }

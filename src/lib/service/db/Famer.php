@@ -14,18 +14,16 @@ namespace sveil\lib\service\db;
 
 use sveil\Exception;
 use sveil\exception\PDOException;
-use sveil\lib\model\Queue as QueueModel;
-use sveil\lib\model\Uuid as UuidModel;
+use sveil\lib\model\Famer as FamerModel;
 use sveil\lib\Service;
-use sveil\lib\service\db\Option;
 
 /**
- * Class Queue
- * Queue db data service
+ * Class Famer
+ * Famer db data service
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  */
-class Queue extends Service
+class Famer extends Service
 {
     /**
      * all object
@@ -35,10 +33,12 @@ class Queue extends Service
      */
     public static function all()
     {
-        $arr = QueueModel::withJoin([
-            'uuid'    => ['create_at', 'is_disabled'],
-            'qstatus' => ['title', 'key', 'value'],
-            'qitem'   => ['title', 'key', 'value'],
+        $arr = FamerModel::withJoin([
+            'uuid'     => ['create_at', 'is_disabled'],
+            'blood'    => ['title', 'key', 'value'],
+            'origin'   => ['title', 'key', 'value'],
+            'starsign' => ['title', 'key', 'value'],
+            'area'     => ['title', 'key', 'value'],
         ])->select();
 
         foreach ($arr as $k => $v) {
@@ -57,10 +57,12 @@ class Queue extends Service
      */
     public static function select()
     {
-        $arr = QueueModel::withJoin([
-            'uuid'    => ['create_at', 'is_disabled'],
-            'qstatus' => ['title', 'key', 'value'],
-            'qitem'   => ['title', 'key', 'value'],
+        $arr = FamerModel::withJoin([
+            'uuid'     => ['create_at', 'is_disabled'],
+            'blood'    => ['title', 'key', 'value'],
+            'origin'   => ['title', 'key', 'value'],
+            'starsign' => ['title', 'key', 'value'],
+            'area'     => ['title', 'key', 'value'],
         ])->where('uuid.is_disabled', 0)->select();
 
         foreach ($arr as $k => $v) {
@@ -79,7 +81,7 @@ class Queue extends Service
      */
     public static function count()
     {
-        return QueueModel::withJoin([
+        return FamerModel::withJoin([
             'uuid' => ['is_disabled'],
         ])->where('uuid.is_disabled', 0)->count();
     }
@@ -92,12 +94,17 @@ class Queue extends Service
      */
     public static function add($row, $replace = false)
     {
-        return QueueModel::create([
-            'qstatus_option_id' => Option::getIdByQstatus($row['qstatus']),
-            'qitem_option_id'   => Option::getIdByQitem($row['qitem']),
-            'title'             => $row['title'],
-            'command'           => $row['command'],
-            'log'               => $row['log'],
+        return FamerModel::create([
+            'blood_option_id'    => Option::getIdByBlood($row['blood']),
+            'origin_option_id'   => Option::getIdByOrigin($row['origin']),
+            'starsign_option_id' => Option::getIdByStarsign($row['starsign']),
+            'area_option_id'     => Option::getIdByArea($row['area']),
+            'name'               => $row['name'],
+            'letter'             => $row['letter'],
+            'color'              => $row['color'],
+            'gender'             => $row['gender'],
+            'birth'              => $row['birth'],
+            'level'              => $row['level'],
         ], true, $replace);
     }
 
@@ -109,18 +116,23 @@ class Queue extends Service
      */
     public static function addAll($rows)
     {
-        $queue = new QueueModel;
+        $famer = new FamerModel;
         $arr   = [];
 
         foreach ($rows as $k => $v) {
-            $arr[$k]['qstatus_option_id'] = Option::getIdByQstatus($v['qstatus']);
-            $arr[$k]['qitem_option_id']   = Option::getIdByQitem($v['qitem']);
-            $arr[$k]['title']             = $v['title'];
-            $arr[$k]['command']           = $v['command'];
-            $arr[$k]['log']               = $v['log'];
+            $arr[$k]['blood_option_id']    = Option::getIdByBlood($v['blood']);
+            $arr[$k]['origin_option_id']   = Option::getIdByOrigin($v['origin']);
+            $arr[$k]['starsign_option_id'] = Option::getIdByStarsign($v['starsign']);
+            $arr[$k]['area_option_id']     = Option::getIdByArea($v['area']);
+            $arr[$k]['name']               = $v['name'];
+            $arr[$k]['letter']             = $v['letter'];
+            $arr[$k]['color']              = $v['color'];
+            $arr[$k]['gender']             = $v['gender'];
+            $arr[$k]['birth']              = $v['birth'];
+            $arr[$k]['level']              = $v['level'];
         }
 
-        return $queue->saveAll($arr);
+        return $famer->saveAll($arr);
     }
 
     /**
@@ -142,6 +154,6 @@ class Queue extends Service
      */
     public static function clear()
     {
-        return UuidModel::where('tb_name', 'queue')->update(['is_disabled' => 2]);
+        return UuidModel::where('tb_name', 'famer')->update(['is_disabled' => 2]);
     }
 }

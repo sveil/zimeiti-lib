@@ -14,18 +14,16 @@ namespace sveil\lib\service\db;
 
 use sveil\Exception;
 use sveil\exception\PDOException;
-use sveil\lib\model\Queue as QueueModel;
-use sveil\lib\model\Uuid as UuidModel;
+use sveil\lib\model\Collect as CollectModel;
 use sveil\lib\Service;
-use sveil\lib\service\db\Option;
 
 /**
- * Class Queue
- * Queue db data service
+ * Class Collect
+ * Collect db data service
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  */
-class Queue extends Service
+class Collect extends Service
 {
     /**
      * all object
@@ -35,10 +33,8 @@ class Queue extends Service
      */
     public static function all()
     {
-        $arr = QueueModel::withJoin([
-            'uuid'    => ['create_at', 'is_disabled'],
-            'qstatus' => ['title', 'key', 'value'],
-            'qitem'   => ['title', 'key', 'value'],
+        $arr = CollectModel::withJoin([
+            'uuid' => ['create_at', 'is_disabled'],
         ])->select();
 
         foreach ($arr as $k => $v) {
@@ -57,10 +53,8 @@ class Queue extends Service
      */
     public static function select()
     {
-        $arr = QueueModel::withJoin([
-            'uuid'    => ['create_at', 'is_disabled'],
-            'qstatus' => ['title', 'key', 'value'],
-            'qitem'   => ['title', 'key', 'value'],
+        $arr = CollectModel::withJoin([
+            'uuid' => ['create_at', 'is_disabled'],
         ])->where('uuid.is_disabled', 0)->select();
 
         foreach ($arr as $k => $v) {
@@ -79,7 +73,7 @@ class Queue extends Service
      */
     public static function count()
     {
-        return QueueModel::withJoin([
+        return CollectModel::withJoin([
             'uuid' => ['is_disabled'],
         ])->where('uuid.is_disabled', 0)->count();
     }
@@ -92,12 +86,9 @@ class Queue extends Service
      */
     public static function add($row, $replace = false)
     {
-        return QueueModel::create([
-            'qstatus_option_id' => Option::getIdByQstatus($row['qstatus']),
-            'qitem_option_id'   => Option::getIdByQitem($row['qitem']),
-            'title'             => $row['title'],
-            'command'           => $row['command'],
-            'log'               => $row['log'],
+        return CollectModel::create([
+            'title' => $row['title'],
+            'url'   => $row['url'],
         ], true, $replace);
     }
 
@@ -109,18 +100,15 @@ class Queue extends Service
      */
     public static function addAll($rows)
     {
-        $queue = new QueueModel;
-        $arr   = [];
+        $collect = new CollectModel;
+        $arr     = [];
 
         foreach ($rows as $k => $v) {
-            $arr[$k]['qstatus_option_id'] = Option::getIdByQstatus($v['qstatus']);
-            $arr[$k]['qitem_option_id']   = Option::getIdByQitem($v['qitem']);
-            $arr[$k]['title']             = $v['title'];
-            $arr[$k]['command']           = $v['command'];
-            $arr[$k]['log']               = $v['log'];
+            $arr[$k]['title'] = $v['title'];
+            $arr[$k]['url']   = $v['url'];
         }
 
-        return $queue->saveAll($arr);
+        return $collect->saveAll($arr);
     }
 
     /**
@@ -142,6 +130,6 @@ class Queue extends Service
      */
     public static function clear()
     {
-        return UuidModel::where('tb_name', 'queue')->update(['is_disabled' => 2]);
+        return UuidModel::where('tb_name', 'collect')->update(['is_disabled' => 2]);
     }
 }

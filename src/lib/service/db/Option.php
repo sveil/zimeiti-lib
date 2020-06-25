@@ -19,7 +19,7 @@ use sveil\lib\Service;
 
 /**
  * Class Option
- * Queue data service
+ * Queue db data service
  * @author Richard <richard@sveil.com>
  * @package sveil\lib\service
  */
@@ -45,5 +45,16 @@ class Option extends Service
     public static function getIdByQitem($str)
     {
         return OptionModel::qitem($str)->find()->id;
+    }
+
+    /**
+     * action object
+     * @return array
+     * @throws Exception
+     * @throws PDOException
+     */
+    public static function getIdByAction($str)
+    {
+        return OptionModel::action($str)->find()->id;
     }
 }
