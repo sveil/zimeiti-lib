@@ -25,9 +25,9 @@ class Famer extends Model
         return $this->belongsTo('Uuid', 'id');
     }
 
-    // 多对一文章
-    public function article()
+    // 多对一职业
+    public function job()
     {
-        return $this->belongsTo('Article', 'article_id');
+        return $this->belongsTo('Option', 'job_option_id');
     }
 }

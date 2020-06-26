@@ -10,24 +10,24 @@
 // | github：https://github.com/sveil/zimeiti-lib
 // +----------------------------------------------------------------------
 
-namespace sveil\lib\model;
+namespace sveil\lib\model\event;
 
-use sveil\lib\Model;
+use sveil\lib\model\Uuid;
 
-class Vod extends Model
+class PhotoData
 {
-    // 注册视频事件观察者
-    protected $observerClass = 'sveil\lib\model\event\Vod';
-
-    // 一对一UUID
-    public function uuid()
+    public function beforeInsert($photoData)
     {
-        return $this->belongsTo('Uuid', 'id');
-    }
+        if (empty($photoData->id)) {
+            $uuid          = findRes("SELECT UNHEX(REPLACE(UUID(), '-', ''))");
+            $no            = findRes("SELECT current_serial(table_prefix('photo_data'))");
+            $photoData->id = $uuid;
 
-    // 多对一影片分类
-    public function vclass()
-    {
-        return $this->belongsTo('Option', 'vclass_option_id');
+            Uuid::create([
+                'id'      => $uuid,
+                'tb_name' => config('database.prefix') . 'photo_data',
+                'tb_no'   => $no,
+            ]);
+        }
     }
 }

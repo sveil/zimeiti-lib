@@ -25,9 +25,9 @@ class FamerData extends Model
         return $this->belongsTo('Uuid', 'id');
     }
 
-    // 多对一文章
-    public function article()
+    // 多对一人物
+    public function famer()
     {
-        return $this->belongsTo('Article', 'article_id');
+        return $this->belongsTo('Famer', 'famer_id');
     }
 }

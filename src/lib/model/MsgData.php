@@ -25,9 +25,9 @@ class MsgData extends Model
         return $this->belongsTo('Uuid', 'id');
     }
 
-    // 多对一文章
-    public function article()
+    // 多对一短信
+    public function msg()
     {
-        return $this->belongsTo('Article', 'article_id');
+        return $this->belongsTo('Msg', 'msg_id');
     }
 }

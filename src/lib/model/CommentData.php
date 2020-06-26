@@ -25,9 +25,9 @@ class CommentData extends Model
         return $this->belongsTo('Uuid', 'id');
     }
 
-    // 多对一文章
-    public function article()
+    // 多对一评论
+    public function comment()
     {
-        return $this->belongsTo('Article', 'article_id');
+        return $this->belongsTo('Comment', 'comment_id');
     }
 }

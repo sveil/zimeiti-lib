@@ -14,10 +14,10 @@ namespace sveil\lib\model;
 
 use sveil\lib\Model;
 
-class Vod extends Model
+class Photo extends Model
 {
     // 注册视频事件观察者
-    protected $observerClass = 'sveil\lib\model\event\Vod';
+    protected $observerClass = 'sveil\lib\model\event\Photo';
 
     // 一对一UUID
     public function uuid()
@@ -25,9 +25,9 @@ class Vod extends Model
         return $this->belongsTo('Uuid', 'id');
     }
 
-    // 多对一影片分类
-    public function vclass()
+    // 多对一图片分类
+    public function pclass()
     {
-        return $this->belongsTo('Option', 'vclass_option_id');
+        return $this->belongsTo('Option', 'pclass_option_id');
     }
 }

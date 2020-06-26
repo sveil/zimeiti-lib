@@ -25,9 +25,9 @@ class GbookData extends Model
         return $this->belongsTo('Uuid', 'id');
     }
 
-    // 多对一文章
-    public function article()
+    // 多对一留言
+    public function gbook()
     {
-        return $this->belongsTo('Article', 'article_id');
+        return $this->belongsTo('Gbook', 'gbook_id');
     }
 }
