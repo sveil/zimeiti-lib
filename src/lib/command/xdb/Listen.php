@@ -22,7 +22,7 @@ use sveil\Exception;
 use sveil\exception\DbException;
 use sveil\exception\PDOException;
 use sveil\facade\Log;
-use sveil\lib\service\db\Queue;
+use sveil\lib\service\db\Article;
 use sveil\lib\service\Process;
 
 /**
@@ -70,25 +70,7 @@ class Listen extends Command
         while (true) {
             sleep(10);
 
-            $queues = Queue::addAll([[
-                'qstatus' => '未执行',
-                'qitem'   => 'at once',
-                'title'   => '测试1',
-                'command' => 'echo 1',
-                'log'     => './runtime/1.log',
-            ], [
-                'qstatus' => '未执行',
-                'qitem'   => 'at once',
-                'title'   => '测试2',
-                'command' => 'echo 2',
-                'log'     => './runtime/2.log',
-            ], [
-                'qstatus' => '未执行',
-                'qitem'   => 'at once',
-                'title'   => '测试3',
-                'command' => 'echo 3',
-                'log'     => './runtime/3.log',
-            ]]);
+            $queues = Article::all();
 
             dump($queues);
 

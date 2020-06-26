@@ -16,6 +16,7 @@ use sveil\Exception;
 use sveil\exception\PDOException;
 use sveil\lib\model\Alog as AlogModel;
 use sveil\lib\Service;
+use sveil\lib\service\db\Option;
 
 /**
  * Class Alog

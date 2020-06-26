@@ -15,7 +15,10 @@ namespace sveil\lib\service\db;
 use sveil\Exception;
 use sveil\exception\PDOException;
 use sveil\lib\model\Article as ArticleModel;
+use sveil\lib\model\ArticleData as ArticleDataModel;
+use sveil\lib\model\ArticleText as ArticleTextModel;
 use sveil\lib\Service;
+use sveil\lib\service\db\Option;
 
 /**
  * Class Article
@@ -41,6 +44,55 @@ class Article extends Service
         foreach ($arr as $k => $v) {
             $arr[$k]['create_at']   = $v->uuid->create_at;
             $arr[$k]['is_disabled'] = $v->uuid->is_disabled;
+            $arr[$k]['aclass']      = [];
+            $arr[$k]['tag']         = [];
+            $arr[$k]['slide']       = [];
+            $datas                  = ArticleDataModel::where('article_id', $v->id)->select();
+            $texts                  = ArticleTextModel::where('article_id', $v->id)->select();
+
+            foreach ($datas as $kk => $vv) {
+                // 资讯分类
+                if ($vv['key'] === 'aclass_option_id') {
+                    array_push($arr[$k]['aclass'], Option::getKeyById(hex2bin($vv['value'])));
+                }
+
+                // 标签
+                if ($vv['key'] === 'tag_option_id') {
+                    array_push($arr[$k]['tag'], Option::getKeyById(hex2bin($vv['value'])));
+                }
+
+                // 子标题
+                if ($vv['key'] === 'sub') {
+                    $arr[$k]['sub'] = $vv['value'];
+                }
+
+                // 英文标题
+                if ($vv['key'] === 'en') {
+                    $arr[$k]['en'] = $vv['value'];
+                }
+
+                // 索引图片
+                if ($vv['key'] === 'index') {
+                    $arr[$k]['index'] = $vv['value'];
+                }
+
+                // 滚动图片
+                if ($vv['key'] === 'slide') {
+                    array_push($arr[$k]['slide'], $vv['value']);
+                }
+
+                // 文章摘要
+                if ($vv['key'] === 'blurb') {
+                    $arr[$k]['blurb'] = $vv['value'];
+                }
+            }
+
+            foreach ($texts as $kk => $vv) {
+                // 资讯内容
+                if ($vv['key'] === 'content') {
+                    $arr[$k]['content'] = $vv['value'];
+                }
+            }
         }
 
         return $arr;
