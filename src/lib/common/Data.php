@@ -251,7 +251,7 @@ class Data
      */
     public static function uniqidRandom($arr, $length = 10)
     {
-        if (sizeof($arr) <= 26) {
+        if (count($arr) <= 26) {
             $chars = 'abcdefghijklmnopqrstuvwxyz';
             $i     = 0;
 

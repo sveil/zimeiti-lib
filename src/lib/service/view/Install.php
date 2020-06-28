@@ -189,7 +189,7 @@ class Install extends Service
             try {
                 $moConfig = require $configMo;
 
-                if (sizeof($moConfig) <= 26) {
+                if (count($moConfig) <= 26) {
                     $moConfig = Data::uniqidRandom($moConfig, 2);
                 }
 

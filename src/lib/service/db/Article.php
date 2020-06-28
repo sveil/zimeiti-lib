@@ -50,47 +50,47 @@ class Article extends Service
             $datas                  = ArticleDataModel::where('article_id', $v->id)->select();
             $texts                  = ArticleTextModel::where('article_id', $v->id)->select();
 
-            foreach ($datas as $kk => $vv) {
+            foreach ($datas as $data) {
                 // 资讯分类
-                if ($vv['key'] === 'aclass_option_id') {
-                    array_push($arr[$k]['aclass'], Option::getKeyById(hex2bin($vv['value'])));
+                if ($data['key'] === 'aclass_option_id') {
+                    array_push($arr[$k]['aclass'], Option::getKeyById(hex2bin($data['value'])));
                 }
 
                 // 标签
-                if ($vv['key'] === 'tag_option_id') {
-                    array_push($arr[$k]['tag'], Option::getKeyById(hex2bin($vv['value'])));
+                if ($data['key'] === 'tag_option_id') {
+                    array_push($arr[$k]['tag'], Option::getKeyById(hex2bin($data['value'])));
                 }
 
                 // 子标题
-                if ($vv['key'] === 'sub') {
-                    $arr[$k]['sub'] = $vv['value'];
+                if ($data['key'] === 'sub') {
+                    $arr[$k]['sub'] = $data['value'];
                 }
 
                 // 英文标题
-                if ($vv['key'] === 'en') {
-                    $arr[$k]['en'] = $vv['value'];
+                if ($data['key'] === 'en') {
+                    $arr[$k]['en'] = $data['value'];
                 }
 
                 // 索引图片
-                if ($vv['key'] === 'index') {
-                    $arr[$k]['index'] = $vv['value'];
+                if ($data['key'] === 'index') {
+                    $arr[$k]['index'] = $data['value'];
                 }
 
                 // 滚动图片
-                if ($vv['key'] === 'slide') {
-                    array_push($arr[$k]['slide'], $vv['value']);
+                if ($data['key'] === 'slide') {
+                    array_push($arr[$k]['slide'], $data['value']);
                 }
 
                 // 文章摘要
-                if ($vv['key'] === 'blurb') {
-                    $arr[$k]['blurb'] = $vv['value'];
+                if ($data['key'] === 'blurb') {
+                    $arr[$k]['blurb'] = $data['value'];
                 }
             }
 
-            foreach ($texts as $kk => $vv) {
+            foreach ($texts as $text) {
                 // 资讯内容
-                if ($vv['key'] === 'content') {
-                    $arr[$k]['content'] = $vv['value'];
+                if ($text['key'] === 'content') {
+                    $arr[$k]['content'] = $text['value'];
                 }
             }
         }
@@ -120,47 +120,47 @@ class Article extends Service
             $datas                  = ArticleDataModel::where('article_id', $v->id)->select();
             $texts                  = ArticleTextModel::where('article_id', $v->id)->select();
 
-            foreach ($datas as $kk => $vv) {
+            foreach ($datas as $data) {
                 // 资讯分类
-                if ($vv['key'] === 'aclass_option_id') {
-                    array_push($arr[$k]['aclass'], Option::getKeyById(hex2bin($vv['value'])));
+                if ($data['key'] === 'aclass_option_id') {
+                    array_push($arr[$k]['aclass'], Option::getKeyById(hex2bin($data['value'])));
                 }
 
                 // 标签
-                if ($vv['key'] === 'tag_option_id') {
-                    array_push($arr[$k]['tag'], Option::getKeyById(hex2bin($vv['value'])));
+                if ($data['key'] === 'tag_option_id') {
+                    array_push($arr[$k]['tag'], Option::getKeyById(hex2bin($data['value'])));
                 }
 
                 // 子标题
-                if ($vv['key'] === 'sub') {
-                    $arr[$k]['sub'] = $vv['value'];
+                if ($data['key'] === 'sub') {
+                    $arr[$k]['sub'] = $data['value'];
                 }
 
                 // 英文标题
-                if ($vv['key'] === 'en') {
-                    $arr[$k]['en'] = $vv['value'];
+                if ($data['key'] === 'en') {
+                    $arr[$k]['en'] = $data['value'];
                 }
 
                 // 索引图片
-                if ($vv['key'] === 'index') {
-                    $arr[$k]['index'] = $vv['value'];
+                if ($data['key'] === 'index') {
+                    $arr[$k]['index'] = $data['value'];
                 }
 
                 // 滚动图片
-                if ($vv['key'] === 'slide') {
-                    array_push($arr[$k]['slide'], $vv['value']);
+                if ($data['key'] === 'slide') {
+                    array_push($arr[$k]['slide'], $data['value']);
                 }
 
                 // 文章摘要
-                if ($vv['key'] === 'blurb') {
-                    $arr[$k]['blurb'] = $vv['value'];
+                if ($data['key'] === 'blurb') {
+                    $arr[$k]['blurb'] = $data['value'];
                 }
             }
 
-            foreach ($texts as $kk => $vv) {
+            foreach ($texts as $text) {
                 // 资讯内容
-                if ($vv['key'] === 'content') {
-                    $arr[$k]['content'] = $vv['value'];
+                if ($text['key'] === 'content') {
+                    $arr[$k]['content'] = $text['value'];
                 }
             }
         }
@@ -197,12 +197,78 @@ class Article extends Service
                 'letter'  => $row['letter'],
                 'level'   => $row['level'],
             ], true, $replace);
-            ArticleDataModel::create([
-                'article_id' => $result['id'],
-            ], true, $replace);
-            ArticleTextModel::create([
-                'article_id' => $result['id'],
-            ], true, $replace);
+
+            for ($i = 0; $i < count($row) - 4; $i++) {
+                if (isset($row['aclass'])) {
+                    foreach ($row['aclass'] as $k => $v) {
+                        ArticleDataModel::create([
+                            'article_id' => $result['id'],
+                            'key'        => 'aclass_option_id',
+                            'value'      => Option::getIdByAclass($v),
+                        ], true, $replace);
+                    }
+                }
+
+                if (isset($row['tag'])) {
+                    foreach ($row['tag'] as $k => $v) {
+                        ArticleDataModel::create([
+                            'article_id' => $result['id'],
+                            'key'        => 'tag_option_id',
+                            'value'      => Option::getIdByAclass($v),
+                        ], true, $replace);
+                    }
+                }
+
+                if (isset($row['sub'])) {
+                    ArticleDataModel::create([
+                        'article_id' => $result['id'],
+                        'key'        => 'sub',
+                        'value'      => $row['sub'],
+                    ], true, $replace);
+                }
+
+                if (isset($row['en'])) {
+                    ArticleDataModel::create([
+                        'article_id' => $result['id'],
+                        'key'        => 'en',
+                        'value'      => $row['en'],
+                    ], true, $replace);
+                }
+
+                if (isset($row['index'])) {
+                    ArticleDataModel::create([
+                        'article_id' => $result['id'],
+                        'key'        => 'index',
+                        'value'      => $row['index'],
+                    ], true, $replace);
+                }
+
+                if (isset($row['slide'])) {
+                    foreach ($row['slide'] as $k => $v) {
+                        ArticleDataModel::create([
+                            'article_id' => $result['id'],
+                            'key'        => 'slide',
+                            'value'      => $v,
+                        ], true, $replace);
+                    }
+                }
+
+                if (isset($row['blurb'])) {
+                    ArticleDataModel::create([
+                        'article_id' => $result['id'],
+                        'key'        => 'blurb',
+                        'value'      => $row['blurb'],
+                    ], true, $replace);
+                }
+
+                if (isset($row['content'])) {
+                    ArticleTextModel::create([
+                        'article_id' => $result['id'],
+                        'key'        => 'content',
+                        'value'      => $row['content'],
+                    ], true, $replace);
+                }
+            }
         });
     }
 
@@ -214,17 +280,27 @@ class Article extends Service
      */
     public static function addAll($rows)
     {
-        $article = new ArticleModel;
-        $arr     = [];
+        $results = [];
 
         foreach ($rows as $k => $v) {
-            $arr[$k]['user_id'] = User::getIdByName($v['user']);
-            $arr[$k]['title']   = $v['title'];
-            $arr[$k]['letter']  = $v['letter'];
-            $arr[$k]['level']   = $v['level'];
+            $row            = [];
+            $row['user']    = $v['user'];
+            $row['title']   = $v['title'];
+            $row['letter']  = $v['letter'];
+            $row['level']   = $v['level'];
+            $row['aclass']  = $v['aclass'];
+            $row['tag']     = $v['tag'];
+            $row['sub']     = $v['sub'];
+            $row['en']      = $v['en'];
+            $row['index']   = $v['index'];
+            $row['slide']   = $v['slide'];
+            $row['blurb']   = $v['blurb'];
+            $row['content'] = $v['content'];
+            $result         = self::add($row);
+            array_push($results, $result);
         }
 
-        return $article->saveAll($arr);
+        return $results;
     }
 
     /**
@@ -235,7 +311,24 @@ class Article extends Service
      */
     public static function delete($id)
     {
-        return UuidModel::where('id', $id)->where('is_disabled', '<>', 2)->update(['is_disabled' => 2]);
+        // 启动事务
+        Db::transaction(function () {
+            $datas = ArticleDataModel::where('article_id', $id)->select();
+
+            foreach ($datas as $data) {
+                UuidModel::where('id', $data['id'])->where('is_disabled', '<>', 2)->update(['is_disabled' => 2]);
+            }
+
+            $texts = ArticleTextModel::where('article_id', $id)->select();
+
+            foreach ($texts as $text) {
+                UuidModel::where('id', $text['id'])->where('is_disabled', '<>', 2)->update(['is_disabled' => 2]);
+            }
+
+            return UuidModel::where('id', $id)->where('is_disabled', '<>', 2)->update(['is_disabled' => 2]);
+        });
+
+        return 0;
     }
 
     /**
@@ -246,6 +339,14 @@ class Article extends Service
      */
     public static function clear()
     {
-        return UuidModel::where('tb_name', 'article')->update(['is_disabled' => 2]);
+        // 启动事务
+        Db::transaction(function () {
+            UuidModel::where('tb_name', 'article_data')->where('is_disabled', '<>', 2)->update(['is_disabled' => 2]);
+            UuidModel::where('tb_name', 'article_text')->where('is_disabled', '<>', 2)->update(['is_disabled' => 2]);
+
+            return UuidModel::where('tb_name', 'article')->where('is_disabled', '<>', 2)->update(['is_disabled' => 2]);
+        });
+
+        return 0;
     }
 }
